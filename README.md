@@ -1,5 +1,5 @@
 # ChatWorks
-A webchat service developed with Meteor.
+A webchat service developed with [Meteor](http://meteor.com).
 
 ## Features:
 * IRC integration utilizing [node-irc](http://github.com/martynsmith/node-irc)
@@ -13,11 +13,12 @@ A webchat service developed with Meteor.
 * [NPM](https://github.com/isaacs/npm)
 * [Meteor](https://github.com/meteor/meteor)
 * [Meteorite](https://github.com/oortcloud/meteorite)
+* [node-irc](http://github.com/martynsmith/node-irc)
 
 ## Installation
-Change: the values in server/config-sample.js
-Run: npm install irc, inside the public folder
-Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
+*Change: the values in server/config-sample.js
+*Run: npm install irc, inside the public folder
+*Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
 
 
 ## Special thanks:
