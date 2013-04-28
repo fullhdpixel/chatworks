@@ -16,9 +16,9 @@ A webchat service developed with [Meteor](http://meteor.com).
 * [node-irc](http://github.com/martynsmith/node-irc)
 
 ## Installation
-*Change: the values in server/config-sample.js
-*Run: npm install irc, inside the public folder
-*Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
+* Change: the values in server/config-sample.js
+* Run: npm install irc, inside the public folder
+* Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
 
 
 ## Special thanks:
