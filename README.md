@@ -14,10 +14,12 @@ A webchat service developed with [Meteor](http://meteor.com).
 * [Meteor](https://github.com/meteor/meteor)
 * [Meteorite](https://github.com/oortcloud/meteorite)
 * [node-irc](http://github.com/martynsmith/node-irc)
+* [natural](https://github.com/NaturalNode/natural)
 
 ## Installation
 * Change: the values in server/config-sample.js
-* Run: npm install irc, inside the public folder
+* Run: npm install irc, npm install natural, inside the public folder
+* You can either test it out locally now by running "mrt" in the base directory or...
 * Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
 
 

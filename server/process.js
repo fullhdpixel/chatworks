@@ -63,8 +63,9 @@ checkURL = function (array) {
  * @param msg
  * @returns {string}
  */
-getSentiment = function (msg) {
-  return msg.message;
+getPhonetics = function (msg) {
+  var metaphone = natural.Metaphone;
+  return metaphone.process(msg);
 };
 
 /**
@@ -89,9 +90,8 @@ getResponse = function (processedMessage) {
     //simple if chain for rudimentary chat functions
     if (processedMessage === 'pent' || processedMessage === 'Pent') {
       str = "Pent is an hero";
-    } else if (processedMessage === '&analyze') {
-      var msg = Messages.findOne({}, {sort: {date_time: -1}});
-      str = getSentiment(msg.message);
+    } else if (processedMessage.indexOf('&analyze') !== -1) { //todo function to slice off first word
+      str = getPhonetics(processedMessage.slice(8));
     } else if (processedMessage === '<_<') {
       str = '>_>';
     } else if (processedMessage === '>_>') {
@@ -101,7 +101,7 @@ getResponse = function (processedMessage) {
       if(msg)
         str = msg.message;
     } else if (processedMessage.indexOf('&imgur') !== -1) {
-      var query = getNthWord(processedMessage, 2);
+      var query = processedMessage.slice(6);
       if(query) {
         var result = Meteor.http.call('GET', 'https://api.imgur.com/3/gallery/search?q='+query,
           {headers: {'Authorization': 'Client-ID ' + config.imgurClientId}});
