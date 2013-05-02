@@ -58,6 +58,7 @@ Meteor.startup(function () {
     //on every action, insert into database
     client.addListener('action', function(from, to, message) {
       var newTime = new Date();
+
       Fiber(function() {
         var processedMessage = processMessage(message);
         var str = getResponse(processedMessage);
@@ -75,7 +76,7 @@ Meteor.startup(function () {
         });
         //insert bot response into db //todo: make an action response
         if(str !== '') {
-          client.say(ROOM, str);
+          client.say(config.ircChannel, str);
           Messages.insert({
             handle: config.botName,
             room_id: config.webChannel,
