@@ -8,5 +8,6 @@ config = {
   monitorIrc: true,
   talk: true,
   webToIrc: true,
-  imgurClientId: 'fill-this-in-to-use-imgur-features'
+  imgurClientId: 'fill-this-in-to-use-imgur-features',
+  lastfmClientId: 'fill-this-in-to-use-lastfm-features'
 }

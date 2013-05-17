@@ -1,3 +1,4 @@
+Fiber = Npm.require("fibers");
 Meteor.startup(function () {
   //grab messages db size
   BOUNTY_COUNT = Messages.find().count()-1;
@@ -12,6 +13,8 @@ Meteor.startup(function () {
       return true;
     }
   });
+
+  //todo: display users logged into web
 
   //IRC Bot functions
   if(config.monitorIrc) {
