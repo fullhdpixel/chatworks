@@ -13,4 +13,6 @@ accounts-ui
 accounts-password
 accounts-facebook
 router
+meteor-node-irc
+natural
 # madewith
