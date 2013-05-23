@@ -90,8 +90,8 @@ getResponse = function (processedMessage) {
     //simple if chain for rudimentary chat functions
     if (processedMessage === 'pent' || processedMessage === 'Pent') {
       str = "Pent is an hero";
-    } else if (processedMessage.indexOf('analyze') !== -1) { //todo function to slice off first word
-      str = getPhonetics(processedMessage.slice(7));
+    } else if (processedMessage.indexOf('&analyze') !== -1) { //todo function to slice off first word
+      str = getPhonetics(processedMessage.slice(9));
     } else if (processedMessage === '<_<') {
       str = '>_>';
     } else if (processedMessage === '>_>') {
@@ -100,8 +100,8 @@ getResponse = function (processedMessage) {
       var msg = Messages.findOne({irc: true}, {skip: Math.floor(Math.random() * BOUNTY_COUNT)});
       if(msg)
         str = msg.message;
-    } else if (processedMessage.indexOf('imgur') !== -1) {
-      var query = processedMessage.slice(5);
+    } else if (processedMessage.indexOf('&imgur') !== -1) {
+      var query = processedMessage.slice(7);
       if(query) {
         var response = Meteor.http.call('GET', 'https://api.imgur.com/3/gallery/search?q='+query,
           {headers: {'Authorization': 'Client-ID ' + config.imgurClientId}});
@@ -112,14 +112,15 @@ getResponse = function (processedMessage) {
         }
       }
       return "404: funny not found";
-    } else if (processedMessage.indexOf('lastfm') !== -1) {
-      var query = processedMessage.slice(5);
+    } else if (processedMessage.indexOf('&lastfm') !== -1) {
+      var query = processedMessage.slice(8);
       query = query.split(" ");
       if(query) {
-        var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=artists&value1='+query[0]+'&value2='+query[1]+'&api_key=0c06119350d70df277d25b654afdb0e1&format=json');
+        //api key is public default
+        var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=artists&value1='+query[0]+'&value2='+query[1]+'&api_key='+config.lastfmClientId+'&format=json');
         if (response.statusCode === 200) {
           var data = response.data;
-          if(data) {
+          if(data.comparison) {
 //            return " score: "+ JSON.stringify(data); ghetto debug
             return " score: "+ data.comparison.result.score;
           }

@@ -2,6 +2,7 @@
 
 ### PhPStorm ###
 .idea/
+.DS_STORE
 
 ### Node ###
 lib-cov
