@@ -13,6 +13,7 @@ accounts-ui
 accounts-password
 accounts-facebook
 router
-meteor-node-irc
-natural
+underscore
 # madewith
+irc
+natural

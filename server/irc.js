@@ -1,3 +1,19 @@
+//irc requires
+var require = Npm.require;
+var path = require("path");
+var fs = require('fs');
+
+//dev/prod config
+var base = path.resolve('.');
+if (base == '/'){
+  base = path.dirname(global.require.main.filename);
+}
+
+if (fs.existsSync(path.resolve(base+'/bundle/'))) {
+  config.monitorIrc = true;
+} else {
+  config.ircServer = config.devServer;
+}
 //irc connection setup
 client = new IRC.Client(config.ircServer, config.botName, {
   userName: config.botName,

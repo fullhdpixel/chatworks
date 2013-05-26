@@ -1,4 +1,12 @@
 ext = window.location.pathname.split('/').pop().substring(0,75);
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    Session.set('lat', position.coords.latitude);
+    Session.set('lon', position.coords.longitude);
+  }, function(error) {
+
+  }, { enableHighAccuracy: true });
+}
 
 Template.rooms.roomslist = function() {
   return Rooms.find();
@@ -10,10 +18,14 @@ Template.chatroom.messages = function() {
 
 Template.message.helpers({
   linkify: function() {
-    var val = this["message"];
-    if(!val) return "";
-    val = Handlebars._escape(val);
-    var link = val;
+    //something horribly wrong here
+    if(!this["message"]) return "";
+    if(typeof this["message"] !== 'string') {
+      var val = this["message"].join(' ');
+    } else {
+      var val = this["message"];
+    }
+    var link = Handlebars._escape(val);
     var exp = /((http|https):\/\/([ \S]+\.(jpg|jpeg|png|gif)))/ig;
     if(val.match(exp)) {
       link = val.replace(exp, '<a href="$1" target="_blank"><img src="$1" width="200" height="200"></a>');
@@ -30,6 +42,10 @@ Template.message.helpers({
     return ('0'+parsed.getHours()).substr(-2,2)+':'+('0'+parsed.getMinutes()).substr(-2,2);
   }
 });
+
+Template.message.rendered = function() {
+  $(this.find('div')).hide().fadeIn();
+};
 
 Template.chatroom.helpers({
   currentRoom: function() {
@@ -81,6 +97,11 @@ Template.inputbox.events = {
 
 Template.chatroom.messagesLoaded = function () {
   return Session.get('messagesLoaded');
+};
+
+Template.userLayout.location = function () {
+  //for fun
+  return Session.get('lat') + " : " + Session.get('lon');
 };
 
 Template.currentUser = function () {

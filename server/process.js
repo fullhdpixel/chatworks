@@ -1,3 +1,5 @@
+var Future = Npm.require("fibers/future");
+
 /**
  * Cleans the message up
  * @param msg
@@ -37,24 +39,22 @@ processMessage = function (msg) {
  * @param n
  * @returns {string}
  */
-getNthWord = function(string, n){
+getNthWord = function(string, n) {
   var words = string.split(" ");
   return words[n-1];
 }
 
 /**
  * Check for a URL in the current message, return the url
- * @param array
- * @returns {string}
+ * @param arr
+ * @returns {boolean}
  */
-checkURL = function (array) {
+checkURL = function (msg) {
   var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-  array.forEach(function (msg) {
-    if (msg.message.match(exp)) {
-      return msg.message;
-    }
-  });
-  return '';
+  if (msg.match(exp)) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -63,9 +63,75 @@ checkURL = function (array) {
  * @param msg
  * @returns {string}
  */
-getPhonetics = function (msg) {
-  var metaphone = natural.Metaphone;
-  return metaphone.process(msg);
+getSentiment = function (msg) {
+  return msg;
+};
+
+/**
+ * Define a word using wordnet
+ */
+Meteor.methods({
+  asyncJob: function(msg) {
+    var future = new Future();
+    var definition = 'Please only define one word, bro';
+    wordnet.lookup(msg, function(results) {
+      results.forEach(function(result) {
+        definition = result.gloss;
+      });
+      future.ret(definition);
+    });
+    return future.wait();
+  }
+});
+
+/**
+ * Convert sentiment into a more eloquent message
+ * this is a stub
+ * @param sentiment
+ * @returns {string}
+ */
+Meteor.methods({
+  eloquent: function (msg) {
+    var tokenizer = new natural.WordTokenizer();
+    var tokes = tokenizer.tokenize(msg);
+    var futures = _.map(tokes, function(toke) {
+      var future = new Future();
+      var onComplete = future.resolver();
+      Meteor.call('lookup', toke, function(error, result) {
+        onComplete(error, result);
+      });
+      return future;
+    });
+    Future.wait(futures);
+    return _.invoke(futures, 'get');
+  }
+});
+
+Meteor.methods({
+  lookup: function (word) {
+    var future = new Future();
+    var newWord = '';
+    wordnet.lookup(word, function(results) {
+      if(typeof results[0] != 'undefined') {
+        newWord = results[0].synonyms[Math.floor(Math.random() * results[0].synonyms.length)] + '';
+      } else {
+        newWord = word + '';
+      }
+      future.ret(newWord);
+    });
+    return future.wait();
+  }
+});
+
+/**
+ * Formulate a response for sentiment input
+ * this is a stub
+ * @param sentiment
+ * @returns {string}
+ */
+formulateResponse = function (sentiment) {
+  var response = sentiment;
+  return response;
 };
 
 /**
@@ -90,18 +156,43 @@ getResponse = function (processedMessage) {
     //simple if chain for rudimentary chat functions
     if (processedMessage === 'pent' || processedMessage === 'Pent') {
       str = "Pent is an hero";
-    } else if (processedMessage.indexOf('&analyze') !== -1) { //todo function to slice off first word
-      str = getPhonetics(processedMessage.slice(9));
+    } else if (processedMessage.substring(0,2) === '.h') {
+      str = "functions include: .l, .a, .i, .d, .e, .np, .y";
+    } else if (processedMessage.substring(0,2) === '.d') {
+      Meteor.call('asyncJob', processedMessage.slice(3), function(error, result) {
+        str = result;
+      });
+    } else if (processedMessage.substring(0,2) === '.e') {
+      Meteor.call('eloquent', processedMessage.slice(3), function(error, result) {
+        str = result.join(' ');
+      });
+    } else if (processedMessage.substring(0,2) === '.a') {
+      return getSentiment(processedMessage.slice(3));
     } else if (processedMessage === '<_<') {
       str = '>_>';
     } else if (processedMessage === '>_>') {
       str = '<_<';
     } else if (processedMessage.indexOf('chatworks') !== -1 || squeek < 0.01) {
       var msg = Messages.findOne({irc: true}, {skip: Math.floor(Math.random() * BOUNTY_COUNT)});
-      if(msg)
-        str = msg.message;
-    } else if (processedMessage.indexOf('&imgur') !== -1) {
-      var query = processedMessage.slice(7);
+      if(msg) {
+          Meteor.call('eloquent', msg.message, function(error, result) {
+            str = result.join(' ');
+          });
+      }
+    } else if (processedMessage.substring(0,2) === '.y') {
+      var query = processedMessage.slice(3);
+      if(query) {
+        var response = Meteor.http.call('GET', 'https://www.googleapis.com/youtube/v3/search?part=id&q='+query+'&key='+config.youtubeApiKey);
+        if (response.statusCode === 200) {
+          var data = response.data;
+          if(data.items[0]) {
+            return " http://youtube.com/watch?v="+ data.items[0].id.videoId;
+          }
+        }
+      }
+      return "404 :(";
+    } else if (processedMessage.substring(0,2) === '.i') {
+      var query = processedMessage.slice(3);
       if(query) {
         var response = Meteor.http.call('GET', 'https://api.imgur.com/3/gallery/search?q='+query,
           {headers: {'Authorization': 'Client-ID ' + config.imgurClientId}});
@@ -112,17 +203,35 @@ getResponse = function (processedMessage) {
         }
       }
       return "404: funny not found";
-    } else if (processedMessage.indexOf('&lastfm') !== -1) {
-      var query = processedMessage.slice(8);
+    } else if (processedMessage.substring(0,2) === '.l') {
+      var query = processedMessage.slice(3);
       query = query.split(" ");
       if(query) {
-        //api key is public default
-        var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=artists&value1='+query[0]+'&value2='+query[1]+'&api_key='+config.lastfmClientId+'&format=json');
+        var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=user&value1='+query[0]+'&value2='+query[1]+'&api_key='+config.lastfmClientId+'&format=json');
         if (response.statusCode === 200) {
           var data = response.data;
           if(data.comparison) {
-//            return " score: "+ JSON.stringify(data); ghetto debug
-            return " score: "+ data.comparison.result.score;
+            return " compatibility: "+ (Number(data.comparison.result.score) / 100 * 10000).toFixed(2) +"%";
+          }
+        }
+      }
+      return "...";
+    } else if (processedMessage.substring(0,3) === '.np') {
+      var query = processedMessage.slice(4);
+      query = query.split(" ");
+      if(query) {
+        var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='+query[0]+'&api_key='+config.lastfmClientId+'&format=json');
+        if (response.statusCode === 200) {
+          var data = response.data;
+          if(data.recenttracks) {
+            var essence = data.recenttracks.track[0].artist['#text'] +" - "+ data.recenttracks.track[0].name;
+            var youtube = Meteor.http.call('GET', 'https://www.googleapis.com/youtube/v3/search?part=id&q='+essence+'&key='+config.youtubeApiKey);
+            if (response.statusCode === 200) {
+              var video = youtube.data;
+              if(video.items[0]) {
+                return essence + " http://youtube.com/watch?v="+ video.items[0].id.videoId;
+              }
+            }
           }
         }
       }
