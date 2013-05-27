@@ -36,10 +36,15 @@ Template.message.helpers({
     return link;
   },
   prettyTime: function() {
+    if(!this["date_time"]) return "";
     var val = this["date_time"];
-    if(!val) return "";
     var parsed = new Date(val);
     return ('0'+parsed.getHours()).substr(-2,2)+':'+('0'+parsed.getMinutes()).substr(-2,2);
+  },
+  frequency: function() {
+    if(!this["handle"]) return "";
+    var freq = Messages.find({handle: this["handle"]});
+    return freq.count();
   }
 });
 

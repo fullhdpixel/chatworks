@@ -11,9 +11,13 @@ handlebars
 accounts-base
 accounts-ui
 accounts-password
-accounts-facebook
+# accounts-facebook
+http
 router
 underscore
+d3
 # madewith
 irc
 natural
+focus
+cheerio

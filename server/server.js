@@ -25,103 +25,54 @@ Meteor.startup(function () {
 
     //on every message, insert into database
     client.addListener('message', function(from, to, message) {
-      var newTime = new Date();
-
       Fiber(function() {
-        var processedMessage = processMessage(message); //meteor.call throws error
-        var str = getResponse(processedMessage);
-
         //insert irc message into db
         Messages.insert({
           handle: from,
           room_id: config.webChannel,
           message: message,
-          date_time: newTime,
+          date_time: new Date(),
           color: colorHandle(from),
           action: false,
           irc: true,
           bot: false
         });
-        //insert bot response into db
-        if(str !== '') {
-          client.say(config.ircChannel, str);
-          Messages.insert({
-            handle: config.botName,
-            room_id: config.webChannel,
-            message: str,
-            date_time: newTime,
-            color: colorHandle(config.botName),
-            action: false,
-            irc: false,
-            bot: true
-          });
-        }
+        //generate bot response
+        processMessage(message);
       }).run();
     });
     //on every action, insert into database
     client.addListener('action', function(from, to, message) {
-      var newTime = new Date();
-
       Fiber(function() {
-        var processedMessage = processMessage(message);
-        var str = getResponse(processedMessage);
-
         //insert irc action into db
         Messages.insert({
           handle: from,
           room_id: config.webChannel,
           message: message,
-          date_time: newTime,
+          date_time: new Date(),
           color: colorHandle(from),
           action: true,
           irc: true,
           bot: false
         });
-        //insert bot response into db //todo: make an action response
-        if(str !== '') {
-          client.say(config.ircChannel, str);
-          Messages.insert({
-            handle: config.botName,
-            room_id: config.webChannel,
-            message: str,
-            date_time: newTime,
-            color: colorHandle(config.botName),
-            action: true,
-            irc: false,
-            bot: true
-          });
-        }
+        //generate bot response
+        processMessage(message);
       }).run();
     });
   } //end BOT
-
 
   //monitor webchat
   var webchat = Messages.find({room_id: config.webChannel, action: false, irc: false, bot: false, 'date_time': {$gte: now}});
   webchat.observeChanges({
     added: function(id,document) {
       //AI response to webchat
-      var newTime = new Date();
-      var processedMessage = processMessage(document.message);
-      var str = getResponse(processedMessage);
-      if(str !== '') {
-        Messages.insert({
-          handle: config.botName,
-          room_id: config.webChannel,
-          message: str,
-          date_time: newTime,
-          color: colorHandle(config.botName),
-          action: false,
-          irc: false,
-          bot: true
-        });
-      }
+      processMessage(document.message);
       //echo webchat to irc
       if(config.monitorIrc && config.webToIrc) {
         if(document.handle === 'anonymous') {
-          client.say(config.ircChannel, document.message);
+          Bot.say(document.message);
         } else {
-          client.say(config.ircChannel, '@' + document.handle + ': ' + document.message);
+          Bot.say('@' + document.handle + ': ' + document.message);
         }
       }
     }
