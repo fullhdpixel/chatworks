@@ -42,9 +42,10 @@ Template.message.helpers({
     return ('0'+parsed.getHours()).substr(-2,2)+':'+('0'+parsed.getMinutes()).substr(-2,2);
   },
   frequency: function() {
-    if(!this["handle"]) return "";
-    var freq = Messages.find({handle: this["handle"]});
-    return freq.count();
+    //todo fix bug that animates all lines upon new message for [handle]
+//    if(!this["handle"]) return "";
+//    var freq = Messages.find({handle: this["handle"]});
+//    return freq.count();
   }
 });
 

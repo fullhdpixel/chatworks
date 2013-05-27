@@ -1,12 +1,8 @@
 Fiber = Npm.require("fibers");
+
 Meteor.startup(function () {
   //grab messages db size
-  BOUNTY_COUNT = Messages.find().count()-1;
-
-  //only publish messages since 7 hours ago
-  var now = new Date();
-  var millisecondsIn7Hours = 7 * 60 * 60 * 1000;
-  var sevenHoursAgo = new Date(now - millisecondsIn7Hours);
+  BOUNDRY_COUNT = Messages.find().count()-1;
 
   Messages.allow({
     insert: function(userId, doc) {
@@ -62,7 +58,7 @@ Meteor.startup(function () {
   } //end BOT
 
   //monitor webchat
-  var webchat = Messages.find({room_id: config.webChannel, action: false, irc: false, bot: false, 'date_time': {$gte: now}});
+  var webchat = Messages.find({room_id: config.webChannel, action: false, irc: false, bot: false, 'date_time': {$gte: new Date()}});
   webchat.observeChanges({
     added: function(id,document) {
       //AI response to webchat
@@ -79,7 +75,7 @@ Meteor.startup(function () {
   });
 
   Meteor.publish('messages', function() {
-   return Messages.find({'date_time': {$gte: sevenHoursAgo}});
+   return Messages.find({}, {skip: BOUNDRY_COUNT-10, sort: {'date_time': 1}});
   });
 
 });
