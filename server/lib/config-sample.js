@@ -10,5 +10,5 @@ config = {
   webToIrc: true,
   imgurClientId: 'fill-this-in-to-use-imgur-features',
   lastfmClientId: 'fill-this-in-to-use-lastfm-features',
-  youtubeApiKey: 'fill-this-in-to-use-youtube-features'
+  googleApiKey: 'fill-this-in-to-use-google-features'
 }
