@@ -6,7 +6,7 @@ Meteor.methods({
       if (response.statusCode === 200) {
         var data = response.data;
         if(data.data.children[0]) {
-          return data.data.children[0].data.title;
+          return 'http://reddit.com'+data.data.children[0].data.permalink+' ('+data.data.children[0].data.title+')';
         }
       }
     }
