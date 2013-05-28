@@ -319,6 +319,11 @@ processMessage = function (msg) {
           Bot.say(result);
         });
         break;
+      case '.r':
+        Meteor.call('reddit', query, function(error, result) {
+          Bot.say(result);
+        });
+        break;
       case '.g':
         Meteor.call('google', query, function(error, result) {
           Bot.say(result);
