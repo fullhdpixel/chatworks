@@ -85,7 +85,7 @@ getSentiment = function(msg) {
 Meteor.methods({
   define: function(msg) {
     var future = new Future();
-    var definition = 'Please only define one word, bro';
+    var definition = '';
     wordnet.lookup(msg, function(results) {
       results.forEach(function(result) {
         console.log('------------------------------------');
@@ -233,17 +233,19 @@ processMessage = function (msg) {
           Bot.say("URL Title: " + cheerio('title').text());
         }
       });
-    } else if (parsedMessage.indexOf('chatworks') !== -1) {
+    } else if (parsedMessage.indexOf('&random') !== -1) {
       var msg = Messages.findOne({irc: true}, {skip: Math.floor(Math.random() * BOUNTY_COUNT)});
       if(msg) {
         if (checkURL(parsedMessage)) {
-          Meteor.call('eloquent', msg.message, function(error, result) {
-            str = result.join(' ');
-          });
+          Bot.say(msg.message);
         } else {
-          str = getURL(parsedMessage);
+          Bot.say(getURL(parsedMessage));
         }
       }
+    } else if (parsedMessage.indexOf(config.botName) !== -1) {
+      Meteor.call('randit', 'nocontext', function(error, result) {
+        Bot.say(result);
+      });
     }
 
     var creator = [
@@ -273,6 +275,7 @@ processMessage = function (msg) {
     //commands
     var command = parsedMessage.substring(0,2);
     var query = parsedMessage.slice(3);
+    //todo: store commands in a collection
     switch(command) {
       case '.h':
         Bot.say("functions include: " +
@@ -281,14 +284,24 @@ processMessage = function (msg) {
           ", .4 x (latest 4chan post from x board)" +
           ", .i x (imgur search)" +
           ", .d x (define)" +
+          ", .r subreddit (reddit)" +
           ", .y x (youtube search)" +
           ", .g x (google search) " +
           "-- for .i, .y and .g" +
           ", exclude x if you want to search previous line");
         break;
+      case '.x':
+        Bot.say(title1.random() + " " + title2.random() + " " + title3.random());
+        break;
       case '.d':
         Meteor.call('define', query, function(error, result) {
-          Bot.say(result);
+          if(result === '') {
+            Meteor.call('urbandictionary', query, function(error, result) {
+              Bot.say(result);
+            });
+          } else {
+            Bot.say(result);
+          }
         });
         break;
       case '.e':
