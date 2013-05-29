@@ -12,14 +12,16 @@ Template.rooms.roomslist = function() {
   return Rooms.find();
 };
 
-Template.chatroom.messages = function() {
-  return Messages.find({'room_id': ext});
-};
-
-Template.message.helpers({
+Template.chatroom.helpers({
+  currentRoom: function() {
+    return ext;
+  },
   messages: function() {
     return Messages.find({'room_id': ext});
-  },
+  }
+});
+
+Template.message.helpers({
   linkify: function() {
     //something horribly wrong here
     if(!this["message"]) return "";
@@ -55,12 +57,6 @@ Template.message.helpers({
 Template.message.rendered = function() {
   $(this.find('div')).hide().fadeIn();
 };
-
-Template.chatroom.helpers({
-  currentRoom: function() {
-    return ext;
-  }
-});
 
 Template.chatroom.events = {
   'click': function(evt) {

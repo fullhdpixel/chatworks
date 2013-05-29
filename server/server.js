@@ -77,6 +77,10 @@ Meteor.startup(function () {
    return Messages.find({}, {skip: BOUNDRY_COUNT-10, sort: {'date_time': 1}});
   });
 
+  Meteor.publish('rooms', function() {
+   return Rooms.find();
+  });
+
 });
 
 Meteor.Router.add('/admin', 'POST', function(data) {

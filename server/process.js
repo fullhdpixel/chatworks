@@ -328,6 +328,11 @@ processMessage = function (msg) {
       case '.a':
         Bot.say(getSentiment(query));
         break;
+      case '.w':
+        Meteor.call('wikipedia', query, function(error, result) {
+          Bot.say(result);
+        });
+        break;
       case '.4':
         Meteor.call('4chan', query, function(error, result) {
           Bot.say(result);
