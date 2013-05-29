@@ -1,0 +1,12 @@
+<template name="messagesList">
+  <div id="chat" class="span12">
+    {{#if messagesLoaded}}
+      {{#each messagesForRoom}}
+        {{>messageItem}}
+      {{/each}}
+    {{else}}
+      {{>loading}}
+    {{/if}}
+    <div id="stop"></div>
+  </div>
+</template>

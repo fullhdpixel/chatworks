@@ -1,0 +1,15 @@
+<template name="header">
+  <div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <div class="brand"><a href="/">ChatWorks</a></div>
+      <ul class="nav pull-left">
+        <li>{{>roomsList}}</li>
+      </ul>
+      <ul class="nav pull-right">
+        <li>{{loginButtons align="right"}}</li>
+      </ul>
+      <ul class="nav pull-left"><li><a>{{currentRoom}}</a></li></ul>
+      <ul class="nav pull-left"><li><a>{{location}}</a></li></ul>
+    </div>
+  </div>
+</template>

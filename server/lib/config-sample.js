@@ -4,7 +4,7 @@ config = {
   devServer: 'irc.servercentral.net',
   botName: 'importantname',
   ircChannel: '#lolducks',
-  webChannel: '',
+  webChannel: '#lolducks',
   monitorIrc: true,
   talk: true,
   webToIrc: true,

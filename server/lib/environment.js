@@ -1,8 +1,7 @@
-//irc requires
+//requires
 var require = Npm.require;
 var path = require("path");
 var fs = require('fs');
-//fiber
 Fiber = require("fibers");
 Future = require("fibers/future");
 
@@ -34,3 +33,5 @@ client = new IRC.Client(config.ircServer, config.botName, {
   stripColors: false,
   messageSplit: 512
 });
+natural = Natural;
+wordnet = new natural.WordNet();
