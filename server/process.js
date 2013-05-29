@@ -229,9 +229,12 @@ processMessage = function (msg) {
          url[0] = "http://" + url[0];
       }
       Meteor.http.call("GET", url[0], {timeout:30000}, function(error, result) {
-        if(result.statusCode === 200) {
+        if(!error && result.statusCode === 200) {
           var cheerio = Cheerio.load(result.content);
-          Bot.say("URL Title: " + cheerio('title').text());
+          //enhanced with tags
+          Meteor.call('tagger', url[0], function(err, res) {
+            Bot.say("URL Title: " + cheerio('title').text() + " ##tags: " + res);
+          });
         }
       });
     } else if (parsedMessage.indexOf('&random') !== -1) {
@@ -281,11 +284,13 @@ processMessage = function (msg) {
       case '.h':
         Bot.say("functions include: " +
           ".l x y (last.fm nickname compatability)" +
-          ", .p x (last.fm now/last played)" +
+          ", .n x (last.fm now/last played)" +
           ", .4 x (latest 4chan post from x board)" +
           ", .i x (imgur search)" +
           ", .d x (define)" +
           ", .r subreddit (reddit)" +
+          ", .p x (pinboard search)" +
+          ", .w x (wikipedia search)" +
           ", .y x (youtube search)" +
           ", .g x (google search) " +
           "-- for .i, .y and .g" +
@@ -320,13 +325,16 @@ processMessage = function (msg) {
           Bot.say(result);
         });
         break;
-      case '.p':
+      case '.n':
         Meteor.call('nowplaying', query, function(error, result) {
           Bot.say(result);
         });
         break;
       case '.a':
         Bot.say(getSentiment(query));
+        break;
+      case '.p':
+        Meteor.call('pinboard', query);
         break;
       case '.w':
         Meteor.call('wikipedia', query, function(error, result) {
