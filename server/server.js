@@ -1,4 +1,3 @@
-Fiber = Npm.require("fibers");
 
 Meteor.startup(function () {
   //grab messages db size

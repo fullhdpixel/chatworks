@@ -17,6 +17,9 @@ Template.chatroom.messages = function() {
 };
 
 Template.message.helpers({
+  messages: function() {
+    return Messages.find({'room_id': ext});
+  },
   linkify: function() {
     //something horribly wrong here
     if(!this["message"]) return "";

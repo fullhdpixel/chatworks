@@ -2,6 +2,9 @@
 var require = Npm.require;
 var path = require("path");
 var fs = require('fs');
+//fiber
+Fiber = require("fibers");
+Future = require("fibers/future");
 
 //dev/prod config
 var base = path.resolve('.');

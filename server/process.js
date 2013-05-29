@@ -1,5 +1,3 @@
-var Future = Npm.require("fibers/future");
-
 /**
  * Cleans the message up
  * @param msg
@@ -146,7 +144,7 @@ Meteor.methods({
 });
 
 /**
- * Get the POS Tag of a word
+ * Get the Part-Of-Speech Tag of a word
  * @param word
  * @returns {string}
  */
@@ -213,7 +211,6 @@ tagImage = function(canvas) { //todo using opencv
  */
 processMessage = function (msg) {
   var parsedMessage = parseMessage(msg);
-  var str = '';
   if (parsedMessage === '&talk') {
     if (config.talk) {
       config.talk = false;
@@ -227,6 +224,10 @@ processMessage = function (msg) {
     //simple if chain for rudimentary chat functions
     if (checkURL(parsedMessage)) {
       var url = getURL(parsedMessage);
+      //check if url has http, append if not
+      if (!/^(f|ht)tps?:\/\//i.test(url[0])) {
+         url[0] = "http://" + url[0];
+      }
       Meteor.http.call("GET", url[0], {timeout:30000}, function(error, result) {
         if(result.statusCode === 200) {
           var cheerio = Cheerio.load(result.content);
@@ -341,6 +342,9 @@ processMessage = function (msg) {
         Meteor.call('google', query, function(error, result) {
           Bot.say(result);
         });
+        break;
+      case '.u':
+        Meteor.call('duckduckgo', query);
         break;
       case '.y':
         Meteor.call('youtube', query, function(error, result) {
