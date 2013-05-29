@@ -31,7 +31,7 @@ client = new IRC.Client(config.ircServer, config.botName, {
   floodProtection: true,
   floodProtectionDelay: 1500,
   stripColors: false,
-  messageSplit: 512
+  messageSplit: 400
 });
 natural = Natural;
 wordnet = new natural.WordNet();
