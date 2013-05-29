@@ -15,7 +15,17 @@ Template.messageBox.events = {
       }
 
       var hue = colorHandle(handle);
-      Meteor.call('add_message', handle, Session.get('room_id'), textbox, hue);
+      var message = {
+        handle: handle,
+        room_id: Session.get('room_id'),
+        message: textbox,
+        color: hue
+      };
+      Meteor.call('add_message', message, function(error, id) {
+        if(error) {
+          throwError("error: "+error.reason);
+        }
+      });
 
       $("#handle").val(handle);
       $("#handle-counter").text(32 - $("#handle").val().length);

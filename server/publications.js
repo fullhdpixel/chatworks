@@ -1,13 +1,6 @@
-Meteor.publish('messages', function(room_id) {
- return Messages.find({room_id: room_id});
-});
-
-Meteor.publish('someMessages', function(room_id) {
- return Messages.find({}, {skip: BOUNDRY_COUNT-10, sort: {'date_time': 1}});
-});
-
-Meteor.publish('allMessages', function() {
- return Messages.find({});
+Meteor.publish('messages', function(room_id, limit) {
+  var boundary = Messages.find({room_id: room_id}).count()-limit;
+ return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('rooms', function() {
