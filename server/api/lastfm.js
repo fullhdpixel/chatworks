@@ -2,7 +2,7 @@ Meteor.methods({
   lastfm: function(query) {
     query = query.split(" ");
     if(query) {
-      var response = Meteor.http.call('GET', 'http://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=user&value1='+query[0]+'&value2='+query[1]+'&api_key='+config.lastfmClientId+'&format=json');
+      var response = Meteor.http.call('GET', 'https://ws.audioscrobbler.com/2.0/?method=tasteometer.compare&type1=user&type2=user&value1='+query[0]+'&value2='+query[1]+'&api_key='+config.lastfmClientId+'&format=json');
       if (response.statusCode === 200) {
         var data = response.data;
         if(data.comparison) {
@@ -15,7 +15,7 @@ Meteor.methods({
   nowplaying: function(query) {
     query = query.split(" ");
     if(query[0]) {
-      var response = Meteor.http.get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='+query[0]+'&api_key='+config.lastfmClientId+'&format=json');
+      var response = Meteor.http.get('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='+query[0]+'&api_key='+config.lastfmClientId+'&format=json');
       if (response.statusCode === 200) {
         var data = response.data;
         if(typeof data.recenttracks != 'undefined') {

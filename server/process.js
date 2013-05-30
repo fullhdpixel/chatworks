@@ -228,12 +228,22 @@ processMessage = function (msg) {
       if (!/^(f|ht)tps?:\/\//i.test(url[0])) {
          url[0] = "http://" + url[0];
       }
-      Meteor.http.call("GET", url[0], {timeout:30000}, function(error, result) {
+      Meteor.http.call("GET", url[0], {
+        timeout: 30000,
+        followRedirects: true,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
+        }
+      }, function(error, result) {
         if(!error && result.statusCode === 200) {
           var cheerio = Cheerio.load(result.content);
           //enhanced with tags
           Meteor.call('tagger', url[0], function(err, res) {
-            Bot.say("URL Title: " + cheerio('title').text() + " ##tags: " + res);
+            if(err) {
+              Bot.say("URL Title: " + cheerio('title').text());
+            } else {
+              Bot.say("URL Title: " + cheerio('title').text() + " ##tags: " + res);
+            }
           });
         }
       });
