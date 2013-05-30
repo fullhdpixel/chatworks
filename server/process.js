@@ -237,6 +237,7 @@ processMessage = function (msg) {
       }, function(error, response) {
         //todo: process youtube/forum archives, has dynamic js title tags?
         var cheerio = Cheerio.load(response.content);
+        cheerio.html();
         //enhanced with tags
         Meteor.call('tagger', url[0], function(err, res) {
           if(err || res === '') {
@@ -307,6 +308,27 @@ processMessage = function (msg) {
         break;
       case '.x':
         Bot.say(title1.random() + " " + title2.random() + " " + title3.random());
+        break;
+      case '.s':
+        var query = encodeURIComponent(query);
+        Meteor.http.call("GET", 'http://www.google.com/cse?cx=003507065920591675867%3Axyxvbg8-oie&ie=UTF-8&nojs=1&q='+query, {
+          timeout: 30000,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
+          }
+        }, function(error, response) {
+          var links_selector = '.r a.l';
+          var cheerio = Cheerio.load(response.content),
+              links = cheerio(links_selector).map(function(i, el) { return el.attribs.href; });
+          for (var k = 0; k < 3 && links[k]; ++k) {
+            Bot.say("#" + (k+1) + " " + links[k]);
+          }
+        });
+        break;
+      case '.b':
+        Meteor.call('coinbase', query, function(error, result) {
+          Bot.say(result);
+        });
         break;
       case '.d':
         Meteor.call('define', query, function(error, result) {

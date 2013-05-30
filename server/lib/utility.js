@@ -39,5 +39,6 @@ stoptags = [
   '04:22pm',
   'objective-c',
   '2012',
-  'music'
+  'music',
+  'pocket'
 ];

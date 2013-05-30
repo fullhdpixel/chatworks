@@ -24,3 +24,4 @@ cheerio
 presence
 phantomjs
 node-phantom
+optimist
