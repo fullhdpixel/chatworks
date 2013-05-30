@@ -17,13 +17,12 @@ Meteor.methods({
   'tagger': function(query) {
     if(query) {
       var response = Meteor.http.call("GET", 'https://api.pinboard.in/v1/posts/suggest?url='+query+'&auth_token='+config.pinboardApiKey+'&format=json')
-      if (response.statusCode === 200) {
         var data = response.content;
         data = JSON.parse(data);
         if(data[1]) {
-          return data[1].recommended.join(', ');
+          var tags = data[1].recommended.diff(stoptags);
+          return tags.join(', ');
         }
-      }
     }
   }
 });

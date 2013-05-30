@@ -21,3 +21,6 @@ irc
 natural
 focus
 cheerio
+presence
+phantomjs
+node-phantom

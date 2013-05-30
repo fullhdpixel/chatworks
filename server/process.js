@@ -234,18 +234,17 @@ processMessage = function (msg) {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
         }
-      }, function(error, result) {
-        if(!error && result.statusCode === 200) {
-          var cheerio = Cheerio.load(result.content);
-          //enhanced with tags
-          Meteor.call('tagger', url[0], function(err, res) {
-            if(err) {
-              Bot.say("URL Title: " + cheerio('title').text());
-            } else {
-              Bot.say("URL Title: " + cheerio('title').text() + " ##tags: " + res);
-            }
-          });
-        }
+      }, function(error, response) {
+        //todo: process youtube/forum archives, has dynamic js title tags?
+        var cheerio = Cheerio.load(response.content);
+        //enhanced with tags
+        Meteor.call('tagger', url[0], function(err, res) {
+          if(err || res === '') {
+            Bot.say("" + cheerio('title').text());
+          } else {
+            Bot.say("" + cheerio('title').text() + " (" + res + ")");
+          }
+        });
       });
     } else if (parsedMessage.indexOf('&random') !== -1) {
       var msg = Messages.findOne({irc: true}, {skip: Math.floor(Math.random() * BOUNTY_COUNT)});

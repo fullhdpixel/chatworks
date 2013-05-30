@@ -7,6 +7,9 @@ Template.header.helpers({
   },
   currentUser: function () {
     return Meteor.currentUser();
+  },
+  online: function() {
+    return Meteor.presences.find({}).count();
   }
 });
 Template.header.events = {

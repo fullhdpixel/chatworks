@@ -9,8 +9,6 @@ Meteor.startup(function () {
     }
   });
 
-  //todo: display users logged into web
-
   //IRC Bot functions
   if(config.monitorIrc) {
     //make irc connection
