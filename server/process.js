@@ -320,8 +320,8 @@ processMessage = function (msg) {
           var links_selector = '.r a.l';
           var cheerio = Cheerio.load(response.content),
               links = cheerio(links_selector).map(function(i, el) { return el.attribs.href; });
-          for (var k = 0; k < 3 && links[k]; ++k) {
-            Bot.say("#" + (k+1) + " " + links[k]);
+          for (var i = 0; i < 3 && links[i]; ++i) {
+            Bot.say("#" + (i+1) + " " + links[i]);
           }
         });
         break;

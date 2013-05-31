@@ -10,7 +10,11 @@ body {
   h2, h3 {
     margin: 0 20px;
   }
-
+  input[type="text"] {
+    background: #111;
+    color: #eee;
+    border-color: #444;
+  }
   .room, .inputbox {
     padding: 20px 0;
     box-shadow: 0px 2px 5px rgba(0,0,0,0.1), 0px 0px 55px rgba(0,0,0,0.1);
@@ -25,6 +29,9 @@ body {
     border: 1px #222 solid;
     margin: 0;
     background: #222;
+    button {
+      width: 125px;
+    }
     span.handle {
       padding: 0 5px 0 0;
     }
@@ -40,32 +47,17 @@ body {
     }
   }
   .inputbox {
-    input.handle {
-      width: 200px;
-    }
-    input.message {
-      width: 90%;
-    }
-    input,
-    button {
+    input {
     	font-family: Helvetica, Arial, sans-serif;
     	font-size: 18px;
-    }
-    input {
     	padding: 5px;
     	margin-bottom: 10px;
-    }
-    label {
-    	position: absolute;
-      display: none;
-    	top: 8px;
-    	left: 9px;
-    	color: #ccc;
+      width: 99%;
     }
   }
-}
-.centerly {
-  margin: 0 auto;
-  width: 60px;
-  text-align: center;
+  .centerly {
+    margin: 0 auto;
+    width: auto;
+    text-align: center;
+  }
 }

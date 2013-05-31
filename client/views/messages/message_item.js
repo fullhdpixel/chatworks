@@ -32,6 +32,6 @@ Template.messageItem.helpers({
 });
 
 Template.messageItem.rendered = function() {
-  $(this.find('div')).hide().fadeIn();
+  $(this.find('div.message')).hide().fadeIn();
   scrollToBottom();
 };

@@ -1,12 +1,15 @@
 <template name="messagesList">
   <div id="chat" class="span12">
-    {{#if messagesLoaded}}
-      {{#each messagesForRoom}}
-        {{>messageItem}}
-      {{/each}}
+    {{#if messagesReady}}
+      {{#unless allMessagesLoaded}}
+        <div class="centerly"><button class="load-more btn btn-inverse btn-small">Load More {{loadedMessages}}/{{totalMessages}}</button></div>
+      {{/unless}}
     {{else}}
       {{>loading}}
     {{/if}}
+      {{#each messagesForRoom}}
+        {{>messageItem}}
+      {{/each}}
     <div id="stop"></div>
   </div>
 </template>

@@ -24,4 +24,4 @@ cheerio
 presence
 phantomjs
 node-phantom
-optimist
+paginated-subscription
