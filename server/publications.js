@@ -1,11 +1,11 @@
 Meteor.publish('messages', function(room_id, limit) {
-  var count = Messages.find().count();
+  var count = Messages.find({room_id: room_id}).count();
   if(count > limit) {
     var boundary = count-limit;
   } else {
     var boundary = 0;
   }
- return Messages.find({}, {sort: {date_time: 1}, skip: boundary});
+ return Messages.find({room_id: {$ne: ''}}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('rooms', function() {

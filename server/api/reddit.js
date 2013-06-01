@@ -11,6 +11,7 @@ Meteor.methods({
     }
     return fourohfour.random();
   },
+  //todo: reddit returns same result over x period, use a fallback
   'randit': function(query) {
     if(query) {
       var response = Meteor.http.get('http://www.reddit.com/r/'+query+'/random.json');

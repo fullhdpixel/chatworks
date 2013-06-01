@@ -236,7 +236,7 @@ processMessage = function (msg) {
         }
       }, function(error, response) {
         //todo: process youtube/forum archives, has dynamic js title tags?
-        var cheerio = Cheerio.load(response.content);
+        var cheerio = Cheerio.load(response.content); //todo: occasional exception from null content
         cheerio.html();
         //enhanced with tags
         Meteor.call('tagger', url[0], function(err, res) {
@@ -301,6 +301,7 @@ processMessage = function (msg) {
           ", .r subreddit (reddit)" +
           ", .p x (pinboard search)" +
           ", .w x (wikipedia search)" +
+          ", .s x (stackoverflow search)" +
           ", .y x (youtube search)" +
           ", .g x (google search) " +
           "-- for .i, .y and .g" +

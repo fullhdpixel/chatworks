@@ -40,5 +40,8 @@ stoptags = [
   'objective-c',
   '2012',
   'music',
-  'pocket'
+  'pocket',
+  'kindle',
+  '201310',
+  '999'
 ];

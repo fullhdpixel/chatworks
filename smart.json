@@ -5,6 +5,7 @@
   },
   "packages": {
     "router": {},
-    "presence": {}
+    "presence": {},
+    "paginated-subscription": {}
   }
 }

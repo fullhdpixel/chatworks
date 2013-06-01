@@ -10,7 +10,7 @@ Template.messagesList.helpers({
       Messages.find({room_id: Session.get('room_id')}).count() < messagesHandle.loaded();
   },
   totalMessages: function() {
-    return Messages.find({room_id: Session.get('room_id')}).count();
+    return Messages.find({}).count(); //todo: fix count, only displays current max subscribed
   },
   loadedMessages: function() {
     return messagesHandle.loaded();
