@@ -1,20 +1,41 @@
-
 Meteor.startup(function () {
   //grab messages db size
   BOUNDRY_COUNT = Messages.find().count()-1;
-
-  Messages.allow({
-    insert: function(userId, doc) {
-      return true;
-    }
-  });
 
   //IRC Bot functions
   if(config.monitorIrc) {
     //make irc connection
     client.connect();
     //keep-alive
-    setInterval(function() { client.send('PONG', 'empty'); }, 3*60*1000 );
+
+    client.addListener('PING', function() {
+      Fiber(function() {
+        client.send('PONG', config.ircChannel);
+      }).run();
+    });
+
+    client.addListener('join', function(channel, name, message) {
+      Fiber(function() {
+        client.send('NAMES', config.ircChannel);
+      }).run();
+    });
+
+    client.addListener('part', function(channel, name, reason, message) {
+      Fiber(function() {
+        client.send('NAMES', config.ircChannel);
+      }).run();
+    });
+
+    client.addListener('names', function(channel, names) {
+      Fiber(function() {
+        names = _.keys(names);
+        Names.insert({
+          room_id: channel,
+          names: names,
+          date_time: new Date()
+        });
+      }).run();
+    });
 
     //on every message, insert into database
     client.addListener('message', function(from, to, message) {

@@ -248,13 +248,9 @@ processMessage = function (msg) {
         });
       });
     } else if (parsedMessage.indexOf('&random') !== -1) {
-      var msg = Messages.findOne({irc: true}, {skip: Math.floor(Math.random() * BOUNTY_COUNT)});
+      var msg = Messages.findOne({irc: true, bot: false}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
       if(msg) {
-        if (checkURL(parsedMessage)) {
-          Bot.say(msg.message);
-        } else {
-          Bot.say(getURL(parsedMessage));
-        }
+        Bot.say(msg);
       }
     } else if (parsedMessage.indexOf(config.botName) !== -1) {
       Meteor.call('randit', 'nocontext', function(error, result) {
@@ -299,6 +295,8 @@ processMessage = function (msg) {
           ", .i x (imgur search)" +
           ", .d x (define)" +
           ", .r subreddit (reddit)" +
+          ", .m x (imdb search)" +
+          ", .b (bitcoin price)" +
           ", .p x (pinboard search)" +
           ", .w x (wikipedia search)" +
           ", .s x (stackoverflow search)" +
@@ -312,7 +310,8 @@ processMessage = function (msg) {
         break;
       case '.s':
         var query = encodeURIComponent(query);
-        Meteor.http.call("GET", 'http://www.google.com/cse?cx=003507065920591675867%3Axyxvbg8-oie&ie=UTF-8&nojs=1&q='+query, {
+        Meteor.http.call("GET", 'http://www.google.com/cse?cx=003507065920591675867%3Axyxvbg8-oie&ie=UTF-8&nojs=1&q='+query,
+          {
           timeout: 30000,
           headers: {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
@@ -326,9 +325,17 @@ processMessage = function (msg) {
           }
         });
         break;
-      case '.b':
-        Meteor.call('coinbase', query, function(error, result) {
+      case '.m':
+        Meteor.call('imdb', query, function(error, result) {
           Bot.say(result);
+        });
+        break;
+      case '.b':
+        Meteor.call('coinbase', function(error, result) {
+          Bot.say(result);
+          Meteor.call('btce', function(error, result) {
+            Bot.say(result);
+          });
         });
         break;
       case '.d':
@@ -369,7 +376,7 @@ processMessage = function (msg) {
         Meteor.call('pinboard', query);
         break;
       case '.w':
-        Meteor.call('wikipedia', query, function(error, result) {
+        Meteor.call('wikipediaSearch', query, function(error, result) {
           Bot.say(result);
         });
         break;

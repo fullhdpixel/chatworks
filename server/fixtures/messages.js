@@ -1,7 +1,7 @@
-if (Messages.find().count() === 0) {
+if (Messages.find({room_id: 'anonymous'}).count() === 0) {
   Messages.insert({
     handle: 'Meteor',
-    room_id: '',
+    room_id: 'anonymous',
     message: 'Hello there!',
     date_time: new Date(),
     color: colorHandle('Meteor'),
@@ -12,7 +12,7 @@ if (Messages.find().count() === 0) {
   });
   Messages.insert({
     handle: 'Chatworks',
-    room_id: '',
+    room_id: 'anonymous',
     message: 'Hi I\'m a bot!',
     date_time: new Date(),
     color: colorHandle('Chatworks'),
@@ -23,7 +23,7 @@ if (Messages.find().count() === 0) {
   });
   Messages.insert({
     handle: 'Jon',
-    room_id: '',
+    room_id: 'anonymous',
     message: 'Follow me on twitter! @jonathanpidgeon',
     date_time: new Date(),
     color: colorHandle('Jon'),

@@ -1,9 +1,9 @@
 <head>
-  <title>ChatWorks by @jonathanpidgeon</title>
+  <title>ChatWorks</title>
 </head>
 
 <body>
-  {{> body}}
+  {{>body}}
 </body>
 
 <template name="body">
@@ -14,15 +14,4 @@
   {{>header}}
   {{>errors}}
   {{renderPage}}
-</template>
-
-<template name="chatPage">
-  <div class="container">
-    <div class="row-fluid">
-      {{>messagesList}}
-    </div>
-    <div class="row-fluid">
-      {{>messageBox}}
-    </div>
-  </div>
 </template>

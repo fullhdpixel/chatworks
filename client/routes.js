@@ -1,10 +1,14 @@
 Meteor.Router.add({
-  '/': 'chatPage'
+  '/': {to: 'newMessages', as: 'home'},
+  '/top': {to: 'topMessages'},
+  '/analysis': {to: 'analysisPage'}
 });
 
 Template.body.helpers({
   layoutName: function() {
     switch (Meteor.Router.page()) {
+      case 'analysisPage':
+        return 'userLayout';
       case 'chatPage':
         return 'userLayout';
       default:

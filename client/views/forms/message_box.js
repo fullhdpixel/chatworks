@@ -1,6 +1,6 @@
 Template.messageBox.events = {
   'click button, keyup input, focusin input': function(evt) {
-    SCROLL = true;
+    Session.set('auto_scroll', true);
     var textbox = $('#message').val().substring(0,400);
 
     // if we tapped the button or hit enter
@@ -32,4 +32,8 @@ Template.messageBox.events = {
   'focusin input, click input': function(evt) {
     scrollToBottom();
   }
+};
+
+Template.messageBox.rendered = function() {
+  $("#message").focus();
 };

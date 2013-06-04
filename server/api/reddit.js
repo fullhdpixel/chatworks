@@ -12,9 +12,12 @@ Meteor.methods({
     return fourohfour.random();
   },
   //todo: reddit returns same result over x period, use a fallback
+  //todo: add timeouts to all http functions and caching of responses
   'randit': function(query) {
     if(query) {
-      var response = Meteor.http.get('http://www.reddit.com/r/'+query+'/random.json');
+      var response = Meteor.http.get('http://www.reddit.com/r/'+query+'/random.json',
+        {timeout: 5000}
+      );
       if (response.statusCode === 200) {
         var data = response.data;
         console.log(JSON.stringify(data[0].data.children[0].data.title));

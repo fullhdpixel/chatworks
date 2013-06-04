@@ -13,5 +13,19 @@ Meteor.methods({
       }
     }
     return fourohfour.random();
+  },
+  wikipediaSearch: function(query) {
+    if(!query) {
+      var msg = Messages.find({bot: false}, {limit: 2, sort: {'date_time': -1}});
+      query = msg.fetch()[1].message;
+    }
+    var response = Meteor.http.get('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+query+'&srprop=snippet&format=json&limit=1');
+    if (response.statusCode === 200) {
+      var data = response.data;
+      if(data.query) {
+        return data.query.search[0].title + ": " + data.query.search[0].snippet.replace(/<(?:.|\n)*?>/gm, '') + " http://en.wikipedia.org/wiki/" + data.query.search[0].title.replace(/ /g,"_");
+      }
+    }
+    return fourohfour.random();
   }
 });

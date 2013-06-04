@@ -2,13 +2,13 @@
   {{#if message.action}}
   <div class="message {{confirmed}}">
     <span class="date_time" style="color:{{color}}">[{{#prettyTime}}{{/prettyTime}}]</span>
-    <span class="handle" style="color:{{color}}">[{{frequency}}] {{handle}}</span>
+    <span class="handle" style="color:{{color}}">{{handle}}</span>
     <span class="message" style="color:{{color}}">{{#linkify}}{{/linkify}}</span>
   </div>
   {{else}}
   <div class="message {{confirmed}}">
     <span class="date_time" style="color:{{color}}">[{{#prettyTime}}{{/prettyTime}}]</span>
-    <span class="handle" style="color:{{color}}">[{{frequency}}] {{handle}}></span>
+    <span class="handle" style="color:{{color}}">{{handle}}></span>
     <span class="message" style="color:{{color}}">{{#linkify}}{{/linkify}}</span>
   </div>
   {{/if}}

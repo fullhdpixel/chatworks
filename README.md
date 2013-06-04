@@ -7,6 +7,7 @@ A webchat service developed with [Meteor](http://meteor.com).
 * Colored lines by nickname
 * Inline images (gif, jpg, png)
 * A (intelligent?) chat assistant
+* Infinite message history
 
 ## Stack
 * [Node](https://github.com/joyent/node)
@@ -17,13 +18,12 @@ A webchat service developed with [Meteor](http://meteor.com).
 * [natural](https://github.com/NaturalNode/natural)
 
 ## Installation
-* Change: the values in server/config-sample.js
-* Install [Meteorite](https://github.com/oortcloud/meteorite) to get the mrt command
-* You can either test it out locally RIGHT NOW by running "mrt" in the base directory or...
+* Configure: the values in server/config-sample.js
+* Install: [Meteorite](https://github.com/oortcloud/meteorite) to get the mrt command
+* Run: You can either test it out locally RIGHT NOW by running "mrt" in the base directory or...
 * Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
 
-
-## Special thanks:
+## Special Thanks
 * [Subtle Patterns](http://subtlepatterns.com/) for their ridiculously good backgrounds
 
 ## License

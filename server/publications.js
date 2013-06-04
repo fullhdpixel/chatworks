@@ -1,15 +1,43 @@
-Meteor.publish('messages', function(room_id, limit) {
+Meteor.publish('roomMessages', function(room_id, limit) {
   var count = Messages.find({room_id: room_id}).count();
-  if(count > limit) {
-    var boundary = count-limit;
-  } else {
+  //calculate boundary, the messages we pull from the end of the collection
+  if(count < limit) {
+    //collection size is smaller than the limit, skip nothing
     var boundary = 0;
+  } else {
+    //collection size is
+    var boundary = count-limit;
   }
- return Messages.find({room_id: {$ne: ''}}, {sort: {date_time: 1}, skip: boundary});
+return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
+});
+
+Meteor.publish('allMessages', function() {
+  var now = new Date();
+  now.setHours(0);
+  now.setMinutes(0);
+  now.setSeconds(0);
+  return Messages.find({date_time: {$gte: now}}, {sort: {date_time: 1}, fields: {handle: true}});
+});
+
+Meteor.publish('newMessages', function(limit) {
+  var count = Messages.find({}).count();
+  //calculate boundary, the messages we pull from the end of the collection
+  if(count < limit) {
+    //collection size is smaller than the limit, skip nothing
+    var boundary = 0;
+  } else {
+    //collection size is
+    var boundary = count-limit;
+  }
+  return Messages.find({}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('rooms', function() {
  return Rooms.find({});
+});
+
+Meteor.publish('names', function() {
+ return Names.find({});
 });
 
 Meteor.publish('userPresence', function() {

@@ -10,6 +10,9 @@ Template.header.helpers({
   },
   online: function() {
     return Meteor.presences.find({}).count();
+  },
+  scroll: function() {
+    return Session.get('auto_scroll');
   }
 });
 Template.header.events = {
