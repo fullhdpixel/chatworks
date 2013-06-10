@@ -5,8 +5,6 @@
   },
   "packages": {
     "router": {},
-    "presence": {},
-    "paginated-subscription": {},
-    "bootstrap-customizable": {}
+    "presence": {}
   }
 }

@@ -3,7 +3,11 @@ Template.messageItem.helpers({
     //something horribly wrong here
     if(!this["message"]) return "";
     if(typeof this["message"] !== 'string') {
-      var val = this["message"].join(' ');
+      if(this["message"] instanceof Array) {
+        var val = this["message"].join(' ');
+      } else {
+        return "";
+      }
     } else {
       var val = this["message"];
     }

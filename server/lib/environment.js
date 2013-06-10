@@ -13,6 +13,7 @@ if (base == '/'){
 
 if (fs.existsSync(path.resolve(base+'/bundle/'))) {
   config.monitorIrc = true;
+  config.debug = false;
 } else {
   config.ircServer = config.devServer;
 }

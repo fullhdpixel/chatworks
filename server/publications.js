@@ -1,4 +1,11 @@
-Meteor.publish('roomMessages', function(room_id, limit) {
+Meteor.publish('messages', function(room_id, limit) {
+  console.log('publishing: ' + room_id + ' ' + limit);
+  if(room_id == undefined) {
+    room_id = '#1810';
+  }
+  if(limit == undefined) {
+    limit = '1';
+  }
   var count = Messages.find({room_id: room_id}).count();
   //calculate boundary, the messages we pull from the end of the collection
   if(count < limit) {
@@ -8,28 +15,8 @@ Meteor.publish('roomMessages', function(room_id, limit) {
     //collection size is
     var boundary = count-limit;
   }
-return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
-});
-
-Meteor.publish('allMessages', function() {
-  var now = new Date();
-  now.setHours(0);
-  now.setMinutes(0);
-  now.setSeconds(0);
-  return Messages.find({date_time: {$gte: now}}, {sort: {date_time: 1}, fields: {handle: true}});
-});
-
-Meteor.publish('newMessages', function(limit) {
-  var count = Messages.find({}).count();
-  //calculate boundary, the messages we pull from the end of the collection
-  if(count < limit) {
-    //collection size is smaller than the limit, skip nothing
-    var boundary = 0;
-  } else {
-    //collection size is
-    var boundary = count-limit;
-  }
-  return Messages.find({}, {sort: {date_time: 1}, skip: boundary});
+  console.log('skipping: ' + boundary);
+  return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('rooms', function() {
@@ -38,6 +25,14 @@ Meteor.publish('rooms', function() {
 
 Meteor.publish('names', function() {
  return Names.find({});
+});
+
+Meteor.publish('stats', function() {
+  return Stats.find({});
+});
+
+Meteor.publish('urls', function() {
+  return Urls.find({});
 });
 
 Meteor.publish('userPresence', function() {

@@ -48,7 +48,8 @@ getNthWord = function(string, n) {
  * @returns {boolean}
  */
 checkURL = function(msg) {
-  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+//  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+  var exp = /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   if (msg.match(exp)) {
     return true;
   }
@@ -61,7 +62,8 @@ checkURL = function(msg) {
  * @returns {array}
  */
 getURL = function (msg) {
-  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+//  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+  var exp = /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   return msg.match(exp);
 }
 
@@ -86,12 +88,6 @@ Meteor.methods({
     var definition = '';
     wordnet.lookup(msg, function(results) {
       results.forEach(function(result) {
-        console.log('------------------------------------');
-        console.log(result.synsetOffset);
-        console.log(result.pos);
-        console.log(result.lemma);
-        console.log(result.synonyms);
-        console.log(result.gloss);
         definition = result.gloss;
       });
       future.ret(definition);
@@ -151,9 +147,9 @@ Meteor.methods({
 Meteor.methods({
   pos: function(word) {
     var future = new Future();
-    var tag = 'narp';
     wordnet.lookup(word, function(results) {
-      if(typeof results[0] != 'undefined') {
+      var tag = word;
+      if(results[0] != undefined) {
         if(results[0].pos === 'n') {
           tag = 'noun';
         } else if (results[0].pos === 'v') {
@@ -169,6 +165,29 @@ Meteor.methods({
       future.ret(tag);
     });
     return future.wait();
+  }
+});
+
+/**
+ * Get the x pos tags of a sentence (eg. nouns)
+ * @param sentence
+ * @returns {array}
+ */
+Meteor.methods({
+  getPos: function(sentence) {
+    var tokenizer = new natural.WordTokenizer();
+    var tokes = tokenizer.tokenize(sentence);
+    var futures = _.map(tokes, function(toke) {
+      var future = new Future();
+      var onComplete = future.resolver();
+//      var toke = natural.LancasterStemmer.stem(toke);
+      Meteor.call('pos', toke, function(error, result) {
+        onComplete(error, result);
+      });
+      return future;
+    });
+    Future.wait(futures);
+    return _.invoke(futures, 'get');
   }
 });
 
@@ -209,7 +228,7 @@ tagImage = function(canvas) { //todo using opencv
  * @param message
  * @returns {string}
  */
-processMessage = function (msg) {
+processMessage = function (handle, msg) {
   var parsedMessage = parseMessage(msg);
   if (parsedMessage === '&talk') {
     if (config.talk) {
@@ -228,6 +247,7 @@ processMessage = function (msg) {
       if (!/^(f|ht)tps?:\/\//i.test(url[0])) {
          url[0] = "http://" + url[0];
       }
+
       Meteor.http.call("GET", url[0], {
         timeout: 30000,
         followRedirects: true,
@@ -236,16 +256,18 @@ processMessage = function (msg) {
         }
       }, function(error, response) {
         //todo: process youtube/forum archives, has dynamic js title tags?
-        var cheerio = Cheerio.load(response.content); //todo: occasional exception from null content
-        cheerio.html();
-        //enhanced with tags
-        Meteor.call('tagger', url[0], function(err, res) {
-          if(err || res === '') {
-            Bot.say("" + cheerio('title').text());
-          } else {
-            Bot.say("" + cheerio('title').text() + " (" + res + ")");
-          }
-        });
+        if(response.content !== null) {
+          var cheerio = Cheerio.load(response.content); //todo: occasional exception from null content
+          cheerio.html();
+          //enhanced with tags
+          Meteor.call('tagger', url[0], function(err, res) {
+            if(err || res === '') {
+              Bot.say("" + cheerio('title').text());
+            } else {
+              Bot.say("" + cheerio('title').text() + " (" + res + ")");
+            }
+          });
+        }
       });
     } else if (parsedMessage.indexOf('&random') !== -1) {
       var msg = Messages.findOne({irc: true, bot: false}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
@@ -253,7 +275,13 @@ processMessage = function (msg) {
         Bot.say(msg);
       }
     } else if (parsedMessage.indexOf(config.botName) !== -1) {
-      Meteor.call('randit', 'nocontext', function(error, result) {
+//      var msg = Messages.findOne({irc: true, bot: false}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
+      Meteor.call('choppa', handle, parsedMessage, function(error, result) {
+        Bot.say(result);
+      });
+    } else if (parsedMessage.substring(0,5) === 'todo:' && handle.indexOf('pent')) {
+      var query = parsedMessage.slice(6);
+      Meteor.call('trello', query, function(error, result) {
         Bot.say(result);
       });
     }
@@ -310,8 +338,7 @@ processMessage = function (msg) {
         break;
       case '.s':
         var query = encodeURIComponent(query);
-        Meteor.http.call("GET", 'http://www.google.com/cse?cx=003507065920591675867%3Axyxvbg8-oie&ie=UTF-8&nojs=1&q='+query,
-          {
+        Meteor.http.call("GET", 'http://www.google.com/cse?cx=003507065920591675867%3Axyxvbg8-oie&ie=UTF-8&nojs=1&q='+query, {
           timeout: 30000,
           headers: {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'

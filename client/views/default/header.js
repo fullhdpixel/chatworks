@@ -15,6 +15,7 @@ Template.header.helpers({
     return Session.get('auto_scroll');
   }
 });
+
 Template.header.events = {
   'click button, keyup input': function(evt) {
     // if we tapped the button or hit enter

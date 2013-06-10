@@ -1,13 +1,11 @@
-Session.setDefault('room_id', 'bots');
+  messagesHandle = Meteor.subscribeWithPagination('messages');
 
-//subscribeWithPagination: last parameter is always the limit
-//messagesHandle = Meteor.subscribeWithPagination('roomMessages', Session.get('room_id'), 20);
+  Deps.autorun(function() {
+    Meteor.subscribe('userPresence');
+  });
 
-Deps.autorun(function() {
-  Meteor.subscribe('userPresence');
-});
-
-Meteor.subscribe('rooms');
-Meteor.subscribe('names');
-allMessagesHandle = Meteor.subscribeWithPagination('allMessages', 1);
-newMessagesHandle = Meteor.subscribeWithPagination('newMessages', 20);
+  Meteor.subscribe('rooms');
+  Meteor.subscribe('names');
+  Meteor.subscribe('stats', function() {});
+  Meteor.subscribe('urls');
+  chartData = Stats.find({timestamp: {$gte: new Date().lastHours(1)}}).fetch();

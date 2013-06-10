@@ -1,13 +1,14 @@
-<template name="newMessages">
-  {{> chatPage options}}
-</template>
 
-<template name="topMessages">
+
+<template name="newMessages">
   {{> chatPage options}}
 </template>
 
 <template name="chatPage">
   <div class="container">
+    <div class="row-fluid">
+      {{>analysis}}
+    </div>
     <div class="row-fluid">
       {{>loadMore}}
       <div id="chat" class="span12">
