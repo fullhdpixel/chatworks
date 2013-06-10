@@ -38,8 +38,8 @@ Template.chart.rendered = function() {
       .attr("y", function(d) { return height - y(d.count) - .5; })
       .attr("fill", '#676778')
       .attr("width", barWidth)
-      .attr("height", function(d) { return d.count < 0 ? 0 : y(d.count); });
-  //y-axis
+      .attr("height", function(d) { return y(d.count) < 0 ? 0 : y(d.count); });
+  //axis
   svg.append("line")
     .attr("x1", 0)
     .attr("x2", barWidth * length)

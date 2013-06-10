@@ -247,6 +247,12 @@ processMessage = function (handle, msg) {
       if (!/^(f|ht)tps?:\/\//i.test(url[0])) {
          url[0] = "http://" + url[0];
       }
+      Fiber(function() {
+        Urls.insert({
+          url: url[0],
+          date_time: new Date()
+        });
+      });
 
       Meteor.http.call("GET", url[0], {
         timeout: 30000,
