@@ -5,29 +5,6 @@
  */
 parseMessage = function (msg) {
   var message = msg.toLowerCase();
-
-  //url
-//  var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-//  message = message.replace(exp, 'URL');
-
-  //@user
-//  exp = /(\b@[^\s]+)/ig;
-//  message = message.replace(exp, 'AT_USER');
-
-  //remove extra whitespace
-//  exp = /\s{2,}/g;
-//  message = message.replace(exp, ' ');
-
-  //replace #hash with hash
-//  exp = /#(\S*)/g;
-//  message = message.replace(exp, '$1');
-
-  //replace repeating characters; examppple/example
-
-  //remove punctuation
-
-  //remove words that start with a number
-
   return message;
 };
 
@@ -48,7 +25,6 @@ getNthWord = function(string, n) {
  * @returns {boolean}
  */
 checkURL = function(msg) {
-//  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
   var exp = /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   if (msg.match(exp)) {
     return true;
@@ -62,7 +38,6 @@ checkURL = function(msg) {
  * @returns {array}
  */
 getURL = function (msg) {
-//  var exp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
   var exp = /(?:(?:http|https):\/\/)?([-a-zA-Z0-9.]{2,256}\.[a-z]{2,4})\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   return msg.match(exp);
 }
@@ -93,15 +68,13 @@ Meteor.methods({
       future.ret(definition);
     });
     return future.wait();
-  }
-});
+  },
 
 /**
  * Convert word into a random synonym
  * @param msg
  * @returns {string}
  */
-Meteor.methods({
   snynonym: function (word) {
     var future = new Future();
     var newWord = '';
@@ -114,15 +87,13 @@ Meteor.methods({
       future.ret(newWord);
     });
     return future.wait();
-  }
-});
+  },
 
 /**
  * Convert sentiment into a more eloquent message
  * @param msg
  * @returns {string}
  */
-Meteor.methods({
   eloquent: function (msg) {
     var tokenizer = new natural.WordTokenizer();
     var tokes = tokenizer.tokenize(msg);
@@ -136,15 +107,13 @@ Meteor.methods({
     });
     Future.wait(futures);
     return _.invoke(futures, 'get');
-  }
-});
+  },
 
 /**
  * Get the Part-Of-Speech Tag of a word
  * @param word
  * @returns {string}
  */
-Meteor.methods({
   pos: function(word) {
     var future = new Future();
     wordnet.lookup(word, function(results) {
@@ -165,15 +134,13 @@ Meteor.methods({
       future.ret(tag);
     });
     return future.wait();
-  }
-});
+  },
 
 /**
  * Get the x pos tags of a sentence (eg. nouns)
  * @param sentence
  * @returns {array}
  */
-Meteor.methods({
   getPos: function(sentence) {
     var tokenizer = new natural.WordTokenizer();
     var tokes = tokenizer.tokenize(sentence);
@@ -188,15 +155,13 @@ Meteor.methods({
     });
     Future.wait(futures);
     return _.invoke(futures, 'get');
-  }
-});
+  },
 
 /**
  * Get the POS Tags of a message
  * @param msg
  * @returns {string}
  */
-Meteor.methods({
   chunk: function (msg) {
     var tokenizer = new natural.WordTokenizer();
     var tokes = tokenizer.tokenize(msg);
@@ -218,7 +183,7 @@ Meteor.methods({
  * @param html5 canvas of image
  * @returns {[string]}
  */
-tagImage = function(canvas) { //todo using opencv
+tagImage = function(canvas) { //todo using opencv...
   var tags = [];
   return tags;
 };
@@ -228,57 +193,58 @@ tagImage = function(canvas) { //todo using opencv
  * @param message
  * @returns {string}
  */
-processMessage = function (handle, msg) {
+processMessage = function(handle, msg) {
   var parsedMessage = parseMessage(msg);
   if (parsedMessage === '&talk') {
     if (config.talk) {
+      Bot.say('Muted');
       config.talk = false;
-      return 'Muted';
     } else {
+      Bot.say('Unmuted');
       config.talk = true;
-      return "Unmuted";
     }
   }
   if (config.talk) {
     //simple if chain for rudimentary chat functions
-    if (checkURL(parsedMessage)) {
-      var url = getURL(parsedMessage);
+    if (checkURL(msg)) {
+      var url = getURL(msg);
       //check if url has http, append if not
       if (!/^(f|ht)tps?:\/\//i.test(url[0])) {
          url[0] = "http://" + url[0];
       }
-      Fiber(function() {
-        Urls.insert({
-          url: url[0],
-          date_time: new Date()
+      Urls.insert({
+        url: url[0],
+        date_time: new Date()
+      }, function() {
+        console.log('inserted url: ' + url[0]);
+      });
+      if (1 == 3) {
+        Meteor.http.call("GET", url[0], {
+          timeout: 30000,
+          followRedirects: true,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
+          }
+        }, function(error, response) {
+          //todo: process youtube/forum archives, has dynamic js title tags?
+          if(response.content !== null) {
+            var cheerio = Cheerio.load(response.content); //todo: occasional exception from null content
+            cheerio.html();
+            //enhanced with tags
+            Meteor.call('tagger', url[0], function(err, res) {
+              if(err || res === '') {
+                Bot.say("" + cheerio('title').text());
+              } else {
+                Bot.say("" + cheerio('title').text() + " (" + res + ")");
+              }
+            });
+          }
         });
-      });
-
-      Meteor.http.call("GET", url[0], {
-        timeout: 30000,
-        followRedirects: true,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
-        }
-      }, function(error, response) {
-        //todo: process youtube/forum archives, has dynamic js title tags?
-        if(response.content !== null) {
-          var cheerio = Cheerio.load(response.content); //todo: occasional exception from null content
-          cheerio.html();
-          //enhanced with tags
-          Meteor.call('tagger', url[0], function(err, res) {
-            if(err || res === '') {
-              Bot.say("" + cheerio('title').text());
-            } else {
-              Bot.say("" + cheerio('title').text() + " (" + res + ")");
-            }
-          });
-        }
-      });
+      }
     } else if (parsedMessage.indexOf('&random') !== -1) {
       var msg = Messages.findOne({irc: true, bot: false}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
       if(msg) {
-        Bot.say(msg);
+        Bot.say(msg.message);
       }
     } else if (parsedMessage.indexOf(config.botName) !== -1) {
 //      var msg = Messages.findOne({irc: true, bot: false}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
@@ -290,8 +256,31 @@ processMessage = function (handle, msg) {
       Meteor.call('trello', query, function(error, result) {
         Bot.say(result);
       });
+    } else if (parsedMessage.substring(0,8) === 'what is ') {
+      var query = parsedMessage.slice(9);
+      Meteor.call('define', query, function(error, result) {
+        if(result === '') {
+          Meteor.call('urbandictionary', query, function(error, result) {
+            Bot.say(result);
+          });
+        } else {
+          Bot.say(result);
+        }
+      });
+    } else if (parsedMessage.substring(0,7) === 'who is ') {
+      var query = parsedMessage.slice(8);
+      Meteor.call('define', query, function(error, result) {
+        if(result === '') {
+          Meteor.call('urbandictionary', query, function(error, result) {
+            Bot.say(result);
+          });
+        } else {
+          Bot.say(result);
+        }
+      });
     }
 
+    //for fun
     var creator = [
       'Pent is an hero'
       ,'Pent so powerfur'
@@ -341,6 +330,9 @@ processMessage = function (handle, msg) {
         break;
       case '.x':
         Bot.say(title1.random() + " " + title2.random() + " " + title3.random());
+        break;
+      case '.1':
+        Bot.say(techterms.random() + " " + techterms.random() + " " + culinaryterms.random());
         break;
       case '.s':
         var query = encodeURIComponent(query);

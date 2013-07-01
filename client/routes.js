@@ -3,12 +3,15 @@ Meteor.Router.add({
     as: function() {
       return 'home';
     }
-  }
+  },
+  '/links': {to: 'newLinks', as: 'links' }
 });
 
 Template.body.helpers({
   layoutName: function() {
     switch (Meteor.Router.page()) {
+      case 'linkPage':
+        return 'userLayout';
       case 'chatPage':
         return 'userLayout';
       default:

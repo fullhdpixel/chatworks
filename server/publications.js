@@ -31,8 +31,22 @@ Meteor.publish('stats', function() {
   return Stats.find({});
 });
 
-Meteor.publish('urls', function() {
-  return Urls.find({});
+Meteor.publish('urls', function(room_id, limit) {
+  console.log('publishing links: ' + limit);
+  if(limit == undefined) {
+    limit = '1';
+  }
+  var count = Urls.find({}).count();
+  //calculate boundary, the messages we pull from the end of the collection
+  if(count < limit) {
+    //collection size is smaller than the limit, skip nothing
+    var boundary = 0;
+  } else {
+    //collection size is
+    var boundary = count-limit;
+  }
+  console.log('links in db: ' + count + ' / skipping: ' + boundary);
+  return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('userPresence', function() {

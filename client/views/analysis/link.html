@@ -1,0 +1,13 @@
+<template name="linkItem">
+  {{#if isImage}}
+  <li class="link span2">
+    <div class="thumbnail">
+      <figure>
+        <h4>{{#caption}}{{/caption}}</h4>
+        {{#linkify}}{{/linkify}}
+        <figcaption>{{#prettyTime}}{{/prettyTime}}</figcaption>
+      </figure>
+    </div>
+  </li>
+  {{/if}}
+</template>

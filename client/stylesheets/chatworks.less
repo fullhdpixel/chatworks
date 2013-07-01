@@ -77,4 +77,59 @@ body {
     margin: auto;
     font-size: 11px;
   }
+  .side-nav {
+    background: #2b2e29;
+    min-height: 500px;
+    height: 500px;
+    .date {
+      color: #7D9029;
+      padding: 2px;
+      background: #000;
+      width: 100%;
+    }
+    .date:nth-child(odd) {
+      background: #222;
+    }
+  }
+  #links {
+    .link {
+      overflow: hidden;
+      .thumbnail {
+        border: none;
+      }
+      figure {
+        float: left;
+        clear: both;
+        display: block;
+        position: relative;
+        overflow: auto;
+        margin: 0 auto;
+        text-align: center;
+        h4 {
+          font-size: 0.7em;
+          margin: 0;
+          padding: 5px 15px;
+          height: 20px;
+          text-align: center;
+          background: #7D9029;
+          color: #bfd83c;
+          overflow: hidden;
+        }
+        img {
+          vertical-align: bottom;
+          margin: 0 auto;
+          height: 150px;
+        }
+        figcaption {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          color: #ccc;
+          font-size: 0.7em;
+          background: #222;
+          padding: 2px 10px;
+        }
+      }
+    }
+  }
 }

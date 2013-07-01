@@ -18,7 +18,6 @@ Meteor.startup(function () {
     function() {
       //get last hour
       var messages = Messages.find({date_time: {$gte: new Date().lastMinutes(1)}});
-      console.log('minutely, added to stats: ' + messages.count());
       Stats.insert({
         timestamp: new Date().getTime(),
         count: messages.count()

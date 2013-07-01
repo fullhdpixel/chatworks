@@ -1,0 +1,33 @@
+<template name="newLinks">
+  {{> linksPage options}}
+</template>
+
+<template name="linksPage">
+  <div class="container">
+    <div class="row-fluid">
+      {{>loadMoreLinks}}
+    </div>
+    <div class="row-fluid">
+      <ul class="span2 side-nav">
+        {{#each datesForRoom}}
+          {{>dateItem}}
+        {{/each}}
+      </ul>
+      <ul id="links" class="span10 thumbnails">
+        {{#each linksForRoom}}
+          {{>linkItem}}
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
+
+<template name="loadMoreLinks">
+  {{#if linksReady}}
+    {{#unless allLinksLoaded}}
+      <div class="centerly"><button class="load-more btn btn-inverse btn-small">Load More</button></div>
+    {{/unless}}
+  {{else}}
+    {{>loading}}
+  {{/if}}
+</template>
