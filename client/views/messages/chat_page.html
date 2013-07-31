@@ -1,33 +1,22 @@
-<template name="newMessages">
+<template name="messages">
   {{> chatPage options}}
 </template>
 
 <template name="chatPage">
   <div class="container">
-    <div class="row-fluid">
+    <div id="analysis">
       {{>analysis}}
     </div>
-    <div class="row-fluid">
-      {{>loadMore}}
-      <div id="chat" class="span12">
+    <div id="messages">
+      <div id="chat">
         {{#each messagesForRoom}}
           {{>messageItem}}
         {{/each}}
         <div id="stop"></div>
       </div>
     </div>
-    <div class="row-fluid">
+    <div id="send-box">
       {{>messageBox}}
     </div>
   </div>
-</template>
-
-<template name="loadMore">
-  {{#if messagesReady}}
-    {{#unless allMessagesLoaded}}
-      <div class="centerly"><button class="load-more btn btn-inverse btn-small">Load More</button></div>
-    {{/unless}}
-  {{else}}
-    {{>loading}}
-  {{/if}}
 </template>

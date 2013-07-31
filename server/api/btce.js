@@ -1,30 +1,34 @@
+botCommands['btce'] = '';
 Meteor.methods({
-  btce: function() {
+  btce: function(to) {
     var str = '';
-    var response = Meteor.http.get('https://btc-e.com/api/2/btc_usd/ticker');
-    if (response.statusCode === 200) {
-      var data = response.content;
-      data = JSON.parse(data);
-      if(data.ticker) {
-        str = ("BTC-E: BTC->USD: [" + data.ticker.avg + "]");
-        var response = Meteor.http.get('https://btc-e.com/api/2/ltc_btc/ticker');
-        if (response.statusCode === 200) {
-          var data = response.content;
-          data = JSON.parse(data);
-          if(data.ticker) {
-            str += (" LTC->BTC: [" + data.ticker.avg+"]");
-            var response = Meteor.http.get('https://btc-e.com/api/2/ltc_usd/ticker');
+    Meteor.http.get('https://btc-e.com/api/2/btc_usd/ticker', function(error, response) {
+      if (response.statusCode === 200) {
+        var data = response.content;
+        data = JSON.parse(data);
+        if(data.ticker) {
+          str = ("BTC-E: BTC->USD: [" + data.ticker.avg + "]");
+          Meteor.http.get('https://btc-e.com/api/2/ltc_btc/ticker', function(error, response) {
             if (response.statusCode === 200) {
               var data = response.content;
               data = JSON.parse(data);
               if(data.ticker) {
-                str += (" LTC->USD: [" + data.ticker.avg+"]");
+                str += (" LTC->BTC: [" + data.ticker.avg+"]");
+                Meteor.http.get('https://btc-e.com/api/2/ltc_usd/ticker', function(error, response) {
+                  if (response.statusCode === 200) {
+                    var data = response.content;
+                    data = JSON.parse(data);
+                    if(data.ticker) {
+                      str += (" LTC->USD: [" + data.ticker.avg+"]");
+                      Bot.say(to, str);
+                    }
+                  }
+                });
               }
             }
-          }
+          });
         }
       }
-    }
-    return str;
+    });
   }
 });

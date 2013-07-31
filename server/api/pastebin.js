@@ -1,5 +1,5 @@
+botCommands['pastebin'] = '';
 Meteor.methods({
-  pastebin: function(query) {
-    return fourohfour.random();
+  pastebin: function(to, query) {
   }
 });

@@ -10,29 +10,10 @@ var base = path.resolve('.');
 if (base == '/'){
   base = path.dirname(global.require.main.filename);
 }
+ENVIRONMENT = 'development';
 
 if (fs.existsSync(path.resolve(base+'/bundle/'))) {
-  config.monitorIrc = true;
-  config.debug = false;
-} else {
-  config.ircServer = config.devServer;
+  ENVIRONMENT = 'production';
 }
-//irc connection setup
-client = new IRC.Client(config.ircServer, config.botName, {
-  userName: config.botName,
-  realName: config.botName + ' Watson',
-  debug: false,
-  showErrors: false,
-  autoRejoin: true,
-  autoConnect: false,
-  channels: [config.ircChannel],
-  secure: false,
-  selfSigned: false,
-  certExpired: false,
-  floodProtection: true,
-  floodProtectionDelay: 1500,
-  stripColors: false,
-  messageSplit: 400
-});
 natural = Natural;
 wordnet = new natural.WordNet();

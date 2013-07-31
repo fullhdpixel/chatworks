@@ -1,0 +1,11 @@
+<template name="config">
+  <label for="{{name}}" class="col-lg-4 control-label">{{name}}</label>
+  <div class="col-lg-8">
+    <div class="input-group">
+      <input type="text" id="{{name}}" name="{{name}}" value="{{value}}" class="form-control {{confirmed}}">
+      <span class="input-group-btn">
+        <button class="btn btn-danger" id="removeConfig" data-id="{{name}}" type="button">Remove</button>
+      </span>
+    </div>
+  </div>
+</template>

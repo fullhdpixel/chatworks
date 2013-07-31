@@ -21,6 +21,9 @@ Template.messageItem.helpers({
     }
     return link;
   },
+  colorize: function() {
+    return colorHandle(this["handle"]);
+  },
   prettyTime: function() {
     if(!this["date_time"]) return "";
     var val = this["date_time"];

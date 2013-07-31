@@ -1,0 +1,7 @@
+<template name="channel">
+  {{#if status}}
+  <li>{{name}} <button class="btn btn-danger" id="partChannel" data-id="{{name}}">Part</button></li>
+  {{else}}
+  <li>{{name}} <button class="btn btn-primary" id="joinChannel" data-id="{{name}}">Join</button></li>
+  {{/if}}
+</template>

@@ -1,0 +1,26 @@
+<template name="channels">
+  <div class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">Channels</h4>
+    </div>
+    <div class="panel">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-lg-12">
+            <div class="input-group">
+              <input type="text" id="cname" name="cname" value="" class="form-control">
+              <div class="input-group-btn">
+                <button id="joinChannel" class="btn btn-primary">Join</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul>
+      {{#each channels}}
+        {{>channel}}
+      {{/each}}
+    </ul>
+  </div>
+</template>

@@ -18,13 +18,9 @@ A webchat service developed with [Meteor](http://meteor.com).
 * [natural](https://github.com/NaturalNode/natural)
 
 ## Installation
-* Configure: the values in server/lib/config-sample.js
 * Install: [Meteorite](https://github.com/oortcloud/meteorite) to get the mrt command
-* Run: You can either test it out locally RIGHT NOW by running "mrt" in the base directory or...
-* Follow: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
-
-## Special Thanks
-* [Subtle Patterns](http://subtlepatterns.com/) for their ridiculously good backgrounds
+* Run: You can either test it out locally by running "mrt" in the base directory or...
+* Deploy: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
 
 ## License
 * BSD

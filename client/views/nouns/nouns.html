@@ -1,0 +1,38 @@
+<template name="nouns">
+  <div class="container">
+    <div id="config">
+      <div class="detail detail-large">
+        <div class="panel">
+          <div class="panel-heading">
+            <h4 class="panel-title">Add Some Nouns!~</h4>
+          </div>
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label for="nounName" class="col-lg-4 control-label">Noun</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <input type="text" id="nounName" name="nounName" class="form-control">
+                  <div class="input-group-btn">
+                    <button id="addNoun" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail">
+        <div class="panel">
+          <div class="panel-heading">
+            <h4 class="panel-title">Existing Nouns</h4>
+          </div>
+          <div class="list-group">
+            {{#each nouns}}
+            <div class="list-group-item">{{value}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

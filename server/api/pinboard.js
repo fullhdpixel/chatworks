@@ -1,28 +1,29 @@
+botCommands['pinboard'] = '';
+botCommands['tagger'] = '';
 Meteor.methods({
-  'pinboard': function(query) {
+  'pinboard': function(to, query) {
     if(query) {
-      Meteor.http.call("GET", 'https://api.pinboard.in/v1/posts/suggest?url='+query+'&auth_token='+config.pinboardApiKey+'&format=json', {timeout:30000}, function(error, response) {
+      Meteor.http.get('https://api.pinboard.in/v1/posts/suggest?url='+query+'&auth_token='+config.pinboardApiKey+'&format=json', {timeout:30000}, function(error, response) {
         if (response.statusCode === 200) {
           var data = response.content;
           data = JSON.parse(data);
           if(data[1]) {
-            Bot.say(data[1].recommended.join(' ') + "");
+            Bot.say(to, data[1].recommended.join(' ') + "");
           }
-        } else {
-          Bot.say(fourohfour.random());
         }
       });
     }
   },
-  'tagger': function(query) {
+  'tagger': function(to, query) {
     if(query) {
-      var response = Meteor.http.call("GET", 'https://api.pinboard.in/v1/posts/suggest?url='+query+'&auth_token='+config.pinboardApiKey+'&format=json')
+      Meteor.http.get('https://api.pinboard.in/v1/posts/suggest?url='+query+'&auth_token='+config.pinboardApiKey+'&format=json', function(error, response) {
         var data = response.content;
         data = JSON.parse(data);
         if(data[1]) {
           var tags = data[1].recommended.diff(stoptags);
-          return tags.join(', ');
+          Bot.say(to, tags.join(', '));
         }
+      });
     }
   }
 });

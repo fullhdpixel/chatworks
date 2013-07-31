@@ -1,4 +1,4 @@
-if (Messages.find({room_id: 'bots'}).count() === 0) {
+if (Messages.find().count() === 0) {
   Messages.insert({
     handle: 'Meteor',
     room_id: 'bots',
@@ -35,7 +35,7 @@ if (Messages.find({room_id: 'bots'}).count() === 0) {
   Messages.insert({
     handle: config.botName,
     room_id: 'bots',
-    message: 'Check the rooms dropdown for your irc channel!',
+    message: 'Here is a test url http://github.com',
     date_time: new Date(),
     color: colorHandle(config.botName),
     action: false,

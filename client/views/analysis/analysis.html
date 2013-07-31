@@ -1,11 +1,7 @@
 <template name="analysis">
   {{#if showStats}}
-  <div class="widget span2">
-    <h4>Online</h4>
-    <ul>{{online}}</ul>
-  </div>
-  <div class="widget span2">
-    <h4>Activity</h4>
+  <div class="widget">
+    <h4>Online: {{online}}</h4>
     {{>chart}}
   </div>
   {{/if}}

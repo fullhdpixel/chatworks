@@ -1,0 +1,43 @@
+<template name="admin">
+  <div class="container">
+    <div id="config">
+      <div class="detail">
+        {{#if ircMonitor}}
+          {{>channels}}
+        {{/if}}
+        {{>users}}
+      </div>
+      <div class="detail detail-large">
+        <div class="panel">
+          <div class="panel-heading">
+            <h4 class="panel-title">Config</h4>
+          </div>
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label for="configName" class="col-lg-4 control-label">Config Name</label>
+              <div class="col-lg-8">
+                <div class="input-group">
+                  <input type="text" id="configName" name="configName" class="form-control">
+                  <div class="input-group-btn">
+                    <button id="addConfig" class="btn btn-primary">Add Option</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="form-horizontal">
+            {{#if configsReady}}
+              {{#each configs}}
+              <div class="form-group">
+                {{>config}}
+              </div>
+              {{/each}}
+            {{else}}
+              {{>loading}}
+            {{/if}}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -15,7 +15,7 @@ Template.chart.rendered = function() {
   chartData = Stats.find({timestamp: {$gte: new Date().lastHours(1)}}).fetch();
 
   var length = chartData.length === 0 ? 1 : chartData.length;
-  var width = 150;
+  var width = 400;
   var height = 100;
   var barWidth = width / length;
   var barHeight = d3.max(chartData, function(d) { return d.count; });

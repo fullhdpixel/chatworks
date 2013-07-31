@@ -1,26 +1,34 @@
 Meteor.publish('messages', function(room_id, limit) {
-  console.log('publishing: ' + room_id + ' ' + limit);
-  if(room_id == undefined) {
-    room_id = '#1810';
-  }
-  if(limit == undefined) {
-    limit = '1';
-  }
-  var count = Messages.find({room_id: room_id}).count();
-  //calculate boundary, the messages we pull from the end of the collection
-  if(count < limit) {
-    //collection size is smaller than the limit, skip nothing
+  if(this.userId) {
+    if(room_id == undefined) {
+      room_id = config.webChannel;
+    }
+    if(limit == undefined) {
+      limit = '1';
+    }
+    var count = Messages.find({room_id: room_id}).count();
     var boundary = 0;
-  } else {
-    //collection size is
-    var boundary = count-limit;
+    //calculate boundary, the messages we pull from the end of the collection
+    if(count > limit) {
+      boundary = count-limit;
+    }
+    return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
   }
-  console.log('skipping: ' + boundary);
-  return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
+  //todo: send alert to user
+  return false;
+});
+
+Meteor.publish(null, function () {
+  var user = Meteor.users.findOne(this.userId);
+  if(_.isUndefined(user)) { return false; }
+  if(user.role == 'admin') {
+    return Meteor.users.find({}, {fields: {username: 1, profile: 1, role: 1}});
+  }
+  return Meteor.users.find({_id: this.userId}, {fields: {username: 1, profile: 1, role: 1}});
 });
 
 Meteor.publish('rooms', function() {
- return Rooms.find({});
+  return Rooms.find({});
 });
 
 Meteor.publish('names', function() {
@@ -31,22 +39,38 @@ Meteor.publish('stats', function() {
   return Stats.find({});
 });
 
-Meteor.publish('urls', function(room_id, limit) {
-  console.log('publishing links: ' + limit);
-  if(limit == undefined) {
-    limit = '1';
-  }
-  var count = Urls.find({}).count();
-  //calculate boundary, the messages we pull from the end of the collection
-  if(count < limit) {
-    //collection size is smaller than the limit, skip nothing
+Meteor.publish('interactions', function() {
+  return Interactions.find({});
+});
+
+Meteor.publish('urls', function(room_id, limit, query) {
+  //todo search the db for the query
+  if(this.userId) {
+    if(limit == undefined) {
+      limit = '1';
+    }
+    var count = Urls.find({}).count();
     var boundary = 0;
-  } else {
-    //collection size is
-    var boundary = count-limit;
+    //calculate boundary, the messages we pull from the end of the collection
+    if(count > limit) {
+      boundary = count-limit;
+    }
+    return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
   }
-  console.log('links in db: ' + count + ' / skipping: ' + boundary);
-  return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
+  return false;
+});
+
+Meteor.publish('configs', function() {
+  var user = Meteor.users.findOne(this.userId);
+  if(_.isUndefined(user)) { return false; }
+  if(user.role == 'admin') {
+    return Configs.find({});
+  }
+  return false;
+});
+
+Meteor.publish('alerts', function() {
+  return Alerts.find();
 });
 
 Meteor.publish('userPresence', function() {
@@ -58,4 +82,8 @@ Meteor.publish('userPresence', function() {
   // ProTip: unless you need it, don't send lastSeen down as it'll make your
   // templates constantly re-render (and use bandwidth)
   return Meteor.presences.find(filter, {fields: {state: true, userId: true}});
+});
+
+Meteor.publish('nouns', function() {
+  return Nouns.find();
 });

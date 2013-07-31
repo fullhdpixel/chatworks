@@ -4,8 +4,6 @@
 # but you can also edit it by hand.
 
 preserve-inputs
-bootstrap
-less
 jquery
 handlebars
 accounts-base
@@ -20,7 +18,7 @@ natural
 focus
 cheerio
 presence
-phantomjs
-node-phantom
 paginated-subscription
 Sentimental
+accounts-google
+google
