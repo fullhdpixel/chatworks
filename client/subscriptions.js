@@ -10,9 +10,15 @@ Deps.autorun(function() {
 });
 
 Deps.autorun(function() {
-  Meteor.call('admin', function(error, result) {
-    Session.set('admin', result);
-  });
+  if(Meteor.user()) {
+    if(Meteor.user().role == 'admin') {
+      Session.set('admin', true);
+    } else {
+      Session.set('admin', false);
+    }
+  } else {
+    Session.set('admin', false);
+  }
 });
 
 Meteor.subscribe('rooms');

@@ -42,5 +42,5 @@ Meteor.Router.filters({
     return page;
   }
 });
-Meteor.Router.filter('requireLogin');
+
 Meteor.Router.filter('clearAlerts');

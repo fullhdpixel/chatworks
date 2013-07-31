@@ -19,12 +19,16 @@ Meteor.publish('messages', function(room_id, limit) {
 });
 
 Meteor.publish(null, function () {
+  return Meteor.users.find({_id: this.userId}, {fields: {username: 1, profile: 1, role: 1}});
+});
+
+Meteor.publish('usersRegistered', function() {
   var user = Meteor.users.findOne(this.userId);
   if(_.isUndefined(user)) { return false; }
   if(user.role == 'admin') {
     return Meteor.users.find({}, {fields: {username: 1, profile: 1, role: 1}});
   }
-  return Meteor.users.find({_id: this.userId}, {fields: {username: 1, profile: 1, role: 1}});
+  return false;
 });
 
 Meteor.publish('rooms', function() {

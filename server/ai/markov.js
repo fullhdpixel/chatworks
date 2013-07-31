@@ -1,5 +1,6 @@
 // house of chains
 botCommands['chatworks'] = '';
+botCommands['bigram'] = '';
 var NGrams = natural.NGrams;
 Meteor.methods({
   'bigram': function(sentence) {
