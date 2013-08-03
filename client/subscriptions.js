@@ -1,4 +1,4 @@
-messagesHandle = Meteor.subscribeWithPagination('messages');
+messagesHandle = Meteor.subscribeWithPagination('messages'); //todo: still bugs with limits and rooms
 urlsHandle = Meteor.subscribeWithPagination('urls');
 
 Deps.autorun(function() {
@@ -25,6 +25,5 @@ Meteor.subscribe('rooms');
 Meteor.subscribe('names');
 Meteor.subscribe('stats');
 Meteor.subscribe('alerts');
-chartData = Stats.find({timestamp: {$gte: new Date().lastHours(1)}}).fetch();
 nounsHandle = Meteor.subscribe('nouns');
 interactionsHandle = Meteor.subscribe('interactions');

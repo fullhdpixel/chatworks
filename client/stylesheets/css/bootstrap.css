@@ -4041,8 +4041,8 @@ body .widget {
   padding: 5px 5px;
   background: #232323;
   color: #bfd83c;
-  min-height: 150px;
-  height: 150px;
+  min-height: 450px;
+  height: 450px;
 }
 @media (min-width: 768px) {
   body .widget {
@@ -4055,18 +4055,6 @@ body .widget h4 {
   margin: 0;
   font-size: 12px;
 }
-body #d3 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 768px) {
-  body #d3 {
-    float: left;
-    width: 83.33333333333334%;
-  }
-}
 body svg {
   display: block;
   margin: auto;
@@ -4078,13 +4066,16 @@ body #interactions {
 }
 body #interactions #xAxis {
   fill: none;
-  stroke: black;
+  stroke: #eeeeee;
   shape-rendering: crispEdges;
 }
 body #interactions #yAxis {
   fill: none;
-  stroke: black;
+  stroke: #eeeeee;
   shape-rendering: crispEdges;
+}
+body #interactions .label {
+  color: #eeeeee;
 }
 body #side-nav {
   position: relative;

@@ -19,7 +19,7 @@ Meteor.methods({
   admin: function() {
     var user = Meteor.users.findOne(this.userId);
     if(_.isUndefined(user)) { return false; }
-    return Meteor.user().role == 'admin';
+    return user.role == 'admin';
   },
   clearAlerts: function() {
     Alerts.remove({seen: true});

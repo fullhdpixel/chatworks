@@ -52,7 +52,6 @@ _.extend(GraphArea.prototype, {
         .ticks(this.data.length)
         .orient('bottom'));
     this.xAxis.selectAll('text')
-      .attr('fill', '#434343')
       .attr('text-anchor', 'end' )
       .style('stroke', 'none')
       .attr('transform', 'rotate(-65),translate(-25,0)');
@@ -79,16 +78,15 @@ _.extend(GraphArea.prototype, {
     group
       .attr('class', 'bar')
       .attr('transform', function(d, i) { return 'translate('+self.xScale(i)+','+self.yScale(Math.max(0, d.count))+')' });
-    group.append('rect')
+    this.groups.append('rect')
       .attr('data-id', function (d) { return d.handle })
       .attr('fill', function(d) { return self.colors(d.handle) })
       .attr('width', (this.width/this.data.length)-5)
       .attr('height', function(d) { return Math.abs(self.yScale(d.count) - self.yScale(0)) });
-    group.append('text')
+    this.groups.append('text')
       .attr('class', 'label')
       .attr('dx', (this.width/this.data.length)-10)
       .attr('dy', '1em')
-      .attr('fill', 'white')
       .attr('text-anchor', 'end' )
       .text(function(d) { return d.count } );
     return this;

@@ -1,21 +1,17 @@
 Meteor.publish('messages', function(room_id, limit) {
-  if(this.userId) {
-    if(room_id == undefined) {
-      room_id = config.webChannel;
-    }
-    if(limit == undefined) {
-      limit = '1';
-    }
-    var count = Messages.find({room_id: room_id}).count();
-    var boundary = 0;
-    //calculate boundary, the messages we pull from the end of the collection
-    if(count > limit) {
-      boundary = count-limit;
-    }
-    return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
+  if(room_id == undefined) {
+    room_id = config.webChannel;
   }
-  //todo: send alert to user
-  return false;
+  if(limit == undefined) {
+    limit = '1';
+  }
+  var count = Messages.find({room_id: room_id}).count();
+  var boundary = 0;
+  //calculate boundary, the messages we pull from the end of the collection
+  if(count > limit) {
+    boundary = count-limit;
+  }
+  return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish(null, function () {
@@ -48,20 +44,16 @@ Meteor.publish('interactions', function() {
 });
 
 Meteor.publish('urls', function(room_id, limit, query) {
-  //todo search the db for the query
-  if(this.userId) {
-    if(limit == undefined) {
-      limit = '1';
-    }
-    var count = Urls.find({}).count();
-    var boundary = 0;
-    //calculate boundary, the messages we pull from the end of the collection
-    if(count > limit) {
-      boundary = count-limit;
-    }
-    return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
+  if(limit == undefined) {
+    limit = '1';
   }
-  return false;
+  var count = Urls.find({}).count();
+  var boundary = 0;
+  //calculate boundary, the messages we pull from the end of the collection
+  if(count > limit) {
+    boundary = count-limit;
+  }
+  return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('configs', function() {

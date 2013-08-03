@@ -12,6 +12,7 @@ Template.ircMonitor.events({
 
 Template.ircMonitor.helpers({
   ircMonitor: function() {
+    //todo: bugged on production
     return getStatus('ircMonitor');
   },
   ircConnecting: function() {

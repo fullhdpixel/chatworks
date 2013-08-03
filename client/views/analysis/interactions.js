@@ -1,7 +1,6 @@
 Template.interactions.destroyed = function () {
   //tear down the autorun
-  chartRender && chartRender.stop();
-  graphArea = 'undefined';
+  delete graphArea;
 };
 
 Template.interactions.rendered = function() {
@@ -11,13 +10,11 @@ Template.interactions.rendered = function() {
     graphArea.createSvg();
   }
   //setup an autorun on render
-  chartRender = Deps.autorun(function() {
-    Meteor.call('getCompleteCharts', function(error, result) {
-      if(!error) {
-        graphArea.setData(result);
-        graphArea.go();
-      }
-    });
+  Meteor.call('getCompleteCharts', function(error, result) {
+    if(!error) {
+      graphArea.setData(result);
+      graphArea.go();
+    }
   });
 };
 

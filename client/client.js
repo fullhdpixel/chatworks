@@ -6,10 +6,9 @@ Session.setDefault('auto_scroll', true);
 Session.setDefault('show_stats', false);
 Session.setDefault('limit', 10);
 Session.setDefault('analyze_limit', 1000);
-Session.setDefault('room_id', '#ducks');
+Session.setDefault('room_id', '#1810');
 Session.setDefault('sub_name', 'messages');
-Session.setDefault('links_limit', '10');
-Session.setDefault('images_only', true);
+Session.setDefault('images_only', false);
 Session.setDefault('admin', false);
 
 Meteor.methods({

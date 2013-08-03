@@ -97,16 +97,13 @@ body {
     padding: 5px 5px;
     background: @darknight;
     color: @neon;
-    min-height: 150px;
-    height: 150px;
+    min-height: 450px;
+    height: 450px;
     h4 {
       padding: 0;
       margin: 0;
       font-size: 12px;
     }
-  }
-  #d3 {
-    .make-column(10);
   }
   svg {
     display: block;
@@ -118,13 +115,16 @@ body {
     height: 400px;
     #xAxis {
       fill: none;
-      stroke: black;
+      stroke: #eeeeee;
       shape-rendering: crispEdges;
     }
     #yAxis {
       fill: none;
-      stroke: black;
+      stroke: #eeeeee;
       shape-rendering: crispEdges;
+    }
+    .label {
+      color: #eeeeee;
     }
   }
   #side-nav {

@@ -15,12 +15,12 @@ Meteor.startup(function () {
     }
   });
   //set admin status's to false on startup
-  Meteor.call('addConfig', 'webMonitor', false);
-  Meteor.call('addConfig', 'ircMonitor', false);
-  Meteor.call('addConfig', 'ircConnecting', false);
-  Meteor.call('addConfig', 'spamMonitor', false);
-  Meteor.call('addConfig', 'commandMonitor', false);
-  Meteor.call('addConfig', 'webToIrc', false);
+  privateAddConfig('webMonitor', false);
+  privateAddConfig('ircMonitor', false);
+  privateAddConfig('ircConnecting', false);
+  privateAddConfig('spamMonitor', false);
+  privateAddConfig('commandMonitor', false);
+  privateAddConfig('webToIrc', false);
   Rooms.update({status: true},{$set: {status: false}});
 });
 

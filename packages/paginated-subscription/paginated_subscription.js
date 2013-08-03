@@ -19,13 +19,6 @@ PaginatedSubscriptionHandle.prototype.home = function() {
   this._limit_listeners.changed();
 };
 
-//analyze room
-PaginatedSubscriptionHandle.prototype.analyze = function() {
-  this._limit = Number(Session.get('analyze_limit'));
-  this._limit_listeners.changed();
-  this._limit = this.per_page;
-};
-
 //change room
 PaginatedSubscriptionHandle.prototype.roomChange = function() {
   this._room_id = Session.get('room_id');

@@ -1,7 +1,14 @@
 //public methods
 Meteor.methods({
   startSpam: function() {
-    Meteor.call('addConfig', 'spamMonitor', true);
+    //todo: messy admin checks EVERYWHERE (this is horrible)
+    if ( ! Meteor.user() ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    if ( Meteor.user().role !== 'admin' ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    privateAddConfig('spamMonitor', true);
     spam = Meteor.setInterval(function() {
       var msg = Messages.findOne({}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
       if(msg.message) {
@@ -10,11 +17,25 @@ Meteor.methods({
     }, (Math.floor(Math.random() * (60 * 1)))*1000);
   },
   stopSpam: function() {
-    Meteor.call('addConfig', 'spamMonitor', false);
+    //todo: messy admin checks EVERYWHERE (this is horrible)
+    if ( ! Meteor.user() ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    if ( Meteor.user().role !== 'admin' ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    privateAddConfig('spamMonitor', false);
     Meteor.clearTimeout(spam);
   },
   startCommand: function() {
-    Meteor.call('addConfig', 'commandMonitor', true);
+    //todo: messy admin checks EVERYWHERE (this is horrible)
+    if ( ! Meteor.user() ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    if ( Meteor.user().role !== 'admin' ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    privateAddConfig('commandMonitor', true);
     var webchat = Messages.find({action: false, irc: false, bot: false, 'date_time': {$gte: new Date()}});
     commandMonitor = webchat.observeChanges({
       added: function(id, document) {
@@ -40,7 +61,14 @@ Meteor.methods({
     });
   },
   stopCommand: function() {
-    Meteor.call('addConfig', 'commandMonitor', false);
+    //todo: messy admin checks EVERYWHERE (this is horrible)
+    if ( ! Meteor.user() ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    if ( Meteor.user().role !== 'admin' ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    privateAddConfig('commandMonitor', false);
     commandMonitor.stop();
   }
 });

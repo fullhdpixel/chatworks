@@ -42,8 +42,8 @@ Meteor.methods({
     _.each(disctinctValues, function(handle) {
       var count = Messages.find({handle: handle}).count();
       //minimum activity
-      if(count > 10) {
-        data.push({handle: handle, count: count});
+      if(count > 1) {
+        data.push({handle: handle, count: count});//todo: add a loading callback
       }
     });
     return data;
