@@ -1,9 +1,5 @@
-messagesHandle = Meteor.subscribeWithPagination('messages'); //todo: still bugs with limits and rooms
-urlsHandle = Meteor.subscribeWithPagination('urls');
-
-Deps.autorun(function() {
-  presenceHandle = Meteor.subscribe('userPresence');
-});
+messagesHandle = subscribeWithPagination('messages'); //todo: still bugs with limits and rooms
+urlsHandle = subscribeWithPagination('urls');
 
 Deps.autorun(function() {
   configsHandle = Meteor.subscribe('configs');

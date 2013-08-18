@@ -142,10 +142,15 @@ body {
     }
   }
   #links {
-    .make-column(11);
-    .thumbnail {
-      img {
-        .make-column(12);
+    .make-column(5);
+    img {
+      height: 75px;
+    }
+    a {
+      color: @brand-info;
+      &:focus,
+      &:hover {
+        color: lighten(@brand-info, 5%);
       }
     }
   }
@@ -190,4 +195,8 @@ body {
       .make-column(6);
     }
   }
+}
+#flash {
+  color: #ffcc00;
+  -webkit-transition: color 0.5s linear;
 }

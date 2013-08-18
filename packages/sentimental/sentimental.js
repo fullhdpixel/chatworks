@@ -1,1 +1,0 @@
-Sentimental = Npm.require('Sentimental');

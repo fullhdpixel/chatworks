@@ -4,4 +4,5 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.add_files('paginated_subscription.js', 'client');
+  api.export('subscribeWithPagination', 'client');
 });

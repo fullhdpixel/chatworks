@@ -1,6 +1,8 @@
 /**
  * AI responses to various triggers
- * @param handle msg
+ * @param handle
+ * @param to
+ * @param msg
  * @returns void
  */
 processMessage = function(handle, to, msg) {
@@ -34,6 +36,8 @@ processMessage = function(handle, to, msg) {
     }
     Urls.insert({
       url: url,
+      title: title,
+      meta: meta,
       date_time: new Date()
     });
   }

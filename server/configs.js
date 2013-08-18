@@ -11,7 +11,7 @@ Meteor.methods({
     if(typeof check === 'undefined') {
       Configs.insert({name: cname, value: cvalue, confirmed: true});
     } else {
-      Configs.update({name: cname}, {$set: { value: cvalue, confirmed: true }});
+      Configs.update({name: cname}, {$set: { value: cvalue, confirmed: true}});
     }
   },
   updateConfig: function(document) {

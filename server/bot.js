@@ -53,7 +53,7 @@ Meteor.methods({
             if(document.message.lastIndexOf('/me', 0) === 0) {
               Bot.webAction(document.room_id, '@' + document.handle + ' ' + document.message.slice(3));
             } else {
-              Bot.webSay(document.room_id, '@' + document.handle + ': ' + document.message.slice(3));
+              Bot.webSay(document.room_id, '@' + document.handle + ': ' + document.message);
             }
           }
         }

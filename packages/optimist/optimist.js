@@ -1,1 +1,0 @@
-Optimist = Npm.require('optimist');

@@ -1,1 +1,0 @@
-phantom = Npm.require('phantomjs');

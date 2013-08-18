@@ -9,4 +9,5 @@ Npm.depends({
 
 Package.on_use(function (api) {
   api.add_files("natural.js", "server");
+  api.export("Natural", "server");
 });

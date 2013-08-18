@@ -23,6 +23,7 @@ Meteor.methods({
       showErrors: false,
       autoRejoin: true,
       autoConnect: false,
+      channels: config.ircChannel.split(','),
       secure: false,
       selfSigned: false,
       certExpired: false,
@@ -34,11 +35,11 @@ Meteor.methods({
     //make irc connection
     //todo check if connected, else, reconnect
     //todo: investigate setInterval vs setImmediate
-    client.connect(function() {
-      Fiber(function() {
+    client.connect(Meteor.bindEnvironment(function() {
         privateAddConfig('ircConnecting', false);
         privateAddConfig('ircMonitor', true);
-      }).run();
+    }), function(e) {
+      Meteor._debug("Exception from connection close callback:", e);
     });
 
     //keep-alive
@@ -55,20 +56,19 @@ Meteor.methods({
       client.send('NAMES', channel);
     });
 
-    client.addListener('names', function(channel, names) {
-      Fiber(function() {
+    client.addListener('names', Meteor.bindEnvironment(function(channel, names) {
         names = _.keys(names);
         Names.insert({
           room_id: channel,
           names: names,
           date_time: new Date()
         });
-      }).run();
-    });
+    }, function(e) {
+      Meteor._debug("Exception from connection close callback:", e);
+    }));
 
     //on every message, insert into database
-    client.addListener('message', function(handle, to, message) {
-      Fiber(function() {
+    client.addListener('message', Meteor.bindEnvironment(function(handle, to, message) {
         //insert irc message into db
         Messages.insert({
           handle: handle,
@@ -81,11 +81,11 @@ Meteor.methods({
         });
         //generate bot response
         processMessage(handle, to, message);
-      }).run();
-    });
+    }, function(e) {
+      Meteor._debug("Exception from connection close callback:", e);
+    }));
     //on every action, insert into database
-    client.addListener('action', function(handle, to, message) {
-      Fiber(function() {
+    client.addListener('action', Meteor.bindEnvironment(function(handle, to, message) {
         //insert irc action into db
         Messages.insert({
           handle: handle,
@@ -98,8 +98,9 @@ Meteor.methods({
         });
         //generate bot response
         processMessage(handle, to, message);
-      }).run();
-    });
+    }, function(e) {
+      Meteor._debug("Exception from connection close callback:", e);
+    }));
   },
   stopIrc: function() {
     //todo: messy admin checks EVERYWHERE (this is horrible)

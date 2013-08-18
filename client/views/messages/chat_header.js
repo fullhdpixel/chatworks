@@ -2,20 +2,8 @@ Template.chatHeader.helpers({
   currentRoom: function() {
     return Session.get('room_id');
   },
-  location: function() {
-    return Session.get('lat') + " : " + Session.get('lon');
-  },
   currentUser: function () {
     return Meteor.currentUser();
-  },
-  online: function() {
-    return Meteor.presences.find({}).count();
-  },
-  scroll: function() {
-    return Session.get('auto_scroll');
-  },
-  admin: function() {
-    return Session.get('admin');
   }
 });
 

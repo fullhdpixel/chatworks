@@ -59,7 +59,7 @@ PaginatedSubscriptionHandle.prototype.done = function() {
   this._loaded_listeners.changed();
 }
 
-Meteor.subscribeWithPagination = function () {
+subscribeWithPagination = function () {
   var args = Array.prototype.slice.call(arguments, 0);
   var handle = new PaginatedSubscriptionHandle();
   var computation = Deps.autorun(function() {

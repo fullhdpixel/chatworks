@@ -10,9 +10,9 @@ Template.linkItem.helpers({
     var val = this.url;
     var exp = /((http|https):\/\/([ \S]+\.(jpg|jpeg|png|gif)))/ig;
     if(val.match(exp)) {
-      val = val.replace(exp, '<a href="$1" target="_blank"><img src="$1"></a>');
+      val = val.replace(exp, '<a href="$1" class="pull-left" target="_blank"><img class="media-object" src="$1"></a>');
     } else {
-      val = '<a href="'+val+'" target="_blank"><img src="http://placehold.it/150x150"></a>';
+      val = '<a href="'+val+'" class="pull-left" target="_blank"><img class="media-object" src="/img/default.png"></a>';
     }
     return val;
   },

@@ -1,23 +1,12 @@
 <template name="links">
-  {{> linksPage options}}
-</template>
-
-<template name="linksPage">
   <div class="container">
     <div class="row">
-      <div id="side-nav">
-        <ul>
-        {{#each datesForRoom}}
-          {{>dateItem}}
+      <div id="links">
+        <ul class="media-list">
+        {{#each linksForRoom}}
+          {{>linkItem}}
         {{/each}}
         </ul>
-      </div>
-      <div id="links">
-        <div class="row">
-          {{#each linksForRoom}}
-            {{>linkItem}}
-          {{/each}}
-        </div>
       </div>
     </div>
   </div>

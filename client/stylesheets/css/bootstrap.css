@@ -4127,20 +4127,18 @@ body #links {
 @media (min-width: 768px) {
   body #links {
     float: left;
-    width: 91.66666666666666%;
+    width: 41.66666666666667%;
   }
 }
-body #links .thumbnail img {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
+body #links img {
+  height: 75px;
 }
-@media (min-width: 768px) {
-  body #links .thumbnail img {
-    float: left;
-    width: 100%;
-  }
+body #links a {
+  color: #907d29;
+}
+body #links a:focus,
+body #links a:hover {
+  color: #a48e2f;
 }
 body #access-denied:before,
 body #logging-in:before,
@@ -4326,6 +4324,10 @@ body #config .detail-large {
     float: left;
     width: 50%;
   }
+}
+#flash {
+  color: #ffcc00;
+  -webkit-transition: color 0.5s linear;
 }
 .clearfix:before,
 .clearfix:after {
