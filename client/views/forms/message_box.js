@@ -17,7 +17,7 @@ Template.messageBox.events = {
 
       var message = {
         handle: handle,
-        room_id: Session.get('room_id'),
+        room_id: Session.get('room'),
         message: textbox
       };
       Meteor.call('addMessage', message);

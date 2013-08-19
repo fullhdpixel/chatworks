@@ -1,17 +1,17 @@
-Meteor.publish('messages', function(room_id, limit) {
-  if(room_id == undefined) {
-    room_id = config.webChannel;
+Meteor.publish('messages', function(room, limit) {
+  if(room == undefined) {
+    room = config.webChannel;
   }
   if(limit == undefined) {
-    limit = '1';
+    limit = '10';
   }
-  var count = Messages.find({room_id: room_id}).count();
+  var count = Messages.find({room_id: room}).count();
   var boundary = 0;
   //calculate boundary, the messages we pull from the end of the collection
   if(count > limit) {
     boundary = count-limit;
   }
-  return Messages.find({room_id: room_id}, {sort: {date_time: 1}, skip: boundary});
+  return Messages.find({room_id: room}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish(null, function () {
@@ -43,9 +43,12 @@ Meteor.publish('interactions', function() {
   return Interactions.find({});
 });
 
-Meteor.publish('urls', function(room_id, limit, query) {
+Meteor.publish('urls', function(room, limit) {
+  if(room == undefined) {
+    room = config.webChannel;
+  }
   if(limit == undefined) {
-    limit = '1';
+    limit = '10';
   }
   var count = Urls.find({}).count();
   var boundary = 0;
@@ -53,7 +56,7 @@ Meteor.publish('urls', function(room_id, limit, query) {
   if(count > limit) {
     boundary = count-limit;
   }
-  return Urls.find({}, {sort: {date_time: 1}, skip: boundary});
+  return Urls.find({room_id: room}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('configs', function() {

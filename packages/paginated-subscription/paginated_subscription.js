@@ -1,11 +1,10 @@
 //instantiate
-PaginatedSubscriptionHandle = function() {
-  this._room_id = Session.get('room_id');
-  this._room_id_listeners = new Deps.Dependency();
+PaginatedSubscriptionHandle = function(room_id, per_page) {
+  this.room_id = room_id;
+  this._room = this.room_id;
+  this._room_listeners = new Deps.Dependency();
 
-  this.per_page = Number(Session.get('limit'));
-  //todo add limit per room_id
-  //todo add analysis
+  this.per_page = per_page;
   this._limit = this.per_page;
   this._limit_listeners = new Deps.Dependency();
 
@@ -13,24 +12,14 @@ PaginatedSubscriptionHandle = function() {
   this._loaded_listeners = new Deps.Dependency();
 };
 
-//home room
-PaginatedSubscriptionHandle.prototype.home = function() {
-  this._limit = this.per_page;
-  this._limit_listeners.changed();
+PaginatedSubscriptionHandle.prototype.room = function() {
+  Deps.depend(this._room_listeners);
+  return this._room;
 };
 
-//change room
-PaginatedSubscriptionHandle.prototype.roomChange = function() {
-  this._room_id = Session.get('room_id');
-  //todo should we really reset limit?
-  this._limit = this.per_page;
-
-  this._room_id_listeners.changed();
-};
-
-PaginatedSubscriptionHandle.prototype.room_id = function() {
-  Deps.depend(this._room_id_listeners);
-  return this._room_id;
+PaginatedSubscriptionHandle.prototype.changeRoom = function(room_id) {
+  this._room = room_id;
+  this._room_listeners.changed();
 };
 
 PaginatedSubscriptionHandle.prototype.loaded = function() {
@@ -53,24 +42,28 @@ PaginatedSubscriptionHandle.prototype.loadNextPage = function() {
 };
 
 PaginatedSubscriptionHandle.prototype.done = function() {
-  // XXX: check if subs that are canceled before they are ready ever fire ready?
-  // if they do we need to increase loaded by perPage, not set it to limit
   this._loaded = this._limit;
   this._loaded_listeners.changed();
+};
+
+PaginatedSubscriptionHandle.prototype.reset = function() {
+  this._limit = this.per_page;
+  this._limit_listeners.changed();
 }
 
-subscribeWithPagination = function () {
+subscribeWithPagination = function (/*name, arguments, per_page, room*/) {
   var args = Array.prototype.slice.call(arguments, 0);
-  var handle = new PaginatedSubscriptionHandle();
-  var computation = Deps.autorun(function() {
+  var per_page = args.pop();
+  var room = args.pop();
+  var handle = new PaginatedSubscriptionHandle(room, per_page);
+  Deps.autorun(function() {
     var ourArgs = _.map(args, function(arg) {
       return _.isFunction(arg) ? arg() : arg;
     });
     var subHandle = Meteor.subscribe.apply(this, ourArgs.concat([
-      handle.room_id(), handle.limit(), function() { handle.done(); }
+      handle.room(), handle.limit(), function() { handle.done(); }
     ]));
     handle.stop = subHandle.stop;
   });
-  
   return handle;
-}
+};

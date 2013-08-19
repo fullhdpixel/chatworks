@@ -13,9 +13,7 @@ Router.map(function() {
     template: 'messages',
     renderTemplates: {
       'chatHeader': {to: 'header'}
-    },
-    waitOn: messagesHandle,
-    loading: 'loadingTemplate'
+    }
   });
   this.route('links', {
     template: 'links',

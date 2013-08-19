@@ -142,9 +142,9 @@ body {
     }
   }
   #links {
-    .make-column(5);
+    .make-column(11);
     img {
-      height: 75px;
+      height: 32px;
     }
     a {
       color: @brand-info;
@@ -199,4 +199,10 @@ body {
 #flash {
   color: #ffcc00;
   -webkit-transition: color 0.5s linear;
+}
+.navbar-btn {
+  &:focus,
+  &:hover {
+    outline: 0;
+  }
 }

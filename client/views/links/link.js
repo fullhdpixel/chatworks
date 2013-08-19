@@ -12,13 +12,13 @@ Template.linkItem.helpers({
     if(val.match(exp)) {
       val = val.replace(exp, '<a href="$1" class="pull-left" target="_blank"><img class="media-object" src="$1"></a>');
     } else {
-      val = '<a href="'+val+'" class="pull-left" target="_blank"><img class="media-object" src="/img/default.png"></a>';
+      val = '<a href="'+val+'" class="pull-left" target="_blank"><img class="media-object" src="' + this['image'] + '"></a>';
     }
     return val;
   },
   caption: function() {
-    var val = this.url;
-    return url_domain(val);
+    if(this.title) return this.title;
+    return url_domain(this.url);
   },
   prettyTime: function() {
     if(!this.date_time) return "";

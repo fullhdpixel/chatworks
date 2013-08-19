@@ -1,7 +1,7 @@
 if (Meteor.users.find().count() === 0) {
   var userId = Accounts.createUser({
     'username': 'Admin',
-    'email': 'sirpent@gmail.com',
+    'email': 'test@test.com',
     'password': 'qwert4321',
     'profile': {
       'name': 'John Doe'

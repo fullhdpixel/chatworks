@@ -1,5 +1,5 @@
-messagesHandle = subscribeWithPagination('messages'); //todo: still bugs with limits and rooms
-urlsHandle = subscribeWithPagination('urls');
+messagesHandle = subscribeWithPagination('messages', Session.get('room'), 10);
+urlsHandle = subscribeWithPagination('urls', Session.get('room'), 10);
 
 Deps.autorun(function() {
   configsHandle = Meteor.subscribe('configs');

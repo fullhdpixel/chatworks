@@ -4127,11 +4127,11 @@ body #links {
 @media (min-width: 768px) {
   body #links {
     float: left;
-    width: 41.66666666666667%;
+    width: 91.66666666666666%;
   }
 }
 body #links img {
-  height: 75px;
+  height: 32px;
 }
 body #links a {
   color: #907d29;
@@ -4328,6 +4328,10 @@ body #config .detail-large {
 #flash {
   color: #ffcc00;
   -webkit-transition: color 0.5s linear;
+}
+.navbar-btn:focus,
+.navbar-btn:hover {
+  outline: 0;
 }
 .clearfix:before,
 .clearfix:after {

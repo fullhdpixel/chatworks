@@ -1,7 +1,4 @@
 Meteor.startup(function () {
-  //todo: setup collections?
-  //grab messages db size
-  //todo: autorun?
   BOUNDRY_COUNT = Messages.find().count()-1;
   config = {};
   //watch configs collection and put them into local object for ease of access
@@ -21,6 +18,7 @@ Meteor.startup(function () {
   privateAddConfig('spamMonitor', false);
   privateAddConfig('commandMonitor', false);
   privateAddConfig('webToIrc', false);
+  Meteor.call('startCommand');
   Rooms.update({status: true},{$set: {status: false}});
 });
 

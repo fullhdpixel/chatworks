@@ -28,13 +28,6 @@ Meteor.methods({
     Meteor.clearTimeout(spam);
   },
   startCommand: function() {
-    //todo: messy admin checks EVERYWHERE (this is horrible)
-    if ( ! Meteor.user() ) {
-      throw new Meteor.Error(401, "You are not authorized to perform this action");
-    }
-    if ( Meteor.user().role !== 'admin' ) {
-      throw new Meteor.Error(401, "You are not authorized to perform this action");
-    }
     privateAddConfig('commandMonitor', true);
     var webchat = Messages.find({action: false, irc: false, bot: false, 'date_time': {$gte: new Date()}});
     commandMonitor = webchat.observeChanges({

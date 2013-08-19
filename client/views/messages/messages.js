@@ -1,9 +1,5 @@
 Template.messages.helpers({
   messagesForRoom: function() {
-    var options = {
-      sort: this.sort,
-      limit: this.limit
-    };
-    return Messages.find({}, options);
+    return Messages.find({}, {sort: {date_time: 1}});
   }
 });

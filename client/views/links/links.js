@@ -1,12 +1,12 @@
 Template.links.helpers({
   linksForRoom: function() {
-    var options = {
-      sort: this.sort,
-      limit: this.limit
-    };
-    return Urls.find({}, options);
+    return Urls.find({}, {sort: {date_time: -1}});
   },
   datesForRoom: function() {
     return Dates.find({});
   }
 });
+
+Template.links.created = function() {
+  urlsHandle.loadNextPage();
+};

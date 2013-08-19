@@ -1,6 +1,6 @@
 Template.chatHeader.helpers({
   currentRoom: function() {
-    return Session.get('room_id');
+    return Session.get('room');
   },
   currentUser: function () {
     return Meteor.currentUser();

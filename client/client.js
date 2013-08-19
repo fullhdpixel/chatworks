@@ -1,16 +1,3 @@
-Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_ONLY'
-});
-
-Session.setDefault('auto_scroll', true);
-Session.setDefault('show_stats', false);
-Session.setDefault('limit', 10);
-Session.setDefault('analyze_limit', 1000);
-Session.setDefault('room_id', '#1810');
-Session.setDefault('sub_name', 'messages');
-Session.setDefault('images_only', false);
-Session.setDefault('admin', false);
-
 Meteor.methods({
   addMessage: function (message) {
     Messages.insert({

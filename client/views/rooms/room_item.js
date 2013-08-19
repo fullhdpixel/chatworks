@@ -1,6 +1,8 @@
 Template.roomItem.events = {
   'click': function() {
-    Session.set('room_id', this.name);
-    messagesHandle.roomChange();
+    Session.set('room', this.name);
+    messagesHandle.changeRoom(this.name);
+    urlsHandle.changeRoom(this.name);
+    $("#message").focus();
   }
 };

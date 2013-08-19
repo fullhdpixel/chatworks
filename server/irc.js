@@ -38,9 +38,9 @@ Meteor.methods({
     client.connect(Meteor.bindEnvironment(function() {
         privateAddConfig('ircConnecting', false);
         privateAddConfig('ircMonitor', true);
-    }), function(e) {
+    }, function(e) {
       Meteor._debug("Exception from connection close callback:", e);
-    });
+    }));
 
     //keep-alive
     client.addListener('PING', function() {

@@ -1,9 +1,8 @@
 <template name="roomsList">
   <li class="dropdown">
-    <a href="" class="dropdown-toggle" data-toggle="dropdown">
-      Rooms
-      <b class="caret"></b>
-    </a>
+    <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
+      Rooms<span class="caret"></span>
+    </button>
     <ul class="dropdown-menu">
       {{#each allRooms}}
         {{>roomItem}}
