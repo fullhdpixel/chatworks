@@ -1,3 +1,48 @@
+_startSpam = function() {
+  _addConfig('spamMonitor', true);
+  spam = Meteor.setInterval(function() {
+    var BOUNDRY_COUNT = Messages.find().count()-1;
+    var msg = Messages.findOne({}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
+    if(msg.message) {
+      Bot.say(msg.room_id, msg.message);
+    }
+  }, (Math.floor(Math.random() * (60 * 1)))*1000);
+}
+_stopSpam = function() {
+  _addConfig('spamMonitor', false);
+  Meteor.clearTimeout(spam);
+}
+_startCommand = function() {
+  _addConfig('commandMonitor', true);
+  var webchat = Messages.find({action: false, irc: false, bot: false, 'date_time': {$gte: new Date()}});
+  commandMonitor = webchat.observeChanges({
+    added: function(id, document) {
+      //AI response to webchat
+      processMessage(document.handle, document.room_id, document.message);
+      //echo webchat to irc
+      if(config.ircMonitor && config.webToIrc) {
+        if(document.handle === 'anonymous') {
+          if(document.message.lastIndexOf('/me', 0) === 0) {
+            Bot.webAction(document.room_id, document.message.slice(3));
+          } else {
+            Bot.webSay(document.room_id, document.message);
+          }
+        } else {
+          if(document.message.lastIndexOf('/me', 0) === 0) {
+            Bot.webAction(document.room_id, '@' + document.handle + ' ' + document.message.slice(3));
+          } else {
+            Bot.webSay(document.room_id, '@' + document.handle + ': ' + document.message);
+          }
+        }
+      }
+    }
+  });
+}
+_stopCommand = function() {
+  _addConfig('commandMonitor', false);
+  commandMonitor.stop();
+}
+
 //public methods
 Meteor.methods({
   startSpam: function() {
@@ -8,13 +53,7 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    privateAddConfig('spamMonitor', true);
-    spam = Meteor.setInterval(function() {
-      var msg = Messages.findOne({}, {skip: Math.floor(Math.random() * BOUNDRY_COUNT)});
-      if(msg.message) {
-        Bot.say(msg.room_id, msg.message);
-      }
-    }, (Math.floor(Math.random() * (60 * 1)))*1000);
+    _startSpam();
   },
   stopSpam: function() {
     //todo: messy admin checks EVERYWHERE (this is horrible)
@@ -24,34 +63,17 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    privateAddConfig('spamMonitor', false);
-    Meteor.clearTimeout(spam);
+    _stopSpam();
   },
   startCommand: function() {
-    privateAddConfig('commandMonitor', true);
-    var webchat = Messages.find({action: false, irc: false, bot: false, 'date_time': {$gte: new Date()}});
-    commandMonitor = webchat.observeChanges({
-      added: function(id, document) {
-        //AI response to webchat
-        processMessage(document.handle, document.room_id, document.message);
-        //echo webchat to irc
-        if(config.ircMonitor && config.webToIrc) {
-          if(document.handle === 'anonymous') {
-            if(document.message.lastIndexOf('/me', 0) === 0) {
-              Bot.webAction(document.room_id, document.message.slice(3));
-            } else {
-              Bot.webSay(document.room_id, document.message);
-            }
-          } else {
-            if(document.message.lastIndexOf('/me', 0) === 0) {
-              Bot.webAction(document.room_id, '@' + document.handle + ' ' + document.message.slice(3));
-            } else {
-              Bot.webSay(document.room_id, '@' + document.handle + ': ' + document.message);
-            }
-          }
-        }
-      }
-    });
+    //todo: messy admin checks EVERYWHERE (this is horrible)
+    if ( ! Meteor.user() ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    if ( Meteor.user().role !== 'admin' ) {
+      throw new Meteor.Error(401, "You are not authorized to perform this action");
+    }
+    _startCommand();
   },
   stopCommand: function() {
     //todo: messy admin checks EVERYWHERE (this is horrible)
@@ -61,8 +83,7 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    privateAddConfig('commandMonitor', false);
-    commandMonitor.stop();
+    _stopCommand();
   }
 });
 

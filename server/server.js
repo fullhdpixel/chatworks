@@ -1,7 +1,6 @@
 Meteor.startup(function () {
-  BOUNDRY_COUNT = Messages.find().count()-1;
   config = {};
-  //watch configs collection and put them into local object for ease of access
+  //watch configs collection and put them into a local object for speed of access
   var configs = Configs.find({confirmed: true});
   configs.observe({
     added: function(document) {
@@ -11,38 +10,15 @@ Meteor.startup(function () {
       config[document.name] = document.value;
     }
   });
-  //set admin status's to false on startup
-  privateAddConfig('webMonitor', false);
-  privateAddConfig('ircMonitor', false);
-  privateAddConfig('ircConnecting', false);
-  privateAddConfig('spamMonitor', false);
-  privateAddConfig('commandMonitor', false);
-  privateAddConfig('webToIrc', false);
-  Meteor.call('startCommand');
-  Rooms.update({status: true},{$set: {status: false}});
+  //set defaults
+  Rooms.update({status: true}, {$set: {status: false}});
+  _addConfig('webMonitor', false);
+  _addConfig('ircMonitor', false);
+  _addConfig('ircConnecting', false);
+  _addConfig('spamMonitor', false);
+  _addConfig('commandMonitor', false);
+  _addConfig('webToIrc', false);
+  _startCommand();
+  _startIrc();
 });
 
-Meteor.methods({
-  addMessage: function (message) {
-    Messages.insert({
-      handle: message.handle,
-      room_id: message.room_id,
-      message: message.message,
-      date_time: new Date(),
-      action: false,
-      irc: false,
-      bot: false,
-      confirmed: !this.isSimulation
-    });
-  },
-  addNoun: function(noun) {
-    var isDupe = Nouns.findOne({value: noun});
-    if(typeof isDupe === 'undefined') {
-      Nouns.insert({
-        value: noun,
-        date_time: new Date(),
-        confirmed: !this.isSimulation
-      });
-    }
-  }
-});

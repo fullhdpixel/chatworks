@@ -1,3 +1,4 @@
+//todo: doesn't work since meteor 0.6.5
 //requires
 var require = Npm.require;
 var path = require("path");

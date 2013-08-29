@@ -36,6 +36,10 @@ PaginatedSubscriptionHandle.prototype.ready = function() {
   return this.loaded() === this.limit();
 };
 
+PaginatedSubscriptionHandle.prototype.allLoaded = function() {
+  return this.loaded() === Links.find({}).count();
+};
+
 PaginatedSubscriptionHandle.prototype.loadNextPage = function() {
   this._limit += this.per_page;
   this._limit_listeners.changed();
@@ -51,10 +55,10 @@ PaginatedSubscriptionHandle.prototype.reset = function() {
   this._limit_listeners.changed();
 }
 
-subscribeWithPagination = function (/*name, arguments, per_page, room*/) {
+subscribeWithPagination = function (/*name, arguments, room, per_page*/) {
   var args = Array.prototype.slice.call(arguments, 0);
-  var per_page = args.pop();
   var room = args.pop();
+  var per_page = args.pop();
   var handle = new PaginatedSubscriptionHandle(room, per_page);
   Deps.autorun(function() {
     var ourArgs = _.map(args, function(arg) {

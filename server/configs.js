@@ -1,5 +1,23 @@
+_addConfig = function(name, value) {
+  var check = Configs.findOne({name: name});
+  if(typeof check === 'undefined') {
+    Configs.insert({name: name, value: value, confirmed: !this.isSimulation});
+  } else {
+    Configs.update({name: name}, {$set: { value: value, confirmed: !this.isSimulation }});
+  }
+}
+_updateConfig = function(document) {
+  Configs.update({name: document.name}, {$set: {value: document.value, confirmed: !this.isSimulation}});
+}
+_removeConfig = function(name) {
+  var check = Configs.findOne({name: name});
+  if(typeof check !== 'undefined') {
+    Configs.remove({name: name});
+  }
+}
+
 Meteor.methods({
-  addConfig: function(cname, cvalue) {
+  addConfig: function(name, value) {
     //todo: messy admin checks EVERYWHERE (this is horrible)
     if ( ! Meteor.user() ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
@@ -7,12 +25,7 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    var check = Configs.findOne({name: cname});
-    if(typeof check === 'undefined') {
-      Configs.insert({name: cname, value: cvalue, confirmed: true});
-    } else {
-      Configs.update({name: cname}, {$set: { value: cvalue, confirmed: true}});
-    }
+    _addConfig(name, value);
   },
   updateConfig: function(document) {
     //todo: messy admin checks EVERYWHERE (this is horrible)
@@ -22,9 +35,9 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    Configs.update({name: document.name}, {$set: {value: document.value, confirmed: true}});
+    _updateConfig(document);
   },
-  removeConfig: function(cname) {
+  removeConfig: function(name) {
     //todo: messy admin checks EVERYWHERE (this is horrible)
     if ( ! Meteor.user() ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
@@ -32,18 +45,6 @@ Meteor.methods({
     if ( Meteor.user().role !== 'admin' ) {
       throw new Meteor.Error(401, "You are not authorized to perform this action");
     }
-    var check = Configs.findOne({name: cname});
-    if(typeof check !== 'undefined') {
-      Configs.remove({name: cname});
-    }
+    _removeConfig(name);
   }
 });
-
-privateAddConfig = function(cname, cvalue) {
-  var check = Configs.findOne({name: cname});
-  if(typeof check === 'undefined') {
-    Configs.insert({name: cname, value: cvalue, confirmed: true});
-  } else {
-    Configs.update({name: cname}, {$set: { value: cvalue, confirmed: true }});
-  }
-};

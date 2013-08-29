@@ -66,14 +66,16 @@ Template.loadMore.helpers({
     return messagesHandle.ready();
   },
   allMessagesLoaded: function() {
-    return !messagesHandle.ready() && Messages.find({}).count() < messagesHandle.loaded();
+    return messagesHandle.allLoaded();
   }
 });
 
 Template.loadMore.events = {
   'click .load-more': function(event) {
-    Session.set('auto_scroll', false);
     event.preventDefault();
-    messagesHandle.loadNextPage();
+    Session.set('auto_scroll', false);
+    var limit = Number(Session.get('limit')) + 5;
+    Session.set('limit', limit);
+//    messagesHandle.loadNextPage();
   }
 };

@@ -4333,6 +4333,9 @@ body #config .detail-large {
 .navbar-btn:hover {
   outline: 0;
 }
+.media-body h4 {
+  overflow-wrap: break-word;
+}
 .clearfix:before,
 .clearfix:after {
   content: " ";

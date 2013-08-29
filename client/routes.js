@@ -20,6 +20,7 @@ Router.map(function() {
     renderTemplates: {
       'linksHeader': {to: 'header'}
     }
+
   });
   this.route('admin', {
     template: 'admin',

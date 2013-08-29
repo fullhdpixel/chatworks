@@ -17,131 +17,54 @@ Accounts.onCreateUser(function(options, user) {
  */
 Meteor.methods({
   admin: function() {
-    var user = Meteor.users.findOne(this.userId);
-    if(_.isUndefined(user)) { return false; }
-    return user.role == 'admin';
-  },
-  clearAlerts: function() {
-    Alerts.remove({seen: true});
+    return _admin();
   }
 });
 
-Messages.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+_admin = function() {
+  var user = Meteor.users.findOne(this.userId);
+  if(_.isUndefined(user)) { return false; }
+  return user.role === 'admin';
+};
+
+Messages.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
-Rooms.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+Rooms.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
-Stats.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+Stats.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
-Urls.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+Links.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
-Names.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
-});
-
-Alerts.allow({
-  insert: function() {
-    return true;
-  },
-  update: function() {
-    return true;
-  },
-  remove: function() {
-    return true;
-  }
-});
-
-Alerts.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+Names.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
 Configs.allow({
-  insert: function(userId, doc) {
-    return Meteor.call('isAdmin');
-  },
-  update: function(userId, doc) {
-    return Meteor.call('isAdmin');
-  },
-  remove: function(userId, doc) {
-    return Meteor.call('isAdmin');
-  }
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });
 
-Configs.deny({
-  insert: function(userId, doc) {
-    return !Meteor.call('isAdmin');
-  },
-  update: function(userId, doc) {
-    return !Meteor.call('isAdmin');
-  },
-  remove: function(userId, doc) {
-    return !Meteor.call('isAdmin');
-  }
-});
-
-Nouns.deny({
-  insert: function() {
-    return false;
-  },
-  update: function() {
-    return false;
-  },
-  remove: function() {
-    return false;
-  }
+Nouns.allow({
+  insert: _admin(),
+  update: _admin(),
+  remove: _admin()
 });

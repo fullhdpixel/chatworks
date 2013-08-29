@@ -11,7 +11,7 @@ Meteor.methods({
       results.forEach(function(result) {
         definition = result.gloss;
       });
-      future.ret(definition);
+      future.return(definition);
     });
     return future.wait();
   },
@@ -30,7 +30,7 @@ Meteor.methods({
       } else {
         newWord = word + '';
       }
-      future.ret(newWord);
+      future.return(newWord);
     });
     return future.wait();
   },
@@ -77,7 +77,7 @@ Meteor.methods({
           tag = 'satelite';
         }
       }
-      future.ret(tag);
+      future.return(tag);
     });
     return future.wait();
   },

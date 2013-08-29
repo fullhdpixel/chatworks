@@ -3,5 +3,5 @@ throwAlert = function(alert) {
 };
 
 clearAlerts = function() {
-  Meteor.call('clearAlerts');
+  Alerts.remove({seen: true});
 };

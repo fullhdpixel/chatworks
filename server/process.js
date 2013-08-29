@@ -45,16 +45,20 @@ processMessage = function(handle, to, msg) {
     var meta = Messages.find({bot: false}, {limit: 2, sort: {'date_time': -1}}).fetch();
     Webtitle(url, [], Meteor.bindEnvironment(function(error, title) {
       Webshot(url, [], function(error, readableStream) {
-        var body = [];
-        readableStream.on('data', function(chunk) {
-          body.push(new Buffer.Buffer(chunk));
-        });
-        readableStream.on('end', Meteor.bindEnvironment(function() {
-          var buffer = Buffer.Buffer.concat(body);
-          postFile(url, name, title, to, meta, filename, buffer);
-        }, function(e) {
-          Meteor._debug("Exception from connection close callback:", e);
-        }));
+        if(!error) {
+          var body = [];
+          readableStream.on('data', function(chunk) {
+            body.push(new Buffer.Buffer(chunk));
+          });
+          readableStream.on('end', Meteor.bindEnvironment(function() {
+            var buffer = Buffer.Buffer.concat(body);
+            postFile(url, name, title, to, meta, filename, buffer);
+          }, function(e) {
+            Meteor._debug("Exception from connection close callback:", e);
+          }));
+        } else {
+          console.log(error);
+        }
       });
     }, function(e) {
       Meteor._debug("Exception from connection close callback:", e);
@@ -71,7 +75,7 @@ postFile = function(url, name, title, to, meta, filename, body) {
       content: body
     }, function(error, response) {
       if(!error) {
-        Urls.insert({
+        Links.insert({
           url: url,
           name: name,
           title: title,

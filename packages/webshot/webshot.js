@@ -14,7 +14,7 @@ var defaults = {
     , height: 1280
   }
   , userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
-  , renderDelay: 0
+  , renderDelay: 10000
   , timeout: 200000
 };
 

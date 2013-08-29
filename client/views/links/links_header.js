@@ -1,16 +1,16 @@
 Template.loadMoreLinks.helpers({
   linksReady: function() {
-    return urlsHandle.ready();
+    return linksHandle.ready();
   },
   allLinksLoaded: function() {
-    return !urlsHandle.ready() && Urls.find({}).count() < urlsHandle.loaded();
+    return linksHandle.allLoaded();
   }
 });
 
 Template.loadMoreLinks.events = {
   'click .load-more': function(event) {
-    Session.set('auto_scroll', false);
     event.preventDefault();
-    urlsHandle.loadNextPage();
+    var limit = Number(Session.get('limit')) + 5;
+    Session.set('limit', limit);
   }
 };

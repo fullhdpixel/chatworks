@@ -1,4 +1,5 @@
 Meteor.publish('messages', function(room, limit) {
+  console.log(room+ ' '+ limit);
   if(room == undefined) {
     room = config.webChannel;
   }
@@ -19,12 +20,10 @@ Meteor.publish(null, function () {
 });
 
 Meteor.publish('usersRegistered', function() {
-  var user = Meteor.users.findOne(this.userId);
-  if(_.isUndefined(user)) { return false; }
-  if(user.role == 'admin') {
+  if(_admin) {
     return Meteor.users.find({}, {fields: {username: 1, profile: 1, role: 1}});
   }
-  return false;
+  return Meteor.users.find({_id: this.userId}, {fields: {username: 1, profile: 1, role: 1}});
 });
 
 Meteor.publish('rooms', function() {
@@ -43,20 +42,20 @@ Meteor.publish('interactions', function() {
   return Interactions.find({});
 });
 
-Meteor.publish('urls', function(room, limit) {
+Meteor.publish('links', function(room, limit) {
   if(room == undefined) {
     room = config.webChannel;
   }
   if(limit == undefined) {
     limit = '10';
   }
-  var count = Urls.find({}).count();
+  var count = Links.find({room_id: room}).count();
   var boundary = 0;
   //calculate boundary, the messages we pull from the end of the collection
   if(count > limit) {
     boundary = count-limit;
   }
-  return Urls.find({room_id: room}, {sort: {date_time: 1}, skip: boundary});
+  return Links.find({room_id: room}, {sort: {date_time: 1}, skip: boundary});
 });
 
 Meteor.publish('configs', function() {
@@ -66,10 +65,6 @@ Meteor.publish('configs', function() {
     return Configs.find({});
   }
   return false;
-});
-
-Meteor.publish('alerts', function() {
-  return Alerts.find();
 });
 
 Meteor.publish('nouns', function() {
