@@ -38,8 +38,8 @@ Meteor.methods({
       ChatworksUsers.upsert({userId: this.userId},{$set: {handle: handle, last_seen: now}});
     }
     this.unblock();
-    var hasHandle = ChatworksUsers.findOne({userId: this.userId}).handle;
-    if(!hasHandle) {
+    var isDefined = ChatworksUsers.findOne({userId: this.userId});
+    if(typeof isDefined === 'undefined') {
       if(typeof Meteor.user() !== 'undefined' && typeof Meteor.user().username !== 'undefined') {
         ChatworksUsers.upsert({userId: this.userId},{$set: {handle: Meteor.user().username, last_seen: now}});
       } else {
