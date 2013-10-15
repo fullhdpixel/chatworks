@@ -1,7 +1,8 @@
 Template.roomItem.events = {
-  'click': function() {
-    Session.set('limit', 10);
-    Session.set('room', this.name);
+  'click .room': function(event) {
+    event.preventDefault();
+    Session.set('limit', '10');
+    chatworksMessagesHandle.changeRoom(this.room);
     $("#message").focus();
   }
 };

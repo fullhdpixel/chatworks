@@ -1,0 +1,19 @@
+<template name="chatworks">
+  <div id="chatworks-header">
+    {{>chatworksHeader}}
+  </div>
+  <div id="chatworks-chat">
+    <div id="chatworks-sidebar">
+      {{>chatworksOnline}}
+    </div>
+    <div id="chatworks-messages">
+      {{#each messages}}
+        {{>message}}
+      {{/each}}
+      <div id="chatworks-stop"></div>
+    </div>
+  </div>
+  <div id="chatworks-send-box">
+    {{>messageBox}}
+  </div>
+</template>

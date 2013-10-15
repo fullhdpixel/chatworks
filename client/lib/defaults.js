@@ -1,6 +1,6 @@
-Session.setDefault('auto_scroll', true);
-Session.setDefault('show_stats', false);
-Session.setDefault('images_only', false);
-Session.setDefault('admin', false);
-Session.setDefault('limit', '5');
-Session.setDefault('room', '#chatworks');
+// global vars up in here
+autoScroll = true;
+//Session defaults included in here to make sure they load before subscription
+Session.setDefault('chatworks-chatroom', 'chatworks');
+//must be defined as a number not a string
+Session.setDefault('chatworks-limit', 10);

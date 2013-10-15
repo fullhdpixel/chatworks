@@ -1,213 +1,198 @@
-@black: #000;
 @darknight: #232323;
 @knight: #565656;
-@neon: #bfd83c;
-@turtle: #7d9029;
-@yow: #d8bf3c;
-@mellow: #907d29;
-@spot: #ff8b6b;
-@ghost: #dedede;
-@brand-primary:         @neon;
-@brand-success:         @turtle;
-@brand-warning:         @yow;
-@brand-danger:          @spot;
-@brand-info:            @mellow;
+@chatworks-fg: #f6f6f6;
+@chatworks-bg: #454545;
+@chatworks-font-size: 0.8em;
+@slide-size: 10%;
 
-body {
-  background: @ghost;
-  color: @darknight;
+#chatworks-header {
+  .load-more {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+#chatworks-chat {
+  position: relative;
+  overflow: hidden;
+  font-family: "Helvetica Neue Ultra Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
   height: 100%;
-  .status {
-    .label;
+  width: 100%;
+  min-width: 1px;
+  background: @darknight;
+  z-index: 2;
+
+  #chatworks-sidebar {
     position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .navbar {
-    border-radius: 0;
-    .nav {
-    }
-  }
-  .false {
-    background: @brand-success;
-  }
-  #analysis {
-    .make-row();
-  }
-  #messages {
-    .make-row();
-    #chat {
-      .make-column(12);
-      -webkit-box-shadow: 0px 2px 5px rgba(0,0,0,0.1); // iOS <4.3 & Android <4.1
-              box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-//      height: 60%;
-//      min-height: 60%;
-      height: 300px;
-      min-height: 300px;
-      overflow-y: auto;
-      word-wrap: break-word;
-      border: 1px solid @darknight;
-      background: @darknight;
-      span.handle {
-        padding: 0 5px 0 0;
-      }
-      span.message {
-        margin: 0;
-      }
-      .false {
-        background: #000;
-      }
-      div#stop {
-        display: block;
-        height: 25px;
-      }
-    }
-  }
-  #send-box {
-    .make-row();
-    -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.1); // iOS <4.3 & Android <4.1
-            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
-    #send-group {
-      .make-column(12);
-      .input-group;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      background: @darknight;
-      input {
-        background: @black;
-        color: @neon;
-        border-radius: 0;
-        border: none;
-        &:focus,
-        &:hover {
-          border: none;
-          box-shadow: none;
-          outline: 0 none;
-        }
-      }
-    }
-  }
-  .centerly {
-    margin: 0 auto;
-    width: auto;
-    text-align: center;
-  }
-  .widget {
-    .make-column(12);
-    padding: 5px 5px;
-    background: @darknight;
-    color: @neon;
-    min-height: 450px;
-    height: 450px;
-    h4 {
-      padding: 0;
+    top: 0; left: 0;
+    font-family: "Helvetica Neue Ultra Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
+    height: 100%;
+    width: 100%;
+    min-width: 1px;
+    padding-bottom: 100px;
+    background: #111;
+    color: @chatworks-fg;
+    font-size: @chatworks-font-size;
+    z-index: -1;
+    ul {
+      list-style: none;
       margin: 0;
-      font-size: 12px;
+      padding: 20px 0 0 20px;
     }
   }
-  svg {
-    display: block;
-    margin: auto;
-    font-size: 11px;
-  }
-  #interactions {
-    width: 1000px;
-    height: 400px;
-    #xAxis {
-      fill: none;
-      stroke: #eeeeee;
-      shape-rendering: crispEdges;
+  #chatworks-messages {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    word-wrap: break-word;
+    border: none;
+    background: @darknight;
+    color: @chatworks-fg;
+    z-index: 5;
+    -webkit-transition: all 500ms ease-out, width 1ms ease-out;
+    -moz-transition: all 500ms ease-out, width 1ms ease-out;
+    -o-transition: all 500ms ease-out, width 1ms ease-out;
+    transition: all 500ms ease-out, width 1ms ease-out;
+    .false {
+      background: @chatworks-bg;
     }
-    #yAxis {
-      fill: none;
-      stroke: #eeeeee;
-      shape-rendering: crispEdges;
+    div.message {
+      font-size: @chatworks-font-size;
+      padding: 0 20px;
     }
-    .label {
-      color: #eeeeee;
+    span.handle {
+      padding: 0 5px 0 0;
     }
-  }
-  #side-nav {
-    .make-column(1);
-    ul{
-      .list-group;
-      li {
-        .list-group-item;
-        a {
-          p {
-            .list-group-item-text;
-          }
-        }
-      }
+    span.message {
+      margin: 0;
     }
-  }
-  #links {
-    .make-column(11);
-    img {
-      height: 32px;
+    span.date_time {
+      color: @knight;
     }
-    a {
-      color: @brand-info;
-      &:focus,
-      &:hover {
-        color: lighten(@brand-info, 5%);
-      }
-    }
-  }
-  #access-denied,
-  #logging-in {
-    .make-row();
-    div {
-      .make-column(12);
-      div {
-        .jumbotron;
-        i {
-          .pull-left;
-          padding: 10px 20px;
-        }
-      }
-    }
-  }
-  #config {
-    .make-row();
-    background: @ghost;
-    .detail {
-      .make-column(3);
-      h3 {
-        .panel-heading;
-      }
-      form {
-        div {
-          label {
-          }
-          div {
-          }
-        }
-      }
-      ul {
-        .list-group;
-        li {
-          .list-group-item;
-        }
-      }
-    }
-    .detail-large {
-      .make-column(6);
+    div#chatworks-stop {
+      display: block;
+      height: 25px;
     }
   }
 }
-#flash {
-  color: #ffcc00;
-  -webkit-transition: color 0.5s linear;
+#chatworks-send-box {
+  width: 100%;
+  height: 10%;
+  padding: 0;
+  margin: 0;
+  background: @chatworks-fg;
+  z-index: 5;
+  input {
+    display: inline-block;
+    margin: 0;
+    width: 80%;
+    padding: 12px 0 12px 20px;
+    background: @chatworks-bg;
+    color: @chatworks-fg;
+    border-radius: 0;
+    border: none;
+    font-size: @chatworks-font-size;
+    height: 40px;
+    &:focus,
+    &:hover {
+      border: none;
+      box-shadow: none;
+      outline: 0 none;
+    }
+  }
+  .btn-custom {
+    width: 20%;
+    height: 40px;
+    font-size: @chatworks-font-size;
+  }
 }
-.navbar-btn {
+.slide-away {
+  transform: translate(@slide-size, 0);
+  -webkit-transform: translate(@slide-size, 0);
+  -moz-transform: translate(@slide-size, 0);
+  -ms-transform: translate(@slide-size, 0);
+  -o-transform: translate(@slide-size, 0);
+}
+.btn-custom {
+  display: inline-block;
+  padding: 11px 25px 12px 25px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  vertical-align: top;
+  cursor: pointer;
+  border: none;
+  border-radius: 0;
+  white-space: nowrap;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+  -webkit-transition: all 500ms ease-out;
+  -moz-transition: all 500ms ease-out;
+  -o-transition: all 500ms ease-out;
+  transition: all 500ms ease-out;
+
+  &:focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+  }
+
+  &:hover,
+  &:focus {
+    color: @chatworks-fg;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+    outline: 0 none;
+  }
+
+  &:active,
+  &.active {
+    border: none;
+    box-shadow: none;
+    outline: 0 none;
+  }
+}
+.btn-chatworks {
+  color: @chatworks-fg;
+  background-color: @chatworks-bg;
+  border-color: lighten(@chatworks-bg, 4%);
+
+  &:hover,
   &:focus,
-  &:hover {
-    outline: 0;
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    color: @chatworks-fg;
+    background-color: darken(@chatworks-bg, 8%);
+        border-color: darken(@chatworks-bg, 12%);
+  }
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @chatworks-bg;
+          border-color: @chatworks-bg;
+    }
   }
 }
-.media-body {
-  h4 {
-    overflow-wrap: break-word;
-  }
+*, *:before, *:after {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
 }

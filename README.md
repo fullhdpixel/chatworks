@@ -1,26 +1,37 @@
 # ChatWorks
-A webchat service developed with [Meteor](http://meteor.com).
+A chat package that you can plugin to any [Meteor](http://meteor.com) project using [Meteorite](https://github.com/oortcloud/meteorite).
 
-## Features:
-* IRC integration utilizing [node-irc](http://github.com/martynsmith/node-irc)
+## The Features
 * Timestamps
-* Colored lines by nickname
-* Inline images (gif, jpg, png)
-* A (intelligent?) chat assistant
+* Colored lines by name
 * Infinite message history
 
-## Stack
+## The Stack
 * [Node](https://github.com/joyent/node)
 * [NPM](https://github.com/isaacs/npm)
 * [Meteor](https://github.com/meteor/meteor)
 * [Meteorite](https://github.com/oortcloud/meteorite)
-* [node-irc](http://github.com/martynsmith/node-irc)
-* [natural](https://github.com/NaturalNode/natural)
 
-## Installation
-* Install: [Meteorite](https://github.com/oortcloud/meteorite) to get the mrt command
-* Run: You can either test it out locally by running "mrt" in the base directory or...
-* Deploy: the "Running on your own infrastructure" deployment instructions outlined in the [Meteor documentation](http://docs.meteor.com/#deploying).
+## The Installation
+* Pre-Install: [Meteorite](https://github.com/oortcloud/meteorite) to gain the mrt command
+* Add ChatWorks to your project with:
+```
+    mrt add chatworks
+```
 
-## License
-* BSD
+In your handlebar templates you can just include the template chatworks:
+
+```
+    {{>chatworks}}
+```
+
+I recommend wrapping the template in a container to set the size of the chat window.
+
+## The Notes
+
+Chat handles are based off of ```Meteor.user.username``` in the accounts package, but ChatWorks doesn't require it (Random handles are used instead).
+
+I'd love to see projects using this in the wild. Please let me know if you use this!
+
+## The License
+* MIT

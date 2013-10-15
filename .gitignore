@@ -1,4 +1,4 @@
-### PhPStorm ###
+### WebStorm ###
 .idea/
 .DS_STORE
 
@@ -23,5 +23,5 @@ node_modules
 deploy.sh
 config.js
 package.bak
-smart.lock
 dev.js
+.build*

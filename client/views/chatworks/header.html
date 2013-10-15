@@ -1,0 +1,20 @@
+<template name="chatworksHeader">
+  <div id="chatworks-header">
+    {{>chatworksSidebarButton}}
+    {{>chatworksLoadMoreButton}}
+  </div>
+</template>
+
+<template name="chatworksSidebarButton">
+  <button class="load-more btn-custom btn-chatworks"><i id="chatworks-users" class="icon-reorder"></i> Users</button>
+</template>
+
+<template name="chatworksLoadMoreButton">
+  {{#unless allMessagesLoaded}}
+    {{#if messagesReady}}
+      <button class="load-more btn-custom btn-chatworks">Load More</button>
+    {{else}}
+      <button class="load-more btn-custom btn-chatworks"><i class="icon-spinner icon-spin"></i> Loading</button>
+    {{/if}}
+  {{/unless}}
+</template>

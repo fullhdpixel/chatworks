@@ -1,1 +1,0 @@
-Natural = Npm.require('natural');

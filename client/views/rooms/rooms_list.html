@@ -1,11 +1,10 @@
 <template name="roomsList">
   <li class="dropdown">
-    <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
-      Rooms<span class="caret"></span>
-    </button>
+    <a href="#" class="dropdown-toggle rooms" data-toggle="dropdown">Rooms <b class="caret"></b></a>
     <ul class="dropdown-menu">
       {{#each allRooms}}
         {{>roomItem}}
       {{/each}}
     </ul>
+  </li>
 </template>

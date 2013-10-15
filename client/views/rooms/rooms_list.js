@@ -1,5 +1,12 @@
 Template.roomsList.helpers({
   allRooms: function() {
-    return Rooms.find({});
+    return ChatworksRooms.find();
+  }
+});
+
+Template.roomsList.events({
+  'click .rooms': function(event) {
+    event.preventDefault();
+    $('.dropdown-toggle').dropdown();
   }
 });
