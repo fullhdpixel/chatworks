@@ -36,5 +36,10 @@ Package.on_use(function (api) {
     ,'server/publications.js'
     ,'server/security.js'
     ], 'server');
-  api.export(['ChatworksMessages', 'ChatworksRooms', 'ChatworksUsers'], ['server', 'client']);
+  api.export(['ChatworksMessages', 'ChatworksRooms', 'ChatworksUsers', 'subscribeWithPagination'], ['server', 'client']);
+});
+
+Package.on_test(function(api) {
+  api.use(['chatworks', 'tinytest', 'test-helpers'], ['client', 'server']);
+  api.add_files(['tests/all-the.tests.js'],['client', 'server']);
 });
