@@ -45,7 +45,7 @@ Chat handles are coupled to ```Meteor.user.username``` in the accounts package, 
 
 I'd love to see projects using this in the wild. Please let me know if you use this!
 
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/USERNAME/)
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/JonathanPidgeon/)
 
 ## License
 * MIT

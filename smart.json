@@ -3,7 +3,7 @@
   "description": "A chat package that you can plugin to any Meteor project",
   "homepage": "https://github.com/Pent/chatworks",
   "author": "Jonathan Pidgeon <jon@empire5design.com>",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "git": "https://github.com/Pent/chatworks.git",
   "packages": {}
 }
