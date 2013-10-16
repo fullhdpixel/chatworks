@@ -9,7 +9,7 @@ A chat package that you can plugin to any [Meteor](http://meteor.com) project us
 ## TODO
 * Rooms
 * Private Messages
-* IP tied to guest names
+* IP/cookie tied to guest names
 
 ## The Stack
 * [Node](https://github.com/joyent/node)
@@ -34,7 +34,7 @@ I recommend wrapping the template in a container to set the size of the chat win
 
 ## The Notes
 
-Chat handles are based off of ```Meteor.user.username``` in the accounts package, but ChatWorks doesn't require it (Random handles are used instead).
+Chat handles are coupled to ```Meteor.user.username``` in the accounts package, if no user is logged in it will assign a guest handle.
 
 I'd love to see projects using this in the wild. Please let me know if you use this!
 

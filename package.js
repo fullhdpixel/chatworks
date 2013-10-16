@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.use(['standard-app-packages'], ['client','server']);
+  api.use(['standard-app-packages', 'accounts-base'], ['client','server']);
   api.use(['less'], 'client');
   // must use imply so that the parent app can use routes without explicitly adding it
   api.add_files([

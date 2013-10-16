@@ -2,6 +2,7 @@ var pingTimer = 10000;
 
 Meteor.startup(function() {
   // periodically ping users to check for online status
+  Meteor.call('onlineCheck');
   Meteor.setInterval(function(){
     Meteor.call('onlineCheck');
   }, pingTimer);
