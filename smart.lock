@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "chatworks": {
+        "path": "."
+      }
+    },
+    "packages": {
+      "chatworks": {
+        "path": "."
+      }
+    }
+  }
+}

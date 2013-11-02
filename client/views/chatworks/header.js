@@ -27,7 +27,7 @@ Template.chatworksLoadMoreButton.helpers({
 });
 
 Template.chatworksLoadMoreButton.events = {
-  'click .load-more': function(event) {
+  'click': function(event) {
     event.preventDefault();
     autoScroll = false;
     chatworksMessagesHandle.loadMore(10);

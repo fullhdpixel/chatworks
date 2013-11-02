@@ -6,11 +6,8 @@
 @slide-size: 10%;
 
 #chatworks-header {
-  .load-more {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+  .btn-chatworks {
+    margin-bottom: 4px;
   }
 }
 #chatworks-chat {
@@ -22,58 +19,57 @@
   min-width: 1px;
   background: @darknight;
   z-index: 2;
-
-  #chatworks-sidebar {
-    position: absolute;
-    top: 0; left: 0;
-    font-family: "Helvetica Neue Ultra Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
-    height: 100%;
-    width: 100%;
-    min-width: 1px;
-    padding-bottom: 100px;
-    background: #111;
-    color: @chatworks-fg;
-    font-size: @chatworks-font-size;
-    z-index: -1;
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 20px 0 0 20px;
-    }
+}
+#chatworks-sidebar {
+  position: absolute;
+  top: 0; left: 0;
+  font-family: "Helvetica Neue Ultra Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", sans-serif;
+  height: 100%;
+  width: 100%;
+  min-width: 1px;
+  padding-bottom: 100px;
+  background: #111;
+  color: @chatworks-fg;
+  font-size: @chatworks-font-size;
+  z-index: -1;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px 0 0 20px;
   }
-  #chatworks-messages {
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    word-wrap: break-word;
-    border: none;
-    background: @darknight;
-    color: @chatworks-fg;
-    z-index: 5;
-    -webkit-transition: all 500ms ease-out, width 1ms ease-out;
-    -moz-transition: all 500ms ease-out, width 1ms ease-out;
-    -o-transition: all 500ms ease-out, width 1ms ease-out;
-    transition: all 500ms ease-out, width 1ms ease-out;
-    .false {
-      background: @chatworks-bg;
-    }
-    div.message {
-      font-size: @chatworks-font-size;
-      padding: 0 20px;
-    }
-    span.handle {
-      padding: 0 5px 0 0;
-    }
-    span.message {
-      margin: 0;
-    }
-    span.date_time {
-      color: @knight;
-    }
-    div#chatworks-stop {
-      display: block;
-      height: 25px;
-    }
+}
+#chatworks-messages {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  word-wrap: break-word;
+  border: none;
+  background: @darknight;
+  color: @chatworks-fg;
+  z-index: 5;
+  -webkit-transition: all 500ms ease-out, width 1ms ease-out;
+  -moz-transition: all 500ms ease-out, width 1ms ease-out;
+  -o-transition: all 500ms ease-out, width 1ms ease-out;
+  transition: all 500ms ease-out, width 1ms ease-out;
+  .false {
+    background: @chatworks-bg;
+  }
+  div.message {
+    font-size: @chatworks-font-size;
+    padding: 0 20px;
+  }
+  span.handle {
+    padding: 0 5px 0 0;
+  }
+  span.message {
+    margin: 0;
+  }
+  span.date_time {
+    color: @knight;
+  }
+  div#chatworks-stop {
+    display: block;
+    height: 25px;
   }
 }
 #chatworks-send-box {
@@ -105,6 +101,10 @@
     width: 20%;
     height: 40px;
     font-size: @chatworks-font-size;
+    background: darken(@chatworks-bg, 3%);
+    &:hover, &:active {
+      background: darken(@chatworks-bg, 6%);
+    }
   }
 }
 .slide-away {
@@ -118,7 +118,7 @@
   display: inline-block;
   padding: 11px 25px 12px 25px;
   margin: 0;
-  font-size: 12px;
+  font-size: @chatworks-font-size;
   font-weight: normal;
   line-height: 1.428571429;
   text-align: center;
@@ -128,10 +128,10 @@
   border-radius: 0;
   white-space: nowrap;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-       -o-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
   -webkit-transition: all 500ms ease-out;
   -moz-transition: all 500ms ease-out;
   -o-transition: all 500ms ease-out;
@@ -165,7 +165,6 @@
   border-color: lighten(@chatworks-bg, 4%);
 
   &:hover,
-  &:focus,
   &:active,
   &.active,
   .open .dropdown-toggle& {
