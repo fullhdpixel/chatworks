@@ -29,3 +29,7 @@ scrollToBottom = function() {
 fadeIn = function() {
   $('div.message:last').hide().fadeIn();
 };
+
+Handlebars.registerHelper('colorize', function() {
+  return colorHandle(this["handle"]);
+})

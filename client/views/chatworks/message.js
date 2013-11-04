@@ -18,9 +18,6 @@ Template.message.helpers({
     }
     return link;
   },
-  colorize: function() {
-    return colorHandle(this["handle"]);
-  },
   prettyTime: function() {
     if(!this["ts"]) return "";
     var val = this["ts"];
