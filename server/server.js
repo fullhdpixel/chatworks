@@ -15,6 +15,9 @@ Meteor.methods({
     var maxMessageLength = 400;
     // todo race conditions
     var isUser = ChatworksUsers.findOne({userId: this.userId});
+    var now = new Date;
+    var secondsAgo = new Date;
+    secondsAgo.setSeconds(now.getSeconds() - 1);
     var handle = '';
     if(Meteor.users && Meteor.user() && Meteor.user().username) {
       handle = Meteor.user().username;
@@ -22,15 +25,19 @@ Meteor.methods({
     if(isUser) {
       handle = isUser.handle;
     }
-    // message length control
-    message = message.substring(0, maxMessageLength);
-    // finally add the message
-    ChatworksMessages.insert({
-      handle: handle,
-      room: room,
-      message: message,
-      ts: +new Date()
-    });
+    var flood = ChatworksMessages.findOne({userId: this.userId, ts: {$gt: +secondsAgo }});
+    if(!flood) {
+      // message length control
+      message = message.substring(0, maxMessageLength);
+      // finally add the message
+      ChatworksMessages.insert({
+        userId: this.userId,
+        handle: handle,
+        room: room,
+        message: message,
+        ts: +now
+      });
+    }
   },
   onlineCheck: function() {
     //set a userId if unavailable
@@ -49,9 +56,35 @@ Meteor.methods({
         ChatworksUsers.upsert({userId: this.userId},{$set:{handle: Meteor.user().username, registered: true, last_seen: now}});
       } else {
         //if no user, set a random handle
-        var handle = (Math.floor(Math.random() * 9000)+'Anon');
+        var handle = haiku();
+
         ChatworksUsers.upsert({userId: this.userId},{$set:{handle: handle, registered: false, last_seen: now}});
       }
     }
   }
 });
+
+//thanks random SO answer.
+function haiku(){
+  var adjs = ["autumn", "hidden", "bitter", "misty", "silent", "empty", "dry",
+    "dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring",
+    "winter", "patient", "twilight", "dawn", "crimson", "wispy", "weathered",
+    "blue", "billowing", "broken", "cold", "damp", "falling", "frosty", "green",
+    "long", "late", "lingering", "bold", "little", "morning", "muddy", "old",
+    "red", "rough", "still", "small", "sparkling", "throbbing", "shy",
+    "wandering", "withered", "wild", "black", "young", "holy", "solitary",
+    "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine",
+    "polished", "ancient", "purple", "lively", "nameless"]
+
+    , nouns = ["waterfall", "river", "breeze", "moon", "rain", "wind", "sea",
+  "morning", "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn",
+  "glitter", "forest", "hill", "cloud", "meadow", "sun", "glade", "bird",
+  "brook", "butterfly", "bush", "dew", "dust", "field", "fire", "flower",
+  "firefly", "feather", "grass", "haze", "mountain", "night", "pond",
+  "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf",
+  "thunder", "violet", "water", "wildflower", "wave", "water", "resonance",
+  "sun", "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper",
+  "frog", "smoke", "star"];
+
+  return adjs[Math.floor(Math.random()*(adjs.length-1))]+""+nouns[Math.floor(Math.random()*(nouns.length-1))]+Math.floor(Math.random()*99);
+}
