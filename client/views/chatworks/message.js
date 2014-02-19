@@ -1,4 +1,4 @@
-Template.message.helpers({
+Template.chatworksMessage.helpers({
   //todo refactor
   linkify: function() {
     //something went horribly wrong here
@@ -26,14 +26,14 @@ Template.message.helpers({
   }
 });
 
-Template.message.events = {
+Template.chatworksMessage.events = {
   'click': function(evt) {
     autoScroll = false;
   }
 };
 
 
-Template.message.rendered = function() {
+Template.chatworksMessage.rendered = function() {
   scrollToBottom();
   $(this.find('.message')).hide().fadeIn();
 };

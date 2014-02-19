@@ -1,4 +1,4 @@
-Template.messageBox.events = {
+Template.chatworksMessageBox.events = {
   'click button, keyup input, focusin input': function(event, template) {
     // autoscroll the chat when focused on the message box
     autoScroll = true;
@@ -8,7 +8,7 @@ Template.messageBox.events = {
       var textbox = template.find('.message').value;
 
       // add the message using a server-side call
-      Meteor.call('addMessage', Session.get('chatworks-chatroom'), textbox);
+      Meteor.call('addMessage', Session.get('chatworks-room'), textbox);
 
       // reset message box
       template.find('.message').value = '';

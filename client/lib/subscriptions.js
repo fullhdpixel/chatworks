@@ -1,3 +1,3 @@
-chatworksMessagesHandle = subscribeWithPagination('chatworksMessages', Session.get('chatworks-chatroom'), Session.get('chatworks-limit'));
+chatworksMessagesHandle = subscribeWithPagination('chatworksMessages', chatworksRoom, chatworksLimit);
 chatworksRoomsHandle = Meteor.subscribe('chatworksRooms');
 chatworksUsersHandle = Meteor.subscribe('chatworksUsers');

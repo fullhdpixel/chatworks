@@ -1,9 +1,9 @@
 <template name="chatworksOnline">
-  <div id="chatworks-sidebar">
+  <div id="chatworks-online" class="chatworks-sidebar">
     <ul>
-    {{#each online}}
-    <li><span style="color:{{#colorize}}{{/colorize}}">{{handle}}</span></li>
-    {{/each}}
+      {{#each online}}
+      <li><span style="color:{{#colorize}}{{/colorize}}">{{handle}}</span></li>
+      {{/each}}
     </ul>
   </div>
 </template>

@@ -19,10 +19,10 @@ Package.on_use(function (api) {
     ,'client/views/chatworks/message.js'
     ,'client/views/chatworks/chatworks.html'
     ,'client/views/chatworks/chatworks.js'
-    ,'client/views/rooms/room_item.html'
-    ,'client/views/rooms/room_item.js'
-    ,'client/views/rooms/rooms_list.html'
-    ,'client/views/rooms/rooms_list.js'
+    ,'client/views/rooms/room.html'
+    ,'client/views/rooms/room.js'
+    ,'client/views/rooms/rooms.html'
+    ,'client/views/rooms/rooms.js'
     ,'client/views/users/online.html'
     ,'client/views/users/online.js'
     ,'client/client.js'
@@ -32,7 +32,8 @@ Package.on_use(function (api) {
     ,'lib/shared.js'
     ], ['client','server']);
   api.add_files([
-    'server/server.js'
+    'server/seed.js'
+		,'server/server.js'
     ,'server/publications.js'
     ,'server/security.js'
     ], 'server');

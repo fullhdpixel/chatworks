@@ -1,18 +1,24 @@
 <template name="chatworksHeader">
-  <div id="chatworks-header">
-    {{>chatworksSidebarButton}}
-    {{>chatworksLoadMoreButton}}
-  </div>
+	<div id="chatworks-header">
+			{{>chatworksOnlineButton}}
+			{{>chatworksLoadMoreButton}}
+			{{>chatworksRoomsButton}}
+    <div>Current Room: {{currentRoom}}</div>
+	</div>
 </template>
 
-<template name="chatworksSidebarButton">
-  <button class="btn-custom btn-chatworks"><i id="chatworks-users" class="icon-reorder"></i> Users</button>
+<template name="chatworksOnlineButton">
+  <button id="chatworks-online-button" class="btn-custom btn-chatworks"><i class="icon-reorder"></i> Users</button>
+</template>
+
+<template name="chatworksRoomsButton">
+  <button id="chatworks-rooms-button" class="btn-custom btn-chatworks"><i class="icon-reorder"></i> Rooms</button>
 </template>
 
 <template name="chatworksLoadMoreButton">
   {{#unless allMessagesLoaded}}
     {{#if messagesReady}}
-      <button class="btn-custom btn-chatworks">Load More</button>
+      <button class="btn-custom btn-chatworks">Load More Messages</button>
     {{else}}
       <button class="btn-custom btn-chatworks"><i class="icon-spinner icon-spin"></i> Loading</button>
     {{/if}}

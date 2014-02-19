@@ -2,13 +2,12 @@
 
 A chat package that you can plugin to any [Meteor](http://meteor.com) project using [Meteorite](https://github.com/oortcloud/meteorite).
 
-## The Features
+## Features
 * Timestamps
 * Colored lines by name
 * Infinite message history
 
 ## TODO
-* Rooms
 * Private Messages
 * IP/cookie tied to guest names
 
@@ -42,8 +41,6 @@ mrt test-packages chatworks
 ## Notes
 
 Chat handles are coupled to ```Meteor.user.username``` in the accounts package, if no user is logged in it will assign a guest handle.
-
-I'd love to see projects using this in the wild. Please let me know if you use this!
 
 [![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/JonathanPidgeon/)
 

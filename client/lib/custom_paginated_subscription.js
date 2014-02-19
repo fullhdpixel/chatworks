@@ -21,6 +21,9 @@ PaginatedSubscriptionHandle.prototype.room = function() {
 
 PaginatedSubscriptionHandle.prototype.changeRoom = function(room) {
   this._room = room;
+  console.log(this)
+  this._limit = this.per_page;
+  this._limit_listeners.changed();
   this._room_listeners.changed();
 };
 
@@ -67,6 +70,7 @@ subscribeWithPagination = function (/*name, arguments, room, per_page*/) {
     var ourArgs = _.map(args, function(arg) {
       return _.isFunction(arg) ? arg() : arg;
     });
+    console.log(handle.room(), handle.limit())
     var subHandle = Meteor.subscribe.apply(this, ourArgs.concat([
       handle.room(), handle.limit(), function() { handle.done(); }
     ]));

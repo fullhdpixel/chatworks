@@ -12,7 +12,6 @@ Meteor.publish('chatworksRooms', function() {
   return ChatworksRooms.find();
 });
 
-// publish every minute ?
 Meteor.publish('chatworksUsers', function() {
   return ChatworksUsers.find({}, {fields: {handle: 1}});
 });
