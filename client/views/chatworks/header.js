@@ -1,6 +1,9 @@
 Template.chatworksHeader.helpers({
   currentRoom: function() {
     return Session.get('chatworks-room');
+  },
+  socketIP: function() {
+    return Session.get('socketIP');
   }
 });
 

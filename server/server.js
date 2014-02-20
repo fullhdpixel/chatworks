@@ -1,3 +1,5 @@
+var maxMessageLength = 400; //todo: some config file
+
 Meteor.startup(function () {
   var pingTimer = 10000;
   // every ping, remove inactive users from online list
@@ -9,32 +11,38 @@ Meteor.startup(function () {
   }, pingTimer);
 });
 
+Meteor.onConnection(function(connection) {
+  var magic = headers.methodGet({connection: connection});
+});
+
 Meteor.methods({
   addMessage: function(room, message) {
-		//client ain't got time for a callback
+    //client ain't got time for a callback
     this.unblock();
-    var maxMessageLength = 400,
-    	isUser = ChatworksUsers.findOne({userId: this.userId}),
-    	now = new Date,
-    	secondsAgo = new Date,
-		  handle = haiku();
+    var isUser = ChatworksUsers.findOne({userId: this.userId}),
+      now = new Date,
+      secondsAgo = new Date,
+      handle = haiku(),
+      ip = '0.0.0.0';
     secondsAgo.setSeconds(now.getSeconds() - 1);
-		//user has registered an account
+    //user has registered an account
     if(Meteor.users && Meteor.user() && Meteor.user().username) {
       handle = Meteor.user().username;
     }
-		//user already has a session (and generated userId)
+    //user already has a session (and generated userId)
     if(isUser) {
       handle = isUser.handle;
+      ip = isUser.ip;
     }
-		//user has not already sent a message within x seconds
-    var flood = ChatworksMessages.findOne({userId: this.userId, ts: {$gt: +secondsAgo }});
+    //user has not already sent a message within x seconds
+    var flood = ChatworksMessages.findOne({ip: ip, ts: {$gt: +secondsAgo }});
     if(!flood) {
       // message length control
       message = message.substring(0, maxMessageLength);
       // finally add the message
       ChatworksMessages.insert({
         userId: this.userId,
+        ip: ip,
         handle: handle,
         room: room,
         message: message,
@@ -43,27 +51,28 @@ Meteor.methods({
     }
   },
   onlineCheck: function() {
-    //set a userId if unavailable
     if(!this.userId) {
       this.setUserId(Random.id());
     }
     this.unblock();
-    var isUser = ChatworksUsers.findOne({userId: this.userId});
-    //if user but no handle
+    var ip = headers.methodClientIP(this);
+    var isUser = ChatworksUsers.findOne({ip: ip});
     var now = +new Date;
-    if(typeof isUser != 'undefined' && typeof isUser.handle != 'undefined') {
-      ChatworksUsers.upsert({userId: this.userId},{$set:{last_seen: now}});
-    } else {
-      if(Meteor.users && Meteor.user() && Meteor.user().username) {
-        //if accounts enabled, and is a real account with a username, set the ChatworksUser handle to username
-        ChatworksUsers.upsert({userId: this.userId},{$set:{handle: Meteor.user().username, registered: true, last_seen: now}});
-      } else {
-        //if no user, set a random handle
-        var handle = haiku();
-
-        ChatworksUsers.upsert({userId: this.userId},{$set:{handle: handle, registered: false, last_seen: now}});
-      }
+    //set a userId if unavailable
+    if(Meteor.users && Meteor.user() && Meteor.user().username) {
+      //if accounts enabled, and is a real account with a username, set the ChatworksUser handle to username
+      ChatworksUsers.upsert({ip: ip},{$set:{userId: this.userId, handle: Meteor.user().username, registered: true, last_seen: now}});
+      return ip;
     }
+    //if user but no handle
+    if(isUser && isUser.handle) {
+      ChatworksUsers.upsert({ip: ip},{$set:{userId: this.userId, last_seen: now}});
+    } else {
+      //set a random handle
+      var handle = haiku();
+      ChatworksUsers.upsert({ip: ip},{$set:{handle: handle, registered: false, last_seen: now}});
+    }
+    return ip;
   }
 });
 
