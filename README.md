@@ -6,10 +6,11 @@ A chat package that you can plugin to any [Meteor](http://meteor.com) project us
 * Timestamps
 * Colored lines by name
 * Infinite message history
+* Sessions saved by IP
+* Chat rooms
 
 ## TODO
 * Private Messages
-* IP/cookie tied to guest names
 
 ## Stack
 * [Node](https://github.com/joyent/node)

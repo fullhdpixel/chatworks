@@ -12,7 +12,7 @@ Meteor.startup(function () {
 });
 
 Meteor.onConnection(function(connection) {
-  var magic = headers.methodGet({connection: connection});
+  //stub for future use
 });
 
 Meteor.methods({
@@ -56,6 +56,11 @@ Meteor.methods({
     }
     this.unblock();
     var ip = headers.methodClientIP(this);
+    if(ip === '127.0.0.1') {
+      var header = headers.methodGet(this);
+      var ln = header['x-ip-chain'].length-2;
+      ip = header['x-ip-chain'][ln];
+    }
     var isUser = ChatworksUsers.findOne({ip: ip});
     var now = +new Date;
     //set a userId if unavailable
