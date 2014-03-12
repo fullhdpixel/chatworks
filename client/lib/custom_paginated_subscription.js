@@ -70,7 +70,6 @@ subscribeWithPagination = function (/*name, arguments, room, per_page*/) {
     var ourArgs = _.map(args, function(arg) {
       return _.isFunction(arg) ? arg() : arg;
     });
-    console.log(handle.room(), handle.limit())
     var subHandle = Meteor.subscribe.apply(this, ourArgs.concat([
       handle.room(), handle.limit(), function() { handle.done(); }
     ]));

@@ -1,6 +1,6 @@
 # ChatWorks [![Build Status](https://secure.travis-ci.org/Pent/chatworks.png?branch=master)](https://travis-ci.org/Pent/chatworks)
 
-A chat package that you can plugin to any [Meteor](http://meteor.com) project using [Meteorite](https://github.com/oortcloud/meteorite).
+Add chat to any [Meteor](http://meteor.com) project.
 
 ## Features
 * Timestamps

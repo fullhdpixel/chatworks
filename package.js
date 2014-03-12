@@ -1,5 +1,5 @@
 Package.describe({
-  summary: 'A chat package that you can plugin to any Meteor project'
+  summary: 'Add chat to any Meteor project'
 });
 
 Package.on_use(function (api) {
