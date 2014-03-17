@@ -1,5 +1,5 @@
 Template.chatworks.helpers({
-  messages: function() {
-    return ChatworksMessages.find({}, {sort: {ts: 1}});
+  state: function() {
+    return Session.get('state');
   }
 });

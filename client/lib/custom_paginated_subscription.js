@@ -21,7 +21,6 @@ PaginatedSubscriptionHandle.prototype.room = function() {
 
 PaginatedSubscriptionHandle.prototype.changeRoom = function(room) {
   this._room = room;
-  console.log(this)
   this._limit = this.per_page;
   this._limit_listeners.changed();
   this._room_listeners.changed();

@@ -18,33 +18,20 @@ Template.chatworksHeader.helpers({
 
 Template.chatworksOnlineButton.events({
   'click': function(event, template) {
-    $('#chatworks-online').toggle();
-    $('#chatworks-rooms').hide();
-    $('#chatworks-messages').toggleClass('slide-away');
-    var msgs = $('#chatworks-messages');
-    if($('#chatworks-online').is(':visible')) {
-      $('#chatworks-online-button').addClass('active');
-      $('#chatworks-rooms-button').removeClass('active');
-      msgs.addClass('slide-away');
+    if(Session.get('state') === 'online-open') {
+      Session.set('state', undefined);
     } else {
-      msgs.removeClass('slide-away');
-      $('#chatworks-online-button').removeClass('active');
+      Session.set('state', 'online-open');
     }
   }
 });
 
 Template.chatworksRoomsButton.events({
   'click': function(event, template) {
-    $('#chatworks-rooms').toggle();
-    $('#chatworks-online').hide();
-    var msgs = $('#chatworks-messages');
-    if($('#chatworks-rooms').is(':visible')) {
-      $('#chatworks-rooms-button').addClass('active');
-      $('#chatworks-online-button').removeClass('active');
-      msgs.addClass('slide-away');
+    if(Session.get('state') === 'rooms-open') {
+      Session.set('state', undefined);
     } else {
-      msgs.removeClass('slide-away');
-      $('#chatworks-rooms-button').removeClass('active');
+      Session.set('state', 'rooms-open');
     }
   }
 });
@@ -60,8 +47,6 @@ Template.chatworksLoadMoreButton.helpers({
 
 Template.chatworksLoadMoreButton.events = {
   'click': function(event) {
-    event.preventDefault();
-    autoScroll = false;
     chatworksMessagesHandle.loadMore(10);
   }
 };

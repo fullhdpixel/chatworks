@@ -1,6 +1,14 @@
 var maxMessageLength = 400; //todo: some config file
+var debugMode = false;
+
+function debug(str) {
+  if(debugMode) console.log(str);
+}
 
 Meteor.startup(function () {
+  debug('Rooms: '+ChatworksRooms.find().fetch().length);
+  debug('Messages: '+ChatworksMessages.find().fetch().lenth);
+  debug('Users: '+ChatworksUsers.find().fetch().length);
   var pingTimer = 10000;
   // every ping, remove inactive users from online list
   Meteor.setInterval(function() {
@@ -55,7 +63,8 @@ Meteor.methods({
       this.setUserId(Random.id());
     }
     this.unblock();
-    var ip = headers.methodClientIP(this);
+    var self = this;
+    var ip = headers.methodClientIP(this, 0);
     if(ip === '127.0.0.1') {
       var header = headers.methodGet(this);
       var ln = header['x-ip-chain'].length-2;

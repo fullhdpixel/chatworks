@@ -1,5 +1,6 @@
 @darknight: #232323;
 @knight: #565656;
+@hilite: #152315;
 @chatworks-fg: #f6f6f6;
 @chatworks-bg: #454545;
 @chatworks-fs: 1em;
@@ -23,6 +24,11 @@
     white-space: nowrap;
   }
 }
+#chatworks-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
 #chatworks-chat {
   position: relative;
   overflow: hidden;
@@ -34,7 +40,6 @@
   z-index: 2;
 }
 .chatworks-sidebar {
-  display: none;
   position: absolute;
   top: 0; left: 0;
   font-family: @chatworks-ff;
@@ -61,20 +66,29 @@
   background: @darknight;
   color: @chatworks-fg;
   z-index: 5;
-  -webkit-transition: all 500ms ease-out, width 1ms ease-out;
-  -moz-transition: all 500ms ease-out, width 1ms ease-out;
-  -o-transition: all 500ms ease-out, width 1ms ease-out;
-  transition: all 500ms ease-out, width 1ms ease-out;
-  .false {
-    background: @chatworks-bg;
-  }
+  -webkit-transition: all 500ms ease-in-out, all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out, all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out, all 500ms ease-in-out;
+  transition: all 500ms ease-in-out, all 500ms ease-in-out;
   div.message {
     font-size: @chatworks-fs;
     padding: 8px 20px;
     margin: 4px 0;
+    border: 1px solid transparent;
+    -webkit-transition: all 250ms ease-in-out, all 250ms ease-in-out;
+    -moz-transition: all 250ms ease-in-out, all 250ms ease-in-out;
+    -o-transition: all 250ms ease-in-out, all 250ms ease-in-out;
+    transition: all 250ms ease-in-out, all 250ms ease-in-out;
+    opacity: 0;
   }
-  div.message:nth-child(even) {
-    background: darken(@darknight, 1%);
+  div.message {
+    &.chatworks-boom {
+      opacity: 1;
+    }
+    &.hilite {
+      border: 1px solid lighten(@hilite, 10%);
+      background-color: @hilite;
+    }
   }
   span.handle {
     display: inline-block;
@@ -83,6 +97,7 @@
     text-align: right;
     clear: both;
     vertical-align: top;
+    cursor: pointer;
   }
   span.message {
     display: inline-block;
@@ -138,6 +153,29 @@
   -ms-transform: translate(@slide-size, 0);
   -o-transform: translate(@slide-size, 0);
 }
+
+#chatworks-rooms, #chatworks-online {
+  display: none;
+}
+
+.rooms-open, .online-open {
+  #chatworks-messages {
+    .slide-away;
+  }
+}
+
+.rooms-open {
+  #chatworks-rooms {
+    display: block;
+  }
+}
+
+.online-open {
+  #chatworks-online {
+    display: block;
+  }
+}
+
 .btn-custom {
   display: inline-block;
   padding: 11px 25px 12px 25px;

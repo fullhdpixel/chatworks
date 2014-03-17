@@ -15,6 +15,8 @@ Package.on_use(function (api) {
     ,'client/views/chatworks/header.js'
     ,'client/views/chatworks/message_box.html'
     ,'client/views/chatworks/message_box.js'
+    ,'client/views/chatworks/messages.html'
+    ,'client/views/chatworks/messages.js'
     ,'client/views/chatworks/message.html'
     ,'client/views/chatworks/message.js'
     ,'client/views/chatworks/chatworks.html'
@@ -25,6 +27,8 @@ Package.on_use(function (api) {
     ,'client/views/rooms/rooms.js'
     ,'client/views/users/online.html'
     ,'client/views/users/online.js'
+    ,'client/views/users/user.html'
+    ,'client/views/users/user.js'
     ,'client/client.js'
     ], 'client');
   api.add_files([

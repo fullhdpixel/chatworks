@@ -8,13 +8,19 @@ Template.chatworksMessage.helpers({
 });
 
 Template.chatworksMessage.events = {
-  'click': function() {
-    autoScroll = false;
+  'click span.handle': function() {
+    $('.hilite').removeClass('hilite');
+    if(Session.get('handleFind') !== this.handle) {
+      $('span:contains('+this.handle+')').parent().addClass('hilite');
+      Session.set('handleFind', this.handle);
+    } else {
+      Session.set('handleFind', undefined);
+    }
   }
 };
 
-
 Template.chatworksMessage.rendered = function() {
-  scrollToBottom();
-  $(this.find('.message')).hide().fadeIn();
+  $(this.find('.message')).children('.handle').css('color', colorHandle(this.data.handle));
+  $(this.find('.message')).addClass('chatworks-boom');
+  $('#chatworks-messages').scrollTop(99999)
 };

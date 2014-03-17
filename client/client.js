@@ -15,23 +15,6 @@ Meteor.startup(function() {
  * @param handle
  * @returns {}
  */
-var timer = null;
 scrollToBottom = function() {
-  clearTimeout(timer);
-  if(autoScroll) {
-    timer = setTimeout(function (){
-      $('#chatworks-messages').animate({scrollTop: 999999}, 1000);
-    }, 90);
-  }
+  $('#chatworks-messages').animate({scrollTop: 999999}, 200);
 };
-
-/**
- * Fades in new elements
- */
-fadeIn = function() {
-  $('div.message:last').hide().fadeIn();
-};
-
-Handlebars.registerHelper('colorize', function() {
-  return colorHandle(this["handle"]);
-})

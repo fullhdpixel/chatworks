@@ -1,9 +1,7 @@
 <template name="chatworksRooms">
-  <div id="chatworks-rooms" class="chatworks-sidebar">
-    <ul>
-      {{#each rooms}}
-      {{>chatworksRoom}}
-      {{/each}}
-    </ul>
-  </div>
+  <ul id="chatworks-rooms">
+    {{#each rooms}}
+    {{>chatworksRoom}}
+    {{/each}}
+  </ul>
 </template>
