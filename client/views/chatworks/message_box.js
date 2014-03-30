@@ -1,6 +1,5 @@
 Template.chatworksMessageBox.events = {
   'click button, keyup input': function(event) {
-    console.log('asdf')
     // if we tapped the send button or hit enter
     if (event.type === 'click' || (event.type === 'keyup' && event.which === 13)) {
       var textbox = $('#message').val();

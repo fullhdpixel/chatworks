@@ -12,26 +12,32 @@ Add chat to any [Meteor](http://meteor.com) project.
 ## TODO
 * Private Messages
 
-## Stack
-* [Node](https://github.com/joyent/node)
-* [NPM](https://github.com/isaacs/npm)
-* [Meteor](https://github.com/meteor/meteor)
-* [Meteorite](https://github.com/oortcloud/meteorite)
-
 ## Installation
 * Pre-Install: [Meteorite](https://github.com/oortcloud/meteorite) to gain the mrt command
+
+* Use an existing Meteor project or create a new one from the command-line using:
+```
+    meteor create yourchatapp
+    cd yourchatapp
+```
+
 * Add ChatWorks to your project with:
 ```
     mrt add chatworks
 ```
 
-In your handlebar templates you can just include the template chatworks:
+* Inside your body or handlebar template you just include the template chatworks:
 
 ```
-    {{>chatworks}}
+    {{> chatworks}}
 ```
 
-I recommend wrapping the template in a container to set the size of the chat window.
+* Tip: Wrap the template in a css styled container to set the width and height of the chat window.
+```
+    <div style="width: 100%; height: 300px;">
+      {{> chatworks}}
+    </div>
+```
 
 ## Testing
 
