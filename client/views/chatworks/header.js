@@ -2,8 +2,8 @@ Template.chatworksHeader.helpers({
   currentRoom: function() {
     return Session.get('chatworks-room');
   },
-  socketIP: function() {
-    return Session.get('socketIP');
+  connectionStatus: function() {
+    return Meteor.status().status;
   }
 });
 

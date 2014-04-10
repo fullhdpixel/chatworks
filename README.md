@@ -7,7 +7,7 @@ Add chat to any [Meteor](http://meteor.com) project.
 * Colored lines by name
 * Infinite message history
 * Sessions saved by IP
-* Chat rooms
+* Chat rooms... possible
 
 ## TODO
 * Private Messages
