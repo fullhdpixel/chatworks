@@ -1,22 +1,4 @@
-var maxMessageLength = 400; //todo: some config file
-var debugMode = false;
-
-function debug(str) {
-  if(debugMode) console.log(str);
-}
-
-Meteor.startup(function () {
-  debug('Rooms: '+ChatworksRooms.find().fetch().length);
-  debug('Messages: '+ChatworksMessages.find().fetch().length);
-  debug('Users: '+ChatworksUsers.find().fetch().length);
-  // every ping, remove inactive users from online list
-  Meteor.setInterval(function() {
-    var hourAgo = new Date;
-    // remove online users that haven't replied in an hour
-    hourAgo.setHours(hourAgo.getHours() - 1);
-    ChatworksUsers.remove({lastSeen: {$lt: +hourAgo}});
-  }, 60*1000);
-});
+var maxMessageLength = 400;
 
 Meteor.onConnection(function(connection) {
   var user = ChatworksUsers.findOne({ip: connection.clientAddress});
@@ -36,7 +18,8 @@ Meteor.methods({
     var user = ChatworksUsers.findOne({ip: this.connection.clientAddress}),
       handle = user.handle;
     //user has registered an account, use this handle instead
-    if(Meteor.user() && Meteor.user().username) {
+    //update lastSeen
+    if(Meteor.users && Meteor.user() && Meteor.user().username) {
       handle = Meteor.user().username;
       ChatworksUsers.upsert({ip: this.connection.clientAddress},{$set:{handle: handle, lastSeen: +new Date}});
     } else {
@@ -54,7 +37,6 @@ Meteor.methods({
         message: message,
         ts: +new Date
       });
-    //update lastSeen
   }
 });
 

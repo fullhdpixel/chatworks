@@ -1,5 +1,7 @@
 Template.chatworksOnline.helpers({
   online: function() {
-    return ChatworksUsers.find();
+    var anHourAgo = new Date();
+    anHourAgo.setHours(anHourAgo.getHours() - 1);
+    return ChatworksUsers.find({},{lastSeen: {$gte: +anHourAgo}});
   }
 });

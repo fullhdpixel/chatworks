@@ -3,6 +3,7 @@
 @hilite: #152315;
 @chatworks-fg: #f6f6f6;
 @chatworks-bg: #454545;
+@chatworks-link: #92DC61;
 @chatworks-fs: 1em;
 @chatworks-ff: "Helvetica", "Arial", sans-serif;
 @slide-size: 15%;
@@ -28,6 +29,12 @@
   position: relative;
   height: 100%;
   width: 100%;
+  a {
+    color: @chatworks-fg;
+    &:hover, &:active {
+      color: @chatworks-link;
+    }
+  }
 }
 #chatworks-chat {
   position: relative;
