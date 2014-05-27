@@ -1,5 +1,5 @@
 Template.chatworksMessages.helpers({
   messages: function() {
-    return ChatworksMessages.find({}, {sort: {ts: 1}});
+    return ChatworksMessages.find({}, {sort: {ts: 1}}).fetch();
   }
 });

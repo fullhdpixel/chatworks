@@ -1,37 +1,40 @@
 Template.chatworksHeader.helpers({
   currentRoom: function() {
-    return Session.get('chatworks-room');
+    return Session.get('chatworksRoom');
   },
   connectionStatus: function() {
     return Meteor.status().status;
+  },
+  autoscroll: function() {
+    return Session.get('autoscroll') ? 'on' : 'off';
   }
 });
 
 Template.chatworksHeader.helpers({
   sidebarOnline: function() {
-    return Session.get('chatworks-online');
+    return Session.get('chatworksOnline');
   },
   sidebarRooms: function() {
-    return Session.set('chatworks-rooms');
+    return Session.get('chatworksRooms');
   }
 });
 
 Template.chatworksOnlineButton.events({
   'click': function(event, template) {
-    if(Session.get('state') === 'online-open') {
+    if(Session.get('state') === 'chatworks-online-open') {
       Session.set('state', undefined);
     } else {
-      Session.set('state', 'online-open');
+      Session.set('state', 'chatworks-online-open');
     }
   }
 });
 
 Template.chatworksRoomsButton.events({
   'click': function(event, template) {
-    if(Session.get('state') === 'rooms-open') {
+    if(Session.get('state') === 'chatworks-rooms-open') {
       Session.set('state', undefined);
     } else {
-      Session.set('state', 'rooms-open');
+      Session.set('state', 'chatworks-rooms-open');
     }
   }
 });
@@ -47,6 +50,7 @@ Template.chatworksLoadMoreButton.helpers({
 
 Template.chatworksLoadMoreButton.events = {
   'click': function(event) {
+    Session.set('autoscroll', undefined);
     chatworksMessagesHandle.loadMore(10);
   }
 };

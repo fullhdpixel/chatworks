@@ -1,0 +1,9 @@
+<template name="chatworksOverlay">
+<div class="chatworks-center-form">
+	{{#if error}}
+	<span class="chatworks-error">{{error.message}}</span>
+	{{/if}}
+	<input type="text" class="chatworks-room-name" placeholder="Room name">
+	<button type="button" class="chatworks-create-room btn-custom btn-chatworks">Create</button>
+</div>
+</template>

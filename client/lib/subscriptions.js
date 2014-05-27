@@ -1,3 +1,7 @@
-chatworksMessagesHandle = subscribeWithPagination('chatworksMessages', chatworksRoom, chatworksLimit);
+
+chatworksMessagesHandle = subscribeWithPagination('chatworksMessages', Session.get('chatworksRoom'), chatworksLimit);
 chatworksRoomsHandle = Meteor.subscribe('chatworksRooms');
-chatworksUsersHandle = Meteor.subscribe('chatworksUsers');
+
+var anHourAgo = new Date();
+anHourAgo.setTime(anHourAgo.getTime() - 3600000);
+chatworksUsersHandle = Meteor.subscribe('chatworksUsers', +anHourAgo);

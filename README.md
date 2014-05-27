@@ -4,10 +4,10 @@ Add chat to any [Meteor](http://meteor.com) project.
 
 ## Features
 * Timestamps
-* Colored lines by name
+* Color-coded nicknames
 * Infinite message history
 * Sessions saved by IP
-* Chat rooms... possible
+* Chat rooms 
 
 ## TODO
 * Private Messages

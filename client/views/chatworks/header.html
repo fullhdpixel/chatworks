@@ -1,8 +1,9 @@
 <template name="chatworksHeader">
 	<div id="chatworks-header">
 			{{>chatworksOnlineButton}}
-			{{>chatworksLoadMoreButton}}
 			{{>chatworksRoomsButton}}
+      {{>chatworksLoadMoreButton}}
+    <div>Auto-scroll: {{autoscroll}}</div>
     <div>Room: {{currentRoom}}</div>
     <div>Status: {{connectionStatus}}</div>
 	</div>

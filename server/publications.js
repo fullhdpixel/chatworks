@@ -14,6 +14,7 @@ Meteor.publish('chatworksRooms', function() {
   return ChatworksRooms.find();
 });
 
-Meteor.publish('chatworksUsers', function() {
-  return ChatworksUsers.find({}, {fields: {handle: 1}});
+Meteor.publish('chatworksUsers', function(ts) {
+  check(ts, Number);
+  return ChatworksUsers.find({lastSeen: {$gte: ts}}, {fields: {handle: 1}});
 });

@@ -1,6 +1,5 @@
 /**
  * Auto-scroll the chat to the bottom
- * @param handle
  * @returns {}
  */
 scrollToBottom = function() {

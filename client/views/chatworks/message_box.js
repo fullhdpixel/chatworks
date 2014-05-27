@@ -5,7 +5,7 @@ Template.chatworksMessageBox.events = {
       var textbox = $('#message').val();
 
       // add the message using a server-side call
-      Meteor.call('addMessage', Session.get('chatworks-room'), textbox);
+      Meteor.call('addMessage', Session.get('chatworksRoom'), textbox);
 
       // reset message box
       $('#message').val('');

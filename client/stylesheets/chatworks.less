@@ -11,6 +11,7 @@
 #chatworks-header {
   background: @chatworks-bg;
   div {
+    float: right;
     display: inline-block;
     padding: 11px 25px 12px 25px;
     margin: 0;
@@ -89,6 +90,7 @@
     opacity: 0;
   }
   div.message {
+    position: relative;
     &.chatworks-boom {
       opacity: 1;
     }
@@ -111,7 +113,12 @@
     margin: 0;
     width: 80%;
   }
-  span.date_time {
+  span.timestamp {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    width: 100px;
+    text-align: right;
     color: @knight;
   }
   div#chatworks-stop {
@@ -153,7 +160,7 @@
     }
   }
 }
-.slide-away {
+.chatworks-slide-away {
   transform: translate(@slide-size, 0);
   -webkit-transform: translate(@slide-size, 0);
   -moz-transform: translate(@slide-size, 0);
@@ -162,24 +169,88 @@
 }
 
 #chatworks-rooms, #chatworks-online {
-  display: none;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.rooms-open, .online-open {
+.chatworks-error {
+  color: red;
+}
+
+.chatworks-overlay {
+  display: block;
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  right: 25%;
+  width: 50%;
+  background: rgba(255,255,255,0.2);
+  z-index: 5;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+  -o-transition: all 500ms ease-in-out;
+  transition: all 500ms ease-in-out;
+  opacity: 1;
+}
+
+.chatworks-tiny {
+  opacity: 0;
+  transform: scale(0);
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+}
+
+.chatworks-center-form {
+  display: block;
+  position: relative;
+  width: 90%;
+  margin: 5%;
+  input {
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    padding: 12px 0 12px 20px;
+    background: @chatworks-bg;
+    color: @chatworks-fg;
+    border-radius: 0;
+    border: none;
+    font-size: @chatworks-fs;
+    height: 40px;
+    &:focus,
+    &:hover {
+      border: none;
+      box-shadow: none;
+      outline: 0 none;
+    }
+  }
+  button {
+    width: 100%;
+  }
+}
+
+.chatworks-rooms-open, .chatworks-online-open {
   #chatworks-messages {
-    .slide-away;
+    .chatworks-slide-away;
   }
 }
 
-.rooms-open {
+.chatworks-rooms-open {
   #chatworks-rooms {
-    display: block;
+    opacity: 1;
   }
 }
 
-.online-open {
+.chatworks-online-open {
   #chatworks-online {
-    display: block;
+    opacity: 1;
   }
 }
 

@@ -1,4 +1,3 @@
-//thanks random SO answer.
 haiku = function haiku(){
 	var adjs = ["autumn", "hidden", "bitter", "misty", "silent", "empty", "dry",
 			"dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring",
@@ -21,10 +20,4 @@ haiku = function haiku(){
 			"frog", "smoke", "star"];
 
 	return adjs[Math.floor(Math.random()*(adjs.length-1))]+""+nouns[Math.floor(Math.random()*(nouns.length-1))]+Math.floor(Math.random()*99);
-}
-
-//set initial chat rooms
-if(!ChatworksRooms.find().count()) {
-  ChatworksRooms.insert({name: 'chatworks'});
-  ChatworksRooms.insert({name: 'yolo ville'});
 }
