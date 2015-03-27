@@ -4,8 +4,11 @@ Meteor.publish('chatworksMessages', function(room, limit) {
     var count = ChatworksMessages.find({
         room: room
     }).count();
+    var boundary = 0;
     //calculate boundary: the messages that we pull from the end of the collection
-    boundary = count - 50;
+    if (count > 5) {
+        boundary = count - 25;
+    }
     return ChatworksMessages.find({
         room: room
     }, {
