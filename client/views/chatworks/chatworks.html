@@ -1,0 +1,21 @@
+<template name="chatworks">
+    <div id="chatworks-container" class="{{state}}">
+        {{>chatworksHeader}} {{>chatworksChat}}
+    </div>
+</template>
+
+<template name="chatworksSidebar">
+    {{>chatworksOnline}}
+</template>
+
+<template name="chatworksChat">
+    <div id="chatworks-chat">
+        <div class="chatworks-sidebar">
+            {{>chatworksSidebar}}
+        </div>
+        {{>chatworksMessages}}
+    </div>
+    <div id="chatworks-send-box">
+        {{>chatworksMessageBox}}
+    </div>
+</template>

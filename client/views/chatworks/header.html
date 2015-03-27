@@ -1,0 +1,11 @@
+<template name="chatworksHeader">
+    <div id="chatworks-header">
+        {{>chatworksOnlineButton}}
+        <div id="autoscrolltoggle">Auto-scroll: {{autoscroll}}</div>
+        <div style="width: 25%;">Status: {{connectionStatus}}</div>
+    </div>
+</template>
+
+<template name="chatworksOnlineButton">
+    <button id="chatworks-online-button" style="width: 25%;" class="btn-custom btn-chatworks"><i class="icon-reorder"></i> Users</button>
+</template>

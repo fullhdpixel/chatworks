@@ -1,0 +1,9 @@
+<template name="chatworksOnline">
+    <ul id="chatworks-online">
+        {{#each users}} {{>onlineUser}} {{/each}}
+    </ul>
+</template>
+
+<template name="onlineUser">
+    <li><span class="handle" data-user="{{this.services.twitter.screenName}}">{{{ifstatus this.services.twitter.screenName}}}</span></li>
+</template>
